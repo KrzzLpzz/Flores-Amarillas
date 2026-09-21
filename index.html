@@ -83,28 +83,28 @@
         }
 
         /* ============================================
-           JARDÍN MINI CSS (detalle sutil abajo)
+           JARDÍN MINI CSS (MÁS GRANDE)
            ============================================ */
         .mini-garden {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 90px;
+            height: 140px; /* Aumentado de 90px a 140px */
             z-index: 3;
             pointer-events: none;
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            padding: 0 15px;
-            opacity: 0.9;
+            padding: 0 20px;
+            opacity: 0.95;
             transition: opacity 0.5s;
         }
 
         .mini-flower {
             position: relative;
-            width: 45px;
-            height: 80px;
+            width: 70px; /* Aumentado de 45px a 70px */
+            height: 130px; /* Aumentado de 80px a 130px */
             transform-origin: bottom center;
             animation: miniSway 3s ease-in-out infinite;
         }
@@ -116,8 +116,8 @@
         .mini-flower:nth-child(6) { animation-delay: 1.8s; }
 
         @keyframes miniSway {
-            0%, 100% { transform: rotate(-3deg); }
-            50% { transform: rotate(3deg); }
+            0%, 100% { transform: rotate(-4deg); }
+            50% { transform: rotate(4deg); }
         }
 
         .mini-flower__stem {
@@ -125,17 +125,17 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 3px;
-            height: 50px;
+            width: 5px; /* Aumentado */
+            height: 80px; /* Aumentado de 50px a 80px */
             background: linear-gradient(to top, #2E7D32, #43A047);
-            border-radius: 2px;
+            border-radius: 3px;
         }
 
         .mini-flower__leaf {
             position: absolute;
-            bottom: 22px;
-            width: 16px;
-            height: 9px;
+            bottom: 35px; /* Ajustado a la nueva altura */
+            width: 26px; /* Aumentado */
+            height: 15px; /* Aumentado */
             background: #43A047;
             border-radius: 50% 0 50% 0;
         }
@@ -153,8 +153,8 @@
             top: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 36px;
-            height: 36px;
+            width: 55px; /* Aumentado de 36px a 55px */
+            height: 55px;
             animation: miniHeadSpin 8s linear infinite;
         }
         @keyframes miniHeadSpin {
@@ -166,13 +166,13 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 6px;
-            height: 16px;
+            width: 9px; /* Aumentado */
+            height: 24px; /* Aumentado */
             background: linear-gradient(to top, #FFC107, #FFEB3B);
             border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
             transform-origin: 50% 100%;
-            margin-left: -3px;
-            margin-top: -16px;
+            margin-left: -4.5px;
+            margin-top: -24px;
         }
         .mini-flower__petal:nth-child(1) { transform: rotate(0deg); }
         .mini-flower__petal:nth-child(2) { transform: rotate(45deg); }
@@ -188,12 +188,12 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 12px;
-            height: 12px;
+            width: 18px; /* Aumentado */
+            height: 18px;
             background: radial-gradient(circle, #5D4037, #3E2723);
             border-radius: 50%;
             z-index: 2;
-            box-shadow: inset 0 0 3px rgba(0,0,0,0.5);
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
         }
 
         /* ============================================
@@ -217,18 +217,18 @@
         }
         #screen-welcome h1 {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(3.5rem, 14vw, 7rem);
+            font-size: clamp(4rem, 18vw, 8rem); /* Aumentado significativamente */
             color: #b8860b;
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.5rem;
             line-height: 1.1;
             text-shadow: 0 4px 20px rgba(255, 215, 0, 0.4), 0 0 40px rgba(255, 215, 0, 0.3);
             animation: fadeInUp 1.2s ease;
         }
         #screen-welcome p {
-            font-size: clamp(1.15rem, 4.5vw, 1.4rem);
+            font-size: clamp(1.3rem, 5.5vw, 1.8rem); /* Aumentado */
             color: #6b5b3e;
-            margin-bottom: 2.5rem;
-            max-width: 500px;
+            margin-bottom: 3rem;
+            max-width: 600px;
             line-height: 1.6;
             animation: fadeInUp 1.2s ease 0.3s backwards;
         }
@@ -244,9 +244,9 @@
             background: #b8860b;
             color: #fff;
             border: none;
-            padding: 16px 42px;
+            padding: 20px 55px; /* Botones más grandes */
             border-radius: 50px;
-            font-size: clamp(1rem, 4vw, 1.15rem);
+            font-size: clamp(1.1rem, 4.5vw, 1.5rem); /* Letra más grande */
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
             cursor: pointer;
@@ -288,8 +288,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.9);
-            width: 92%;
-            max-width: 500px;
+            width: 95%;
+            max-width: 650px; /* Tarjetas más anchas */
             opacity: 0;
             pointer-events: none;
             visibility: hidden;
@@ -317,8 +317,8 @@
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             border: 1px solid rgba(255, 215, 0, 0.45);
-            border-radius: 24px;
-            padding: 3rem 2rem;
+            border-radius: 30px; /* Bordes más redondeados */
+            padding: 4rem 2.5rem; /* Más espacio interno */
             box-shadow: 0 15px 40px rgba(139, 101, 8, 0.15), inset 0 0 20px rgba(255, 215, 0, 0.1);
             text-align: center;
             position: relative;
@@ -326,34 +326,34 @@
         .card::before {
             content: '🌻 💛 🌻';
             position: absolute;
-            top: -18px;
+            top: -22px;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(255, 254, 249, 0.98);
-            padding: 5px 20px;
-            font-size: 1.3rem;
-            border-radius: 20px;
+            padding: 8px 30px;
+            font-size: 1.8rem; /* Emojis decorativos más grandes */
+            border-radius: 25px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             border: 1px solid rgba(255, 215, 0, 0.3);
         }
         .card h2 {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(2.5rem, 9vw, 3.5rem);
+            font-size: clamp(3rem, 12vw, 4.5rem); /* Título más grande */
             color: #b8860b;
-            margin-bottom: 1.3rem;
+            margin-bottom: 1.8rem;
             line-height: 1.2;
         }
         .card p {
-            font-size: clamp(1.05rem, 4.2vw, 1.2rem);
+            font-size: clamp(1.2rem, 5vw, 1.6rem); /* Texto más grande */
             line-height: 1.65;
             color: #6b5b3e;
-            margin-bottom: 1.6rem;
+            margin-bottom: 2rem;
         }
         .card .footer {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(1.6rem, 6vw, 2rem);
+            font-size: clamp(2rem, 8vw, 2.8rem); /* Pie de tarjeta más grande */
             color: #b8860b;
-            margin-bottom: 1.6rem;
+            margin-bottom: 2rem;
         }
 
         /* ============================================
@@ -373,13 +373,13 @@
             transition: opacity 0.8s ease, visibility 0.8s;
         }
         #screen-draw.active { opacity: 1; visibility: visible; }
-        #canvas-flor { max-width: 90vw; max-height: 60vh; }
+        #canvas-flor { max-width: 95vw; max-height: 65vh; }
         #draw-text {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(1.8rem, 6vw, 2.8rem);
+            font-size: clamp(2.2rem, 8vw, 3.5rem); /* Texto más grande */
             color: #b8860b;
             text-align: center;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
             padding: 0 20px;
             opacity: 0;
             transition: opacity 1s ease;
@@ -406,9 +406,9 @@
         #screen-bouquet.active { opacity: 1; visibility: visible; }
 
         #bouquet-svg {
-            width: 90vw;
-            max-width: 480px;
-            max-height: 50vh;
+            width: 95vw;
+            max-width: 600px; /* Ramo más grande */
+            max-height: 55vh;
             overflow: visible;
             opacity: 0;
             transform: scale(0.85);
@@ -473,10 +473,10 @@
 
         #final-message {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(2rem, 8vw, 3rem);
+            font-size: clamp(2.5rem, 10vw, 4rem); /* Mensaje final más grande */
             color: #b8860b;
             text-align: center;
-            margin: 1.5rem 0;
+            margin: 2rem 0;
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 1s ease 1.5s, transform 1s ease 1.5s;
@@ -499,15 +499,15 @@
         }
 
         /* ============================================
-           HINT Y DOTS
+           HINT Y DOTS (MÁS GRANDES)
            ============================================ */
         .swipe-hint {
             position: fixed;
-            bottom: 25px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 15;
-            font-size: clamp(0.85rem, 3.5vw, 1rem);
+            font-size: clamp(1rem, 4.5vw, 1.3rem); /* Texto más grande */
             color: #b8860b;
             font-weight: 600;
             opacity: 0.8;
@@ -515,77 +515,85 @@
             pointer-events: none;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             white-space: nowrap;
         }
-        .swipe-hint .arrow { font-size: 1.2rem; animation: swipeArrow 2s infinite; }
+        .swipe-hint .arrow { font-size: 1.5rem; animation: swipeArrow 2s infinite; }
         @keyframes pulseHint { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
-        @keyframes swipeArrow { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-8px); } }
+        @keyframes swipeArrow { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-10px); } }
         .swipe-hint.hidden { opacity: 0; }
 
         .dots-container {
             position: fixed;
-            bottom: 65px;
+            bottom: 80px; /* Ajustado por el jardín más grande */
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 10px;
+            gap: 12px;
             z-index: 15;
             transition: opacity 0.5s ease;
         }
         .dots-container.hidden { opacity: 0; }
         .dot {
-            width: 11px;
-            height: 11px;
+            width: 14px; /* Puntos más grandes */
+            height: 14px;
             border-radius: 50%;
             background: rgba(184, 134, 11, 0.3);
             transition: background 0.4s ease, transform 0.4s ease;
         }
         .dot.active {
             background: #b8860b;
-            transform: scale(1.3);
-            box-shadow: 0 0 10px rgba(184, 134, 11, 0.6);
+            transform: scale(1.4);
+            box-shadow: 0 0 12px rgba(184, 134, 11, 0.6);
         }
 
         /* Ocultar jardín en pantallas donde no queremos */
         body.hide-garden .mini-garden { opacity: 0; }
 
         /* ============================================
-           AJUSTES MOBILE
+           AJUSTES MOBILE (ADAPTADOS A LOS NUEVOS TAMAÑOS)
            ============================================ */
         @media (max-width: 640px) {
-            .card { padding: 2.5rem 1.5rem; }
-            .card p { font-size: 1.05rem; }
-            .swipe-hint { bottom: 15px; font-size: 0.8rem; }
-            .dots-container { bottom: 50px; }
-            .mini-garden { height: 75px; }
-            .mini-flower { width: 38px; height: 70px; }
-            .mini-flower__stem { height: 42px; }
-            .mini-flower__head { width: 32px; height: 32px; }
-            .mini-flower__petal { width: 5px; height: 14px; margin-left: -2.5px; margin-top: -14px; }
-            .mini-flower__center { width: 11px; height: 11px; }
-            .card-scene { width: 94%; }
+            .card { padding: 3rem 1.8rem; }
+            .card p { font-size: 1.2rem; }
+            .swipe-hint { bottom: 15px; font-size: 0.95rem; }
+            .dots-container { bottom: 60px; }
+            .mini-garden { height: 110px; padding: 0 10px; }
+            .mini-flower { width: 50px; height: 95px; }
+            .mini-flower__stem { height: 60px; width: 4px; }
+            .mini-flower__leaf { width: 18px; height: 11px; bottom: 25px; }
+            .mini-flower__head { width: 42px; height: 42px; }
+            .mini-flower__petal { width: 7px; height: 18px; margin-left: -3.5px; margin-top: -18px; }
+            .mini-flower__center { width: 14px; height: 14px; }
+            .card-scene { width: 95%; }
+            .card::before { font-size: 1.4rem; padding: 5px 20px; top: -18px; }
         }
 
         @media (max-width: 400px) {
-            #screen-welcome h1 { font-size: 3.5rem; }
-            #screen-welcome p { font-size: 1.05rem; }
-            .card { padding: 2rem 1.25rem; }
-            .card h2 { font-size: 2.4rem; }
-            .card p { font-size: 1rem; }
-            .card .footer { font-size: 1.5rem; }
+            #screen-welcome h1 { font-size: 4rem; }
+            #screen-welcome p { font-size: 1.15rem; }
+            .card { padding: 2.5rem 1.5rem; }
+            .card h2 { font-size: 2.8rem; }
+            .card p { font-size: 1.1rem; }
+            .card .footer { font-size: 1.8rem; }
+            .btn { padding: 16px 35px; font-size: 1.1rem; }
         }
 
         /* Altura reducida (móvil apaisado) */
         @media (max-height: 550px) {
-            #screen-welcome h1 { font-size: 3rem; }
-            #screen-welcome p { font-size: 1rem; margin-bottom: 1.5rem; }
-            .card { padding: 1.8rem 1.25rem; }
-            .card h2 { font-size: 2rem; margin-bottom: 0.8rem; }
-            .card p { font-size: 0.95rem; margin-bottom: 1rem; }
-            .card .footer { font-size: 1.3rem; margin-bottom: 1rem; }
-            .mini-garden { height: 60px; }
-            #bouquet-svg { max-height: 45vh; }
+            #screen-welcome h1 { font-size: 3.5rem; }
+            #screen-welcome p { font-size: 1.1rem; margin-bottom: 1.5rem; }
+            .card { padding: 2rem 1.5rem; }
+            .card h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+            .card p { font-size: 1.05rem; margin-bottom: 1.2rem; }
+            .card .footer { font-size: 1.6rem; margin-bottom: 1rem; }
+            .mini-garden { height: 80px; }
+            .mini-flower { width: 40px; height: 75px; }
+            .mini-flower__stem { height: 45px; }
+            .mini-flower__head { width: 32px; height: 32px; }
+            .mini-flower__petal { width: 5px; height: 14px; margin-left: -2.5px; margin-top: -14px; }
+            .mini-flower__center { width: 11px; height: 11px; }
+            #bouquet-svg { max-height: 50vh; }
         }
     </style>
 </head>
@@ -778,7 +786,7 @@
         });
 
         // ==================================================
-        // ANIMACIONES DE FONDO
+        // ANIMACIONES DE FONDO (MODIFICADO PARA TAMAÑOS MÁS GRANDES)
         // ==================================================
         const bgContainer = document.getElementById('bg-animations');
         const emojisCayendo = ['🌻', '💛', '🌼', '💛', '🌻', '✨', '💛', '🌻', '🌟', '💫'];
@@ -787,11 +795,12 @@
         function crearGirasolCayendo() {
             const flower = document.createElement('div');
             flower.className = 'falling-flower';
-            const size = Math.random() * 25 + 15;
+            // Aumentado el tamaño base de 15-40px a 30-70px
+            const size = Math.random() * 40 + 30; 
             flower.style.width = size + 'px';
             flower.style.height = size + 'px';
             flower.style.left = Math.random() * 100 + '%';
-            const duration = Math.random() * 10 + 8;
+            const duration = Math.random() * 12 + 8; // Un poco más lentos para apreciar el detalle
             flower.style.animationDuration = duration + 's';
             flower.style.animationDelay = Math.random() * 15 + 's';
             flower.style.opacity = (Math.random() * 0.4 + 0.4).toString();
@@ -803,10 +812,11 @@
             const emoji = document.createElement('div');
             emoji.className = 'falling-emoji';
             emoji.textContent = emojisCayendo[Math.floor(Math.random() * emojisCayendo.length)];
-            const size = Math.random() * 1.2 + 1;
+            // Aumentado el tamaño base de 1-2.2rem a 1.5-3.5rem
+            const size = Math.random() * 2 + 1.5; 
             emoji.style.fontSize = size + 'rem';
             emoji.style.left = Math.random() * 100 + '%';
-            const duration = Math.random() * 12 + 8;
+            const duration = Math.random() * 14 + 8;
             emoji.style.animationDuration = duration + 's';
             emoji.style.animationDelay = Math.random() * 18 + 's';
             emoji.style.opacity = (Math.random() * 0.4 + 0.5).toString();
@@ -817,18 +827,18 @@
         function crearParticula() {
             const p = document.createElement('div');
             p.className = 'particle';
-            const size = Math.random() * 6 + 3;
+            const size = Math.random() * 8 + 4; // Partículas un poco más grandes
             p.style.width = size + 'px';
             p.style.height = size + 'px';
             p.style.left = Math.random() * 100 + '%';
             p.style.bottom = '-20px';
-            p.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            p.style.animationDuration = (Math.random() * 6 + 5) + 's';
             p.style.animationDelay = Math.random() * 8 + 's';
             bgContainer.appendChild(p);
         }
 
         // Población inicial
-        for (let i = 0; i < 12; i++) crearGirasolCayendo();
+        for (let i = 0; i < 15; i++) crearGirasolCayendo();
         for (let i = 0; i < 25; i++) crearEmojiCayendo();
         for (let i = 0; i < 20; i++) crearParticula();
 
