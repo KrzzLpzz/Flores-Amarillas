@@ -19,10 +19,11 @@
             font-family: 'Poppins', sans-serif;
             touch-action: none;
             user-select: none;
+            -webkit-text-size-adjust: 100%;
         }
 
         /* ============================================
-           ANIMACIONES DE FONDO (pétalos y partículas)
+           ANIMACIONES DE FONDO
            ============================================ */
         #bg-animations {
             position: fixed;
@@ -32,12 +33,10 @@
             overflow: hidden;
         }
 
-        /* Girasoles y corazones cayendo */
+        /* Girasoles SVG cayendo */
         .falling-flower {
             position: absolute;
             top: -60px;
-            width: 30px;
-            height: 30px;
             background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path fill="%23FFD700" d="M50 0 L58.7 34.5 L90.5 25 L65.5 41.3 L99 61.8 L61.8 61.8 L75 90.5 L50 67 L25 90.5 L38.2 61.8 L1 61.8 L34.5 41.3 L9.5 25 L41.3 34.5 Z"/><circle cx="50" cy="50" r="20" fill="%23654321"/></svg>');
             background-size: contain;
             background-repeat: no-repeat;
@@ -52,7 +51,23 @@
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
 
-        /* Partículas doradas subiendo */
+        /* Emojis cayendo */
+        .falling-emoji {
+            position: absolute;
+            top: -60px;
+            animation: fallDownEmoji linear infinite;
+            will-change: transform;
+            opacity: 0;
+            filter: drop-shadow(0 2px 6px rgba(255, 215, 0, 0.4));
+        }
+        @keyframes fallDownEmoji {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Partículas doradas */
         .particle {
             position: absolute;
             background-color: rgba(255, 221, 0, 0.85);
@@ -68,6 +83,120 @@
         }
 
         /* ============================================
+           JARDÍN MINI CSS (detalle sutil abajo)
+           ============================================ */
+        .mini-garden {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 90px;
+            z-index: 3;
+            pointer-events: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 0 15px;
+            opacity: 0.9;
+            transition: opacity 0.5s;
+        }
+
+        .mini-flower {
+            position: relative;
+            width: 45px;
+            height: 80px;
+            transform-origin: bottom center;
+            animation: miniSway 3s ease-in-out infinite;
+        }
+        .mini-flower:nth-child(1) { animation-delay: 0s; }
+        .mini-flower:nth-child(2) { animation-delay: 0.7s; }
+        .mini-flower:nth-child(3) { animation-delay: 1.4s; }
+        .mini-flower:nth-child(4) { animation-delay: 2.1s; }
+        .mini-flower:nth-child(5) { animation-delay: 0.3s; }
+        .mini-flower:nth-child(6) { animation-delay: 1.8s; }
+
+        @keyframes miniSway {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+
+        .mini-flower__stem {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 50px;
+            background: linear-gradient(to top, #2E7D32, #43A047);
+            border-radius: 2px;
+        }
+
+        .mini-flower__leaf {
+            position: absolute;
+            bottom: 22px;
+            width: 16px;
+            height: 9px;
+            background: #43A047;
+            border-radius: 50% 0 50% 0;
+        }
+        .mini-flower__leaf--left {
+            left: 0;
+            transform: rotate(-25deg);
+        }
+        .mini-flower__leaf--right {
+            right: 0;
+            transform: scaleX(-1) rotate(-25deg);
+        }
+
+        .mini-flower__head {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 36px;
+            height: 36px;
+            animation: miniHeadSpin 8s linear infinite;
+        }
+        @keyframes miniHeadSpin {
+            0% { transform: translateX(-50%) rotate(0deg); }
+            100% { transform: translateX(-50%) rotate(360deg); }
+        }
+
+        .mini-flower__petal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 6px;
+            height: 16px;
+            background: linear-gradient(to top, #FFC107, #FFEB3B);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            transform-origin: 50% 100%;
+            margin-left: -3px;
+            margin-top: -16px;
+        }
+        .mini-flower__petal:nth-child(1) { transform: rotate(0deg); }
+        .mini-flower__petal:nth-child(2) { transform: rotate(45deg); }
+        .mini-flower__petal:nth-child(3) { transform: rotate(90deg); }
+        .mini-flower__petal:nth-child(4) { transform: rotate(135deg); }
+        .mini-flower__petal:nth-child(5) { transform: rotate(180deg); }
+        .mini-flower__petal:nth-child(6) { transform: rotate(225deg); }
+        .mini-flower__petal:nth-child(7) { transform: rotate(270deg); }
+        .mini-flower__petal:nth-child(8) { transform: rotate(315deg); }
+
+        .mini-flower__center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle, #5D4037, #3E2723);
+            border-radius: 50%;
+            z-index: 2;
+            box-shadow: inset 0 0 3px rgba(0,0,0,0.5);
+        }
+
+        /* ============================================
            PANTALLA 1: BIENVENIDA
            ============================================ */
         #screen-welcome {
@@ -78,7 +207,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 5vw;
+            padding: 8vw 5vw;
             z-index: 20;
             transition: opacity 0.8s ease, visibility 0.8s;
         }
@@ -88,17 +217,19 @@
         }
         #screen-welcome h1 {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(3rem, 12vw, 6rem);
+            font-size: clamp(3.5rem, 14vw, 7rem);
             color: #b8860b;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
+            line-height: 1.1;
             text-shadow: 0 4px 20px rgba(255, 215, 0, 0.4), 0 0 40px rgba(255, 215, 0, 0.3);
             animation: fadeInUp 1.2s ease;
         }
         #screen-welcome p {
-            font-size: clamp(1rem, 3vw, 1.3rem);
+            font-size: clamp(1.15rem, 4.5vw, 1.4rem);
             color: #6b5b3e;
             margin-bottom: 2.5rem;
             max-width: 500px;
+            line-height: 1.6;
             animation: fadeInUp 1.2s ease 0.3s backwards;
         }
         @keyframes fadeInUp {
@@ -113,9 +244,9 @@
             background: #b8860b;
             color: #fff;
             border: none;
-            padding: 15px 45px;
+            padding: 16px 42px;
             border-radius: 50px;
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 4vw, 1.15rem);
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
             cursor: pointer;
@@ -157,8 +288,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.9);
-            width: 90%;
-            max-width: 480px;
+            width: 92%;
+            max-width: 500px;
             opacity: 0;
             pointer-events: none;
             visibility: hidden;
@@ -182,7 +313,7 @@
         }
 
         .card {
-            background: rgba(255, 254, 249, 0.78);
+            background: rgba(255, 254, 249, 0.85);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             border: 1px solid rgba(255, 215, 0, 0.45);
@@ -195,34 +326,34 @@
         .card::before {
             content: '🌻 💛 🌻';
             position: absolute;
-            top: -15px;
+            top: -18px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(255, 254, 249, 0.95);
-            padding: 4px 18px;
-            font-size: 1.2rem;
+            background: rgba(255, 254, 249, 0.98);
+            padding: 5px 20px;
+            font-size: 1.3rem;
             border-radius: 20px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             border: 1px solid rgba(255, 215, 0, 0.3);
         }
         .card h2 {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(2.2rem, 7vw, 3rem);
+            font-size: clamp(2.5rem, 9vw, 3.5rem);
             color: #b8860b;
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.3rem;
             line-height: 1.2;
         }
         .card p {
-            font-size: 1.05rem;
-            line-height: 1.6;
+            font-size: clamp(1.05rem, 4.2vw, 1.2rem);
+            line-height: 1.65;
             color: #6b5b3e;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.6rem;
         }
         .card .footer {
             font-family: 'Great Vibes', cursive;
-            font-size: 1.7rem;
+            font-size: clamp(1.6rem, 6vw, 2rem);
             color: #b8860b;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.6rem;
         }
 
         /* ============================================
@@ -242,13 +373,14 @@
             transition: opacity 0.8s ease, visibility 0.8s;
         }
         #screen-draw.active { opacity: 1; visibility: visible; }
-        #canvas-flor { max-width: 90vw; max-height: 65vh; }
+        #canvas-flor { max-width: 90vw; max-height: 60vh; }
         #draw-text {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            font-size: clamp(1.8rem, 6vw, 2.8rem);
             color: #b8860b;
             text-align: center;
             margin-top: 1rem;
+            padding: 0 20px;
             opacity: 0;
             transition: opacity 1s ease;
         }
@@ -269,13 +401,14 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 1s ease, visibility 1s;
+            padding: 5vw;
         }
         #screen-bouquet.active { opacity: 1; visibility: visible; }
 
         #bouquet-svg {
             width: 90vw;
             max-width: 480px;
-            max-height: 55vh;
+            max-height: 50vh;
             overflow: visible;
             opacity: 0;
             transform: scale(0.85);
@@ -308,8 +441,6 @@
         }
         #bouquet-svg.animate .bouquet-leaf { opacity: 1; transform: scale(1); }
 
-        /* PÉTALOS: el CSS transform NO interfiere con el SVG rotate
-           porque cada pétalo está dentro de un <g> que tiene la rotación */
         .bouquet-petal {
             fill: #ffd700;
             opacity: 0;
@@ -342,7 +473,7 @@
 
         #final-message {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(2rem, 6vw, 3rem);
+            font-size: clamp(2rem, 8vw, 3rem);
             color: #b8860b;
             text-align: center;
             margin: 1.5rem 0;
@@ -376,7 +507,7 @@
             left: 50%;
             transform: translateX(-50%);
             z-index: 15;
-            font-size: 0.85rem;
+            font-size: clamp(0.85rem, 3.5vw, 1rem);
             color: #b8860b;
             font-weight: 600;
             opacity: 0.8;
@@ -385,6 +516,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
         }
         .swipe-hint .arrow { font-size: 1.2rem; animation: swipeArrow 2s infinite; }
         @keyframes pulseHint { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
@@ -393,7 +525,7 @@
 
         .dots-container {
             position: fixed;
-            bottom: 60px;
+            bottom: 65px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -403,8 +535,8 @@
         }
         .dots-container.hidden { opacity: 0; }
         .dot {
-            width: 10px;
-            height: 10px;
+            width: 11px;
+            height: 11px;
             border-radius: 50%;
             background: rgba(184, 134, 11, 0.3);
             transition: background 0.4s ease, transform 0.4s ease;
@@ -414,12 +546,129 @@
             transform: scale(1.3);
             box-shadow: 0 0 10px rgba(184, 134, 11, 0.6);
         }
+
+        /* Ocultar jardín en pantallas donde no queremos */
+        body.hide-garden .mini-garden { opacity: 0; }
+
+        /* ============================================
+           AJUSTES MOBILE
+           ============================================ */
+        @media (max-width: 640px) {
+            .card { padding: 2.5rem 1.5rem; }
+            .card p { font-size: 1.05rem; }
+            .swipe-hint { bottom: 15px; font-size: 0.8rem; }
+            .dots-container { bottom: 50px; }
+            .mini-garden { height: 75px; }
+            .mini-flower { width: 38px; height: 70px; }
+            .mini-flower__stem { height: 42px; }
+            .mini-flower__head { width: 32px; height: 32px; }
+            .mini-flower__petal { width: 5px; height: 14px; margin-left: -2.5px; margin-top: -14px; }
+            .mini-flower__center { width: 11px; height: 11px; }
+            .card-scene { width: 94%; }
+        }
+
+        @media (max-width: 400px) {
+            #screen-welcome h1 { font-size: 3.5rem; }
+            #screen-welcome p { font-size: 1.05rem; }
+            .card { padding: 2rem 1.25rem; }
+            .card h2 { font-size: 2.4rem; }
+            .card p { font-size: 1rem; }
+            .card .footer { font-size: 1.5rem; }
+        }
+
+        /* Altura reducida (móvil apaisado) */
+        @media (max-height: 550px) {
+            #screen-welcome h1 { font-size: 3rem; }
+            #screen-welcome p { font-size: 1rem; margin-bottom: 1.5rem; }
+            .card { padding: 1.8rem 1.25rem; }
+            .card h2 { font-size: 2rem; margin-bottom: 0.8rem; }
+            .card p { font-size: 0.95rem; margin-bottom: 1rem; }
+            .card .footer { font-size: 1.3rem; margin-bottom: 1rem; }
+            .mini-garden { height: 60px; }
+            #bouquet-svg { max-height: 45vh; }
+        }
     </style>
 </head>
 <body>
 
     <!-- Animaciones de fondo -->
     <div id="bg-animations"></div>
+
+    <!-- Jardín mini CSS -->
+    <div class="mini-garden" id="mini-garden">
+        <div class="mini-flower">
+            <div class="mini-flower__head">
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__center"></div>
+            </div>
+            <div class="mini-flower__stem"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--left"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--right"></div>
+        </div>
+        <div class="mini-flower">
+            <div class="mini-flower__head">
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__center"></div>
+            </div>
+            <div class="mini-flower__stem"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--left"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--right"></div>
+        </div>
+        <div class="mini-flower">
+            <div class="mini-flower__head">
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__center"></div>
+            </div>
+            <div class="mini-flower__stem"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--left"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--right"></div>
+        </div>
+        <div class="mini-flower">
+            <div class="mini-flower__head">
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__center"></div>
+            </div>
+            <div class="mini-flower__stem"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--left"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--right"></div>
+        </div>
+        <div class="mini-flower">
+            <div class="mini-flower__head">
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__center"></div>
+            </div>
+            <div class="mini-flower__stem"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--left"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--right"></div>
+        </div>
+        <div class="mini-flower">
+            <div class="mini-flower__head">
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__center"></div>
+            </div>
+            <div class="mini-flower__stem"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--left"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--right"></div>
+        </div>
+    </div>
 
     <!-- PANTALLA 1: BIENVENIDA -->
     <section id="screen-welcome">
@@ -490,11 +739,9 @@
     <!-- PANTALLA 4: RAMO FINAL -->
     <section id="screen-bouquet">
         <svg id="bouquet-svg" viewBox="0 0 500 600" xmlns="http://www.w3.org/2000/svg">
-            <!-- Envoltura -->
             <path class="bouquet-wrapper" d="M 250 580 L 130 320 L 250 280 L 370 320 Z" />
             <path class="bouquet-wrapper" d="M 250 580 L 170 360 L 250 320 L 330 360 Z" fill="#c4a172" />
             
-            <!-- Tallos -->
             <g id="stems-group">
                 <path class="bouquet-stem" d="M 250 560 Q 230 460 200 340" />
                 <path class="bouquet-stem" d="M 250 560 Q 250 440 250 300" />
@@ -503,7 +750,6 @@
                 <path class="bouquet-stem" d="M 250 560 Q 290 480 330 420" />
             </g>
             
-            <!-- Hojas -->
             <g id="leaves-group">
                 <path class="bouquet-leaf" d="M 220 480 Q 140 450 120 380 Q 180 400 220 460 Z" />
                 <path class="bouquet-leaf" d="M 280 480 Q 360 450 380 380 Q 320 400 280 460 Z" />
@@ -511,7 +757,6 @@
                 <path class="bouquet-leaf" d="M 265 400 Q 330 380 350 320 Q 300 340 265 380 Z" />
             </g>
 
-            <!-- Flores generadas dinámicamente -->
             <g id="flowers-group"></g>
         </svg>
 
@@ -533,11 +778,12 @@
         });
 
         // ==================================================
-        // ANIMACIONES DE FONDO (pétalos cayendo + partículas)
+        // ANIMACIONES DE FONDO
         // ==================================================
         const bgContainer = document.getElementById('bg-animations');
+        const emojisCayendo = ['🌻', '💛', '🌼', '💛', '🌻', '✨', '💛', '🌻', '🌟', '💫'];
 
-        // Girasoles cayendo
+        // Girasoles SVG cayendo
         function crearGirasolCayendo() {
             const flower = document.createElement('div');
             flower.className = 'falling-flower';
@@ -550,6 +796,21 @@
             flower.style.animationDelay = Math.random() * 15 + 's';
             flower.style.opacity = (Math.random() * 0.4 + 0.4).toString();
             bgContainer.appendChild(flower);
+        }
+
+        // Emojis cayendo
+        function crearEmojiCayendo() {
+            const emoji = document.createElement('div');
+            emoji.className = 'falling-emoji';
+            emoji.textContent = emojisCayendo[Math.floor(Math.random() * emojisCayendo.length)];
+            const size = Math.random() * 1.2 + 1;
+            emoji.style.fontSize = size + 'rem';
+            emoji.style.left = Math.random() * 100 + '%';
+            const duration = Math.random() * 12 + 8;
+            emoji.style.animationDuration = duration + 's';
+            emoji.style.animationDelay = Math.random() * 18 + 's';
+            emoji.style.opacity = (Math.random() * 0.4 + 0.5).toString();
+            bgContainer.appendChild(emoji);
         }
 
         // Partículas doradas subiendo
@@ -566,17 +827,19 @@
             bgContainer.appendChild(p);
         }
 
-        // Crear girasoles y partículas
-        for (let i = 0; i < 15; i++) crearGirasolCayendo();
-        for (let i = 0; i < 25; i++) crearParticula();
+        // Población inicial
+        for (let i = 0; i < 12; i++) crearGirasolCayendo();
+        for (let i = 0; i < 25; i++) crearEmojiCayendo();
+        for (let i = 0; i < 20; i++) crearParticula();
 
-        // Ir añadiendo nuevos periódicamente
+        // Reponer periódicamente
         setInterval(() => {
-            if (bgContainer.children.length < 60) {
+            if (bgContainer.children.length < 80) {
                 crearGirasolCayendo();
+                crearEmojiCayendo();
                 crearParticula();
             }
-        }, 2000);
+        }, 1800);
 
         // ==================================================
         // NAVEGACIÓN
@@ -585,6 +848,8 @@
         const screenCarousel = document.getElementById('screen-carousel');
         const screenDraw = document.getElementById('screen-draw');
         const screenBouquet = document.getElementById('screen-bouquet');
+        const miniGarden = document.getElementById('mini-garden');
+        const body = document.body;
 
         document.getElementById('btn-iniciar').addEventListener('click', () => {
             screenWelcome.classList.add('hidden');
@@ -674,7 +939,7 @@
         }, { passive: false });
 
         // ==================================================
-        // DIBUJO EN CANVAS (técnica paso a paso)
+        // DIBUJO EN CANVAS
         // ==================================================
         const canvasFlor = document.getElementById('canvas-flor');
         const ctxFlor = canvasFlor.getContext('2d');
@@ -764,6 +1029,7 @@
             screenCarousel.classList.remove('active');
             swipeHint.classList.add('hidden');
             dotsContainer.classList.add('hidden');
+            body.classList.add('hide-garden');
 
             setTimeout(() => {
                 screenDraw.classList.add('active');
@@ -797,7 +1063,7 @@
         }
 
         // ==================================================
-        // GENERAR RAMO FINAL (FIX: cada pétalo en un <g> con rotación)
+        // GENERAR RAMO FINAL
         // ==================================================
         const flowersGroup = document.getElementById('flowers-group');
         const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -811,19 +1077,15 @@
         ];
 
         flowerConfigs.forEach((cfg) => {
-            // Grupo de la flor, trasladado a su posición
             const flowerGroup = document.createElementNS(SVG_NS, 'g');
             flowerGroup.setAttribute('transform', `translate(${cfg.x}, ${cfg.y})`);
 
-            // Pétalos: cada uno dentro de un <g> con rotate SVG
             for (let i = 0; i < cfg.numPetals; i++) {
                 const angle = (360 / cfg.numPetals) * i;
 
-                // Grupo contenedor del pétalo: aplica la rotación SVG
                 const petalWrapper = document.createElementNS(SVG_NS, 'g');
                 petalWrapper.setAttribute('transform', `rotate(${angle})`);
 
-                // La elipse del pétalo: sin transform SVG, solo CSS
                 const petal = document.createElementNS(SVG_NS, 'ellipse');
                 petal.setAttribute('class', 'bouquet-petal');
                 petal.setAttribute('cx', '0');
@@ -836,7 +1098,6 @@
                 flowerGroup.appendChild(petalWrapper);
             }
 
-            // Centro exterior
             const centerOuter = document.createElementNS(SVG_NS, 'circle');
             centerOuter.setAttribute('class', 'bouquet-center');
             centerOuter.setAttribute('cx', '0');
@@ -845,7 +1106,6 @@
             centerOuter.style.transitionDelay = (cfg.delay + 0.6) + 's';
             flowerGroup.appendChild(centerOuter);
 
-            // Centro interior (más oscuro)
             const centerInner = document.createElementNS(SVG_NS, 'circle');
             centerInner.setAttribute('class', 'bouquet-center');
             centerInner.setAttribute('cx', '0');
@@ -858,7 +1118,6 @@
             flowersGroup.appendChild(flowerGroup);
         });
 
-        // Retrasos para hojas
         document.querySelectorAll('.bouquet-leaf').forEach((leaf, i) => {
             leaf.style.transitionDelay = (0.2 + i * 0.1) + 's';
         });
@@ -878,6 +1137,7 @@
             dotsContainer.classList.remove('hidden');
             swipeHint.classList.remove('hidden');
             dots.forEach((d, i) => d.classList.toggle('active', i === 0));
+            body.classList.remove('hide-garden');
 
             currentCard = -1;
             isAnimating = false;
