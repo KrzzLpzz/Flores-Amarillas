@@ -1,367 +1,1158 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flores Amarillas para Valeria</title>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    body {
-      background: linear-gradient(135deg, #fdfbf7 0%, #f4e8c1 100%);
-      color: #5c4a1e;
-      font-family: 'Poppins', sans-serif;
-      overflow-x: hidden;
-      scroll-behavior: smooth;
-      min-height: 100vh;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🌻 Flores Amarillas para Valeria</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌻</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* --- Contenedor del Jardín Flotante (Emojis) --- */
-    .floating-garden {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1;
-      overflow: hidden;
-    }
-    .floating-item {
-      position: absolute;
-      font-size: 2.5rem;
-      animation: floatUp linear infinite;
-      opacity: 0;
-    }
-    @keyframes floatUp {
-      0% { transform: translateY(110vh) rotate(0deg) scale(0.5); opacity: 0; }
-      10% { opacity: 0.8; transform: translateY(90vh) rotate(45deg) scale(1); }
-      90% { opacity: 0.8; }
-      100% { transform: translateY(-10vh) rotate(360deg) scale(1.2); opacity: 0; }
-    }
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            background: linear-gradient(135deg, #fdfbf7 0%, #f4e8c1 100%);
+            color: #5c4a1e;
+            font-family: 'Poppins', sans-serif;
+            touch-action: none;
+            user-select: none;
+            -webkit-text-size-adjust: 100%;
+        }
 
-    /* --- Jardín Inferior (Fila de girasoles) --- */
-    .bottom-garden {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      display: flex;
-      justify-content: space-around;
-      align-items: flex-end;
-      padding: 0 10px;
-      pointer-events: none;
-      z-index: 2;
-      font-size: 3.5rem;
-      line-height: 1;
-      opacity: 0.9;
-    }
+        /* ============================================
+           ANIMACIONES DE FONDO
+           ============================================ */
+        #bg-animations {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
 
-    /* --- Escenas y Tarjetas --- */
-    .scene {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 15vh 5vw;
-      text-align: center;
-      scroll-snap-align: start;
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-      position: relative;
-      z-index: 10;
-    }
-    .scene.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
+        /* Girasoles SVG cayendo */
+        .falling-flower {
+            position: absolute;
+            top: -60px;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path fill="%23FFD700" d="M50 0 L58.7 34.5 L90.5 25 L65.5 41.3 L99 61.8 L61.8 61.8 L75 90.5 L50 67 L25 90.5 L38.2 61.8 L1 61.8 L34.5 41.3 L9.5 25 L41.3 34.5 Z"/><circle cx="50" cy="50" r="20" fill="%23654321"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            animation: fallDown linear infinite;
+            will-change: transform;
+            opacity: 0.7;
+        }
+        @keyframes fallDown {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
 
-    /* --- Tarjeta Estilo Alexa/Valeria --- */
-    .card {
-      background: #fffdf8;
-      border-radius: 30px;
-      padding: 4rem 2.5rem;
-      box-shadow: 0 20px 50px rgba(184, 134, 11, 0.15), 0 0 0 1px rgba(212, 175, 55, 0.2);
-      max-width: 650px;
-      width: 95%;
-      position: relative;
-      transition: transform 0.3s ease;
-    }
+        /* Emojis cayendo */
+        .falling-emoji {
+            position: absolute;
+            top: -60px;
+            animation: fallDownEmoji linear infinite;
+            will-change: transform;
+            opacity: 0;
+            filter: drop-shadow(0 2px 6px rgba(255, 215, 0, 0.4));
+        }
+        @keyframes fallDownEmoji {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
 
-    /* Decoración superior de la tarjeta */
-    .card::before {
-      content: '🌻 💛 🌻';
-      position: absolute;
-      top: -30px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #fffdf8;
-      padding: 5px 25px;
-      font-size: 2rem;
-      border-radius: 30px;
-      box-shadow: 0 8px 20px rgba(184, 134, 11, 0.1);
-      white-space: nowrap;
-    }
+        /* Partículas doradas */
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 221, 0, 0.85);
+            border-radius: 50%;
+            opacity: 0;
+            box-shadow: 0 0 8px rgba(255, 221, 0, 0.9), 0 0 12px rgba(255, 215, 0, 0.5);
+            animation: particle-rise 6s ease-out infinite;
+            pointer-events: none;
+        }
+        @keyframes particle-rise {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-30vh) scale(0); opacity: 0; }
+        }
 
-    /* Título de la tarjeta */
-    .card h2 {
-      font-family: 'Great Vibes', cursive;
-      font-size: clamp(3.5rem, 10vw, 5rem);
-      color: #b8860b;
-      margin-bottom: 2rem;
-      line-height: 1.1;
-      text-shadow: 2px 2px 4px rgba(184, 134, 11, 0.1);
-    }
+        /* ============================================
+           JARDÍN MINI CSS (detalle sutil abajo)
+           ============================================ */
+        .mini-garden {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 90px;
+            z-index: 3;
+            pointer-events: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 0 15px;
+            opacity: 0.9;
+            transition: opacity 0.5s;
+        }
 
-    /* Texto de la tarjeta */
-    .card p {
-      font-size: clamp(1.3rem, 5vw, 1.6rem);
-      line-height: 1.6;
-      color: #6b5b3e;
-      margin-bottom: 2.5rem;
-      font-weight: 400;
-    }
+        .mini-flower {
+            position: relative;
+            width: 45px;
+            height: 80px;
+            transform-origin: bottom center;
+            animation: miniSway 3s ease-in-out infinite;
+        }
+        .mini-flower:nth-child(1) { animation-delay: 0s; }
+        .mini-flower:nth-child(2) { animation-delay: 0.7s; }
+        .mini-flower:nth-child(3) { animation-delay: 1.4s; }
+        .mini-flower:nth-child(4) { animation-delay: 2.1s; }
+        .mini-flower:nth-child(5) { animation-delay: 0.3s; }
+        .mini-flower:nth-child(6) { animation-delay: 1.8s; }
 
-    /* Pie de la tarjeta */
-    .card .footer {
-      font-family: 'Great Vibes', cursive;
-      font-size: clamp(2.2rem, 7vw, 2.8rem);
-      color: #b8860b;
-      margin-bottom: 2rem;
-    }
+        @keyframes miniSway {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
 
-    /* Botones */
-    .btn {
-      background: linear-gradient(135deg, #b8860b, #d4af37);
-      color: #fff;
-      border: none;
-      padding: 1.2rem 3.5rem;
-      border-radius: 50px;
-      font-size: clamp(1.2rem, 4vw, 1.5rem);
-      font-family: 'Poppins', sans-serif;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 10px 25px rgba(184, 134, 11, 0.4);
-      transition: transform 0.2s, box-shadow 0.2s;
-      width: 100%;
-      max-width: 300px;
-    }
-    .btn:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 15px 35px rgba(184, 134, 11, 0.5);
-    }
+        .mini-flower__stem {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 50px;
+            background: linear-gradient(to top, #2E7D32, #43A047);
+            border-radius: 2px;
+        }
 
-    /* --- Pantalla de Inicio (Intro) --- */
-    #intro {
-      z-index: 20;
-      background: transparent;
-    }
-    #intro h1 {
-      font-family: 'Great Vibes', cursive;
-      font-size: clamp(4.5rem, 15vw, 7rem);
-      color: #b8860b;
-      margin-bottom: 1.5rem;
-      text-shadow: 3px 3px 6px rgba(184, 134, 11, 0.15);
-    }
-    #intro p {
-      font-size: clamp(1.4rem, 5vw, 1.8rem);
-      color: #6b5b3e;
-      max-width: 600px;
-      margin-bottom: 3rem;
-      line-height: 1.5;
-    }
+        .mini-flower__leaf {
+            position: absolute;
+            bottom: 22px;
+            width: 16px;
+            height: 9px;
+            background: #43A047;
+            border-radius: 50% 0 50% 0;
+        }
+        .mini-flower__leaf--left {
+            left: 0;
+            transform: rotate(-25deg);
+        }
+        .mini-flower__leaf--right {
+            right: 0;
+            transform: scaleX(-1) rotate(-25deg);
+        }
 
-    /* --- SVG de la Flor (Fondo) --- */
-    #flower-svg {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      height: 90vh;
-      width: auto;
-      max-width: 90vw;
-      z-index: 0;
-      pointer-events: none;
-      opacity: 0.15; /* Más sutil para que no opaque las tarjetas */
-    }
+        .mini-flower__head {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 36px;
+            height: 36px;
+            animation: miniHeadSpin 8s linear infinite;
+        }
+        @keyframes miniHeadSpin {
+            0% { transform: translateX(-50%) rotate(0deg); }
+            100% { transform: translateX(-50%) rotate(360deg); }
+        }
 
-    /* Animaciones de dibujo de la flor */
-    .draw-path { fill: none; stroke: #4a5d23; stroke-width: 8; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1000; stroke-dashoffset: 1000; transition: stroke-dashoffset 1.5s ease-in-out; }
-    .draw-leaf { fill: #6b8e23; opacity: 0; transform-origin: bottom left; transform: scale(0); transition: opacity 1s ease, transform 1s ease; }
-    .petal { fill: #ffd700; opacity: 0; transform-origin: center; transform: scale(0); transition: opacity 0.8s ease, transform 0.8s ease; }
-    .flower-center { fill: #5c4a1e; opacity: 0; transform: scale(0); transform-origin: center; transition: opacity 0.5s ease, transform 0.5s ease; }
+        .mini-flower__petal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 6px;
+            height: 16px;
+            background: linear-gradient(to top, #FFC107, #FFEB3B);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            transform-origin: 50% 100%;
+            margin-left: -3px;
+            margin-top: -16px;
+        }
+        .mini-flower__petal:nth-child(1) { transform: rotate(0deg); }
+        .mini-flower__petal:nth-child(2) { transform: rotate(45deg); }
+        .mini-flower__petal:nth-child(3) { transform: rotate(90deg); }
+        .mini-flower__petal:nth-child(4) { transform: rotate(135deg); }
+        .mini-flower__petal:nth-child(5) { transform: rotate(180deg); }
+        .mini-flower__petal:nth-child(6) { transform: rotate(225deg); }
+        .mini-flower__petal:nth-child(7) { transform: rotate(270deg); }
+        .mini-flower__petal:nth-child(8) { transform: rotate(315deg); }
 
-    /* Clases de progreso del SVG */
-    .step-1 .draw-path { stroke-dashoffset: 0; }
-    .step-2 .draw-leaf { opacity: 1; transform: scale(1); }
-    .step-3 .petal { opacity: 1; transform: scale(1); }
-    .step-4 .flower-center { opacity: 1; transform: scale(1); }
+        .mini-flower__center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle, #5D4037, #3E2723);
+            border-radius: 50%;
+            z-index: 2;
+            box-shadow: inset 0 0 3px rgba(0,0,0,0.5);
+        }
 
-    /* --- Indicador de Scroll --- */
-    .scroll-indicator {
-      position: fixed;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 30;
-      font-size: 1rem;
-      color: #b8860b;
-      animation: bounce 2s infinite;
-      font-weight: 600;
-      background: rgba(255, 255, 255, 0.8);
-      padding: 8px 20px;
-      border-radius: 20px;
-      backdrop-filter: blur(5px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-      white-space: nowrap;
-    }
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-      40% { transform: translateX(-50%) translateY(-10px); }
-      60% { transform: translateX(-50%) translateY(-5px); }
-    }
-    .end .scroll-indicator { display: none; }
-  </style>
+        /* ============================================
+           PANTALLA 1: BIENVENIDA
+           ============================================ */
+        #screen-welcome {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8vw 5vw;
+            z-index: 20;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+        #screen-welcome.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        #screen-welcome h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(3.5rem, 14vw, 7rem);
+            color: #b8860b;
+            margin-bottom: 1.2rem;
+            line-height: 1.1;
+            text-shadow: 0 4px 20px rgba(255, 215, 0, 0.4), 0 0 40px rgba(255, 215, 0, 0.3);
+            animation: fadeInUp 1.2s ease;
+        }
+        #screen-welcome p {
+            font-size: clamp(1.15rem, 4.5vw, 1.4rem);
+            color: #6b5b3e;
+            margin-bottom: 2.5rem;
+            max-width: 500px;
+            line-height: 1.6;
+            animation: fadeInUp 1.2s ease 0.3s backwards;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============================================
+           BOTONES
+           ============================================ */
+        .btn {
+            background: #b8860b;
+            color: #fff;
+            border: none;
+            padding: 16px 42px;
+            border-radius: 50px;
+            font-size: clamp(1rem, 4vw, 1.15rem);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(184, 134, 11, 0.4);
+            transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 10;
+        }
+        .btn:hover {
+            background: #8B6508;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(184, 134, 11, 0.5);
+        }
+        .btn:active { transform: translateY(0) scale(0.97); }
+
+        /* ============================================
+           PANTALLA 2: CARRUSEL
+           ============================================ */
+        #screen-carousel {
+            position: fixed;
+            inset: 0;
+            z-index: 10;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+        #screen-carousel.active { opacity: 1; visibility: visible; }
+
+        #carousel {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .card-scene {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 92%;
+            max-width: 500px;
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .card-scene.active {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+            visibility: visible;
+        }
+        .card-scene.exit-left {
+            opacity: 0;
+            transform: translate(-150%, -50%) scale(0.8);
+            visibility: hidden;
+        }
+        .card-scene.exit-right {
+            opacity: 0;
+            transform: translate(50%, -50%) scale(0.8);
+            visibility: hidden;
+        }
+
+        .card {
+            background: rgba(255, 254, 249, 0.85);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 215, 0, 0.45);
+            border-radius: 24px;
+            padding: 3rem 2rem;
+            box-shadow: 0 15px 40px rgba(139, 101, 8, 0.15), inset 0 0 20px rgba(255, 215, 0, 0.1);
+            text-align: center;
+            position: relative;
+        }
+        .card::before {
+            content: '🌻 💛 🌻';
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 254, 249, 0.98);
+            padding: 5px 20px;
+            font-size: 1.3rem;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        .card h2 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.5rem, 9vw, 3.5rem);
+            color: #b8860b;
+            margin-bottom: 1.3rem;
+            line-height: 1.2;
+        }
+        .card p {
+            font-size: clamp(1.05rem, 4.2vw, 1.2rem);
+            line-height: 1.65;
+            color: #6b5b3e;
+            margin-bottom: 1.6rem;
+        }
+        .card .footer {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(1.6rem, 6vw, 2rem);
+            color: #b8860b;
+            margin-bottom: 1.6rem;
+        }
+
+        /* ============================================
+           PANTALLA 3: DIBUJO EN CANVAS
+           ============================================ */
+        #screen-draw {
+            position: fixed;
+            inset: 0;
+            z-index: 15;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #fdfbf7 0%, #f4e8c1 100%);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+        #screen-draw.active { opacity: 1; visibility: visible; }
+        #canvas-flor { max-width: 90vw; max-height: 60vh; }
+        #draw-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(1.8rem, 6vw, 2.8rem);
+            color: #b8860b;
+            text-align: center;
+            margin-top: 1rem;
+            padding: 0 20px;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        #draw-text.visible { opacity: 1; }
+
+        /* ============================================
+           PANTALLA 4: RAMO FINAL
+           ============================================ */
+        #screen-bouquet {
+            position: fixed;
+            inset: 0;
+            z-index: 30;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #fdfbf7 0%, #f4e8c1 100%);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease, visibility 1s;
+            padding: 5vw;
+        }
+        #screen-bouquet.active { opacity: 1; visibility: visible; }
+
+        #bouquet-svg {
+            width: 90vw;
+            max-width: 480px;
+            max-height: 50vh;
+            overflow: visible;
+            opacity: 0;
+            transform: scale(0.85);
+            transition: opacity 1.2s ease, transform 1.2s ease;
+        }
+        #bouquet-svg.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .bouquet-stem {
+            fill: none;
+            stroke: #4a5d23;
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 800;
+            stroke-dashoffset: 800;
+            transition: stroke-dashoffset 1.8s ease-in-out;
+        }
+        #bouquet-svg.animate .bouquet-stem { stroke-dashoffset: 0; }
+
+        .bouquet-leaf {
+            fill: #6b8e23;
+            opacity: 0;
+            transform: scale(0);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+        #bouquet-svg.animate .bouquet-leaf { opacity: 1; transform: scale(1); }
+
+        .bouquet-petal {
+            fill: #ffd700;
+            opacity: 0;
+            transform: scale(0.2);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+        #bouquet-svg.animate .bouquet-petal {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .bouquet-center {
+            fill: #5c4a1e;
+            opacity: 0;
+            transform: scale(0);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+        #bouquet-svg.animate .bouquet-center { opacity: 1; transform: scale(1); }
+
+        .bouquet-wrapper {
+            fill: #e8d5a8;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        #bouquet-svg.animate .bouquet-wrapper { opacity: 0.95; }
+
+        #final-message {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2rem, 8vw, 3rem);
+            color: #b8860b;
+            text-align: center;
+            margin: 1.5rem 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease 1.5s, transform 1s ease 1.5s;
+        }
+        #final-message.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #screen-bouquet .btn {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease 2.5s, transform 1s ease 2.5s, background 0.3s, box-shadow 0.3s;
+        }
+        #screen-bouquet .btn.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #screen-bouquet .btn.visible:hover {
+            transform: translateY(-3px);
+        }
+
+        /* ============================================
+           HINT Y DOTS
+           ============================================ */
+        .swipe-hint {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 15;
+            font-size: clamp(0.85rem, 3.5vw, 1rem);
+            color: #b8860b;
+            font-weight: 600;
+            opacity: 0.8;
+            animation: pulseHint 2s infinite;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+        .swipe-hint .arrow { font-size: 1.2rem; animation: swipeArrow 2s infinite; }
+        @keyframes pulseHint { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+        @keyframes swipeArrow { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-8px); } }
+        .swipe-hint.hidden { opacity: 0; }
+
+        .dots-container {
+            position: fixed;
+            bottom: 65px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 15;
+            transition: opacity 0.5s ease;
+        }
+        .dots-container.hidden { opacity: 0; }
+        .dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: rgba(184, 134, 11, 0.3);
+            transition: background 0.4s ease, transform 0.4s ease;
+        }
+        .dot.active {
+            background: #b8860b;
+            transform: scale(1.3);
+            box-shadow: 0 0 10px rgba(184, 134, 11, 0.6);
+        }
+
+        /* Ocultar jardín en pantallas donde no queremos */
+        body.hide-garden .mini-garden { opacity: 0; }
+
+        /* ============================================
+           AJUSTES MOBILE
+           ============================================ */
+        @media (max-width: 640px) {
+            .card { padding: 2.5rem 1.5rem; }
+            .card p { font-size: 1.05rem; }
+            .swipe-hint { bottom: 15px; font-size: 0.8rem; }
+            .dots-container { bottom: 50px; }
+            .mini-garden { height: 75px; }
+            .mini-flower { width: 38px; height: 70px; }
+            .mini-flower__stem { height: 42px; }
+            .mini-flower__head { width: 32px; height: 32px; }
+            .mini-flower__petal { width: 5px; height: 14px; margin-left: -2.5px; margin-top: -14px; }
+            .mini-flower__center { width: 11px; height: 11px; }
+            .card-scene { width: 94%; }
+        }
+
+        @media (max-width: 400px) {
+            #screen-welcome h1 { font-size: 3.5rem; }
+            #screen-welcome p { font-size: 1.05rem; }
+            .card { padding: 2rem 1.25rem; }
+            .card h2 { font-size: 2.4rem; }
+            .card p { font-size: 1rem; }
+            .card .footer { font-size: 1.5rem; }
+        }
+
+        /* Altura reducida (móvil apaisado) */
+        @media (max-height: 550px) {
+            #screen-welcome h1 { font-size: 3rem; }
+            #screen-welcome p { font-size: 1rem; margin-bottom: 1.5rem; }
+            .card { padding: 1.8rem 1.25rem; }
+            .card h2 { font-size: 2rem; margin-bottom: 0.8rem; }
+            .card p { font-size: 0.95rem; margin-bottom: 1rem; }
+            .card .footer { font-size: 1.3rem; margin-bottom: 1rem; }
+            .mini-garden { height: 60px; }
+            #bouquet-svg { max-height: 45vh; }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Jardín Flotante de Emojis -->
-  <div class="floating-garden" id="floating-garden"></div>
+    <!-- Animaciones de fondo -->
+    <div id="bg-animations"></div>
 
-  <!-- Jardín Inferior (Fila de Girasoles) -->
-  <div class="bottom-garden">
-    <span>🌻</span><span>🌻</span><span>🌻</span><span>🌻</span><span>🌻</span><span>🌻</span>
-  </div>
+    <!-- Jardín mini CSS -->
+    <div class="mini-garden" id="mini-garden">
+        <div class="mini-flower">
+            <div class="mini-flower__head">
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__center"></div>
+            </div>
+            <div class="mini-flower__stem"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--left"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--right"></div>
+        </div>
+        <div class="mini-flower">
+            <div class="mini-flower__head">
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__center"></div>
+            </div>
+            <div class="mini-flower__stem"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--left"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--right"></div>
+        </div>
+        <div class="mini-flower">
+            <div class="mini-flower__head">
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__center"></div>
+            </div>
+            <div class="mini-flower__stem"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--left"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--right"></div>
+        </div>
+        <div class="mini-flower">
+            <div class="mini-flower__head">
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__center"></div>
+            </div>
+            <div class="mini-flower__stem"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--left"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--right"></div>
+        </div>
+        <div class="mini-flower">
+            <div class="mini-flower__head">
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__center"></div>
+            </div>
+            <div class="mini-flower__stem"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--left"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--right"></div>
+        </div>
+        <div class="mini-flower">
+            <div class="mini-flower__head">
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
+                <div class="mini-flower__center"></div>
+            </div>
+            <div class="mini-flower__stem"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--left"></div>
+            <div class="mini-flower__leaf mini-flower__leaf--right"></div>
+        </div>
+    </div>
 
-  <!-- SVG de la Flor que se dibuja -->
-  <svg id="flower-svg" viewBox="0 0 400 800" xmlns="http://www.w3.org/2000/svg">
-    <path class="draw-path" d="M 200 800 Q 180 600 200 400 Q 210 300 200 200" />
-    <path class="draw-leaf" d="M 195 500 Q 100 450 80 380 Q 150 400 195 480 Z" />
-    <path class="draw-leaf" d="M 205 600 Q 300 550 320 480 Q 250 500 205 580 Z" />
-    <g id="petals-group">
-      <ellipse class="petal" cx="200" cy="120" rx="15" ry="40" transform="rotate(0 200 200)" />
-      <ellipse class="petal" cx="200" cy="120" rx="15" ry="40" transform="rotate(30 200 200)" />
-      <ellipse class="petal" cx="200" cy="120" rx="15" ry="40" transform="rotate(60 200 200)" />
-      <ellipse class="petal" cx="200" cy="120" rx="15" ry="40" transform="rotate(90 200 200)" />
-      <ellipse class="petal" cx="200" cy="120" rx="15" ry="40" transform="rotate(120 200 200)" />
-      <ellipse class="petal" cx="200" cy="120" rx="15" ry="40" transform="rotate(150 200 200)" />
-      <ellipse class="petal" cx="200" cy="120" rx="15" ry="40" transform="rotate(180 200 200)" />
-      <ellipse class="petal" cx="200" cy="120" rx="15" ry="40" transform="rotate(210 200 200)" />
-      <ellipse class="petal" cx="200" cy="120" rx="15" ry="40" transform="rotate(240 200 200)" />
-      <ellipse class="petal" cx="200" cy="120" rx="15" ry="40" transform="rotate(270 200 200)" />
-      <ellipse class="petal" cx="200" cy="120" rx="15" ry="40" transform="rotate(300 200 200)" />
-      <ellipse class="petal" cx="200" cy="120" rx="15" ry="40" transform="rotate(330 200 200)" />
-    </g>
-    <circle class="flower-center" cx="200" cy="200" r="45" />
-    <circle class="flower-center" cx="200" cy="200" r="30" fill="#8B6508" />
-  </svg>
-
-  <!-- Escenas -->
-  <main id="scenes">
-    
-    <!-- Pantalla de Inicio (Intro) -->
-    <section class="scene active" id="intro" data-step="0">
-      <h1>Para Valeria</h1>
-      <p>Hay cosas que solo se pueden decir con flores amarillas. ¿Me acompañas?</p>
-      <button class="btn" onclick="document.getElementById('scene-1').scrollIntoView({behavior: 'smooth'})">Iniciar 💛</button>
+    <!-- PANTALLA 1: BIENVENIDA -->
+    <section id="screen-welcome">
+        <h1>Para Valeria</h1>
+        <p>Hay cosas que solo se pueden decir con flores amarillas. ¿Me acompañas?</p>
+        <button class="btn" id="btn-iniciar">Iniciar 💛</button>
     </section>
 
-    <!-- Escena 1 -->
-    <section class="scene" id="scene-1" data-step="1">
-      <div class="card">
-        <h2>Para Valeria</h2>
-        <p>No hacen falta muchas palabras... solo quería dejarte un poquito de cariño en forma de flores. 🌻</p>
-        <div class="footer">Porque pensé en ti 🌻</div>
-        <button class="btn" onclick="document.getElementById('scene-2').scrollIntoView({behavior: 'smooth'})">Siguiente ✨</button>
-      </div>
+    <!-- PANTALLA 2: CARRUSEL -->
+    <section id="screen-carousel">
+        <div id="carousel">
+            <div class="card-scene" data-step="1" data-index="0">
+                <div class="card">
+                    <h2>Para Valeria</h2>
+                    <p>No hacen falta muchas palabras... solo quería dejarte un poquito de cariño en forma de flores. 🌻</p>
+                    <div class="footer">Porque pensé en ti 🌻</div>
+                    <button class="btn btn-next" data-next="1">Siguiente ✨</button>
+                </div>
+            </div>
+
+            <div class="card-scene" data-step="2" data-index="1">
+                <div class="card">
+                    <h2>Una razón</h2>
+                    <p>Porque tienes esa forma especial de hacer que un momento sencillo pueda sentirse bonito.</p>
+                    <div class="footer">Y eso vale muchísimo. ✨</div>
+                    <button class="btn btn-next" data-next="2">Siguiente ✨</button>
+                </div>
+            </div>
+
+            <div class="card-scene" data-step="3" data-index="2">
+                <div class="card">
+                    <h2>Para ti</h2>
+                    <p>Que estas flores te recuerden que mereces detalles bonitos, sonrisas sinceras y mucho cariño.</p>
+                    <div class="footer">Con cariño, para Valeria 💛</div>
+                    <button class="btn btn-next" data-next="3">Siguiente ✨</button>
+                </div>
+            </div>
+
+            <div class="card-scene" data-step="4" data-index="3">
+                <div class="card">
+                    <h2>Una sorpresa</h2>
+                    <p>Si pudiera entregarte este ramo en persona, probablemente sonreiría antes de decirte cualquier cosa. Así que por ahora... quédate con estas flores. 🌻</p>
+                    <div class="footer">Son para ti, Valeria. ❤️</div>
+                    <button class="btn" id="btn-draw">Dibujar mi flor 🌻</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="swipe-hint" id="swipe-hint">
+            <span class="arrow">👉</span>
+            <span>Desliza o haz clic</span>
+        </div>
+
+        <div class="dots-container" id="dots-container">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
     </section>
 
-    <!-- Escena 2 -->
-    <section class="scene" id="scene-2" data-step="2">
-      <div class="card">
-        <h2>Una razón</h2>
-        <p>Porque tienes esa forma especial de hacer que un momento sencillo pueda sentirse bonito.</p>
-        <div class="footer">Y eso vale muchísimo. ✨</div>
-        <button class="btn" onclick="document.getElementById('scene-3').scrollIntoView({behavior: 'smooth'})">Siguiente ✨</button>
-      </div>
+    <!-- PANTALLA 3: DIBUJO EN CANVAS -->
+    <section id="screen-draw">
+        <canvas id="canvas-flor" width="800" height="600"></canvas>
+        <div id="draw-text">Se está dibujando algo para ti... 🌻</div>
     </section>
 
-    <!-- Escena 3 -->
-    <section class="scene" id="scene-3" data-step="3">
-      <div class="card">
-        <h2>Para ti</h2>
-        <p>Que estas flores te recuerden que mereces detalles bonitos, sonrisas sinceras y mucho cariño.</p>
-        <div class="footer">Con cariño, para Valeria 💛</div>
-        <button class="btn" onclick="document.getElementById('scene-4').scrollIntoView({behavior: 'smooth'})">Siguiente ✨</button>
-      </div>
+    <!-- PANTALLA 4: RAMO FINAL -->
+    <section id="screen-bouquet">
+        <svg id="bouquet-svg" viewBox="0 0 500 600" xmlns="http://www.w3.org/2000/svg">
+            <path class="bouquet-wrapper" d="M 250 580 L 130 320 L 250 280 L 370 320 Z" />
+            <path class="bouquet-wrapper" d="M 250 580 L 170 360 L 250 320 L 330 360 Z" fill="#c4a172" />
+            
+            <g id="stems-group">
+                <path class="bouquet-stem" d="M 250 560 Q 230 460 200 340" />
+                <path class="bouquet-stem" d="M 250 560 Q 250 440 250 300" />
+                <path class="bouquet-stem" d="M 250 560 Q 270 460 300 340" />
+                <path class="bouquet-stem" d="M 250 560 Q 210 480 170 420" />
+                <path class="bouquet-stem" d="M 250 560 Q 290 480 330 420" />
+            </g>
+            
+            <g id="leaves-group">
+                <path class="bouquet-leaf" d="M 220 480 Q 140 450 120 380 Q 180 400 220 460 Z" />
+                <path class="bouquet-leaf" d="M 280 480 Q 360 450 380 380 Q 320 400 280 460 Z" />
+                <path class="bouquet-leaf" d="M 235 400 Q 170 380 150 320 Q 200 340 235 380 Z" />
+                <path class="bouquet-leaf" d="M 265 400 Q 330 380 350 320 Q 300 340 265 380 Z" />
+            </g>
+
+            <g id="flowers-group"></g>
+        </svg>
+
+        <div id="final-message">Con cariño, para Valeria 💛</div>
+        <button class="btn" id="btn-restart">Volver a iniciar 🌻</button>
     </section>
 
-    <!-- Escena 4 -->
-    <section class="scene" id="scene-4" data-step="4">
-      <div class="card">
-        <h2>Una sorpresa</h2>
-        <p>Si pudiera entregarte este ramo en persona, probablemente sonreiría antes de decirte cualquier cosa. Así que por ahora... quédate con estas flores. 🌻</p>
-        <div class="footer">Son para ti, Valeria. ❤️</div>
-        <button class="btn" onclick="document.getElementById('intro').scrollIntoView({behavior: 'smooth'})">Volver a empezar 🔄</button>
-      </div>
-    </section>
-  </main>
+    <script>
+        // ==================================================
+        // TÍTULO DINÁMICO
+        // ==================================================
+        let TituloOriginal = document.title;
+        window.addEventListener('blur', () => {
+            TituloOriginal = document.title;
+            document.title = "No te vayas, regresa :(";
+        });
+        window.addEventListener('focus', () => {
+            document.title = TituloOriginal;
+        });
 
-  <div class="scroll-indicator" id="scroll-indicator">Desliza o haz clic ↓</div>
+        // ==================================================
+        // ANIMACIONES DE FONDO
+        // ==================================================
+        const bgContainer = document.getElementById('bg-animations');
+        const emojisCayendo = ['🌻', '💛', '🌼', '💛', '🌻', '✨', '💛', '🌻', '🌟', '💫'];
 
-  <script>
-    // 1. Generar Jardín Flotante Dinámicamente
-    const garden = document.getElementById('floating-garden');
-    const emojis = ['🌻', '💛', '✨', '⭐', '🪐', '🌼'];
-    
-    for (let i = 0; i < 25; i++) {
-      const span = document.createElement('span');
-      span.className = 'floating-item';
-      span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-      
-      // Posición y tamaño aleatorio
-      span.style.left = Math.random() * 100 + 'vw';
-      span.style.fontSize = (Math.random() * 2 + 1.5) + 'rem'; // Entre 1.5rem y 3.5rem
-      
-      // Animación con retraso y duración aleatoria
-      const duration = Math.random() * 10 + 8; // Entre 8s y 18s
-      const delay = Math.random() * 15; // Retraso de hasta 15s
-      
-      span.style.animationDuration = duration + 's';
-      span.style.animationDelay = delay + 's';
-      
-      garden.appendChild(span);
-    }
-
-    // 2. Scrollytelling y Dibujo Dinámico
-    const scenes = document.querySelectorAll('.scene');
-    const svg = document.getElementById('flower-svg');
-    const scrollIndicator = document.getElementById('scroll-indicator');
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          
-          const step = entry.target.getAttribute('data-step');
-          
-          // Actualizar clases del SVG para dibujar la flor
-          svg.classList.remove('step-1', 'step-2', 'step-3', 'step-4');
-          if (step && step !== '0') {
-            svg.classList.add(`step-${step}`);
-          }
-          
-          // Ocultar indicador de scroll en la última escena
-          if (step === '4') {
-            scrollIndicator.style.display = 'none';
-          } else {
-            scrollIndicator.style.display = 'block';
-          }
+        // Girasoles SVG cayendo
+        function crearGirasolCayendo() {
+            const flower = document.createElement('div');
+            flower.className = 'falling-flower';
+            const size = Math.random() * 25 + 15;
+            flower.style.width = size + 'px';
+            flower.style.height = size + 'px';
+            flower.style.left = Math.random() * 100 + '%';
+            const duration = Math.random() * 10 + 8;
+            flower.style.animationDuration = duration + 's';
+            flower.style.animationDelay = Math.random() * 15 + 's';
+            flower.style.opacity = (Math.random() * 0.4 + 0.4).toString();
+            bgContainer.appendChild(flower);
         }
-      });
-    }, { threshold: 0.5 });
 
-    scenes.forEach(scene => observer.observe(scene));
-  </script>
+        // Emojis cayendo
+        function crearEmojiCayendo() {
+            const emoji = document.createElement('div');
+            emoji.className = 'falling-emoji';
+            emoji.textContent = emojisCayendo[Math.floor(Math.random() * emojisCayendo.length)];
+            const size = Math.random() * 1.2 + 1;
+            emoji.style.fontSize = size + 'rem';
+            emoji.style.left = Math.random() * 100 + '%';
+            const duration = Math.random() * 12 + 8;
+            emoji.style.animationDuration = duration + 's';
+            emoji.style.animationDelay = Math.random() * 18 + 's';
+            emoji.style.opacity = (Math.random() * 0.4 + 0.5).toString();
+            bgContainer.appendChild(emoji);
+        }
+
+        // Partículas doradas subiendo
+        function crearParticula() {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            const size = Math.random() * 6 + 3;
+            p.style.width = size + 'px';
+            p.style.height = size + 'px';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.bottom = '-20px';
+            p.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            p.style.animationDelay = Math.random() * 8 + 's';
+            bgContainer.appendChild(p);
+        }
+
+        // Población inicial
+        for (let i = 0; i < 12; i++) crearGirasolCayendo();
+        for (let i = 0; i < 25; i++) crearEmojiCayendo();
+        for (let i = 0; i < 20; i++) crearParticula();
+
+        // Reponer periódicamente
+        setInterval(() => {
+            if (bgContainer.children.length < 80) {
+                crearGirasolCayendo();
+                crearEmojiCayendo();
+                crearParticula();
+            }
+        }, 1800);
+
+        // ==================================================
+        // NAVEGACIÓN
+        // ==================================================
+        const screenWelcome = document.getElementById('screen-welcome');
+        const screenCarousel = document.getElementById('screen-carousel');
+        const screenDraw = document.getElementById('screen-draw');
+        const screenBouquet = document.getElementById('screen-bouquet');
+        const miniGarden = document.getElementById('mini-garden');
+        const body = document.body;
+
+        document.getElementById('btn-iniciar').addEventListener('click', () => {
+            screenWelcome.classList.add('hidden');
+            setTimeout(() => {
+                screenCarousel.classList.add('active');
+                goToCard(0);
+            }, 500);
+        });
+
+        // ==================================================
+        // CARRUSEL
+        // ==================================================
+        const cardScenes = Array.from(document.querySelectorAll('.card-scene'));
+        const totalCards = cardScenes.length;
+        const dots = document.querySelectorAll('.dot');
+        const swipeHint = document.getElementById('swipe-hint');
+        const dotsContainer = document.getElementById('dots-container');
+        let currentCard = -1;
+        let isAnimating = false;
+
+        function goToCard(index) {
+            if (isAnimating) return;
+            if (index < 0 || index >= totalCards) return;
+            if (index === currentCard) return;
+
+            isAnimating = true;
+            const prevCard = currentCard;
+            const nextCard = index;
+            const direction = nextCard > prevCard ? 'exit-left' : 'exit-right';
+
+            if (prevCard >= 0 && cardScenes[prevCard]) {
+                const prevEl = cardScenes[prevCard];
+                prevEl.classList.remove('active');
+                prevEl.classList.add(direction);
+                setTimeout(() => prevEl.classList.remove(direction), 600);
+            }
+
+            currentCard = nextCard;
+
+            setTimeout(() => {
+                const nextEl = cardScenes[nextCard];
+                nextEl.classList.add('active');
+                dots.forEach((dot, i) => dot.classList.toggle('active', i === nextCard));
+
+                if (nextCard === totalCards - 1) {
+                    swipeHint.classList.add('hidden');
+                } else {
+                    swipeHint.classList.remove('hidden');
+                }
+                isAnimating = false;
+            }, 350);
+        }
+
+        document.querySelectorAll('.btn-next').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const nextIndex = parseInt(btn.getAttribute('data-next'), 10);
+                goToCard(nextIndex);
+            });
+        });
+
+        let touchStartX = 0, touchStartY = 0;
+        screenCarousel.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+
+        screenCarousel.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].screenX;
+            const touchEndY = e.changedTouches[0].screenY;
+            const diffX = touchStartX - touchEndX;
+            const diffY = touchStartY - touchEndY;
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                if (diffX > 0) goToCard(currentCard + 1);
+                else goToCard(currentCard - 1);
+            }
+        }, { passive: true });
+
+        let wheelLock = false;
+        screenCarousel.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            if (wheelLock) return;
+            wheelLock = true;
+            setTimeout(() => wheelLock = false, 800);
+            if (e.deltaY > 0 || e.deltaX > 0) goToCard(currentCard + 1);
+            else goToCard(currentCard - 1);
+        }, { passive: false });
+
+        // ==================================================
+        // DIBUJO EN CANVAS
+        // ==================================================
+        const canvasFlor = document.getElementById('canvas-flor');
+        const ctxFlor = canvasFlor.getContext('2d');
+
+        function dibujarPetalo(x, y, radioX, escala, rotacion, color, pasos) {
+            const anguloIncremento = (Math.PI / pasos) * 2;
+            ctxFlor.save();
+            ctxFlor.translate(x, y);
+            ctxFlor.rotate(rotacion);
+            ctxFlor.scale(1, escala);
+            ctxFlor.beginPath();
+            for (let i = 0; i <= pasos; i++) {
+                const anguloActual = i * anguloIncremento;
+                const radioActual = Math.sin(anguloActual) * radioX;
+                const puntoY = Math.sin(anguloActual) * radioActual;
+                const puntoX = Math.cos(anguloActual) * radioActual;
+                if (i === 0) ctxFlor.moveTo(puntoX, puntoY);
+                else ctxFlor.lineTo(puntoX, puntoY);
+            }
+            ctxFlor.strokeStyle = color;
+            ctxFlor.fillStyle = color;
+            ctxFlor.fill();
+            ctxFlor.stroke();
+            ctxFlor.restore();
+        }
+
+        function dibujarFlor(x, y, numPetalos, radioXPetalo, radioYPetalo, altoTallo) {
+            const pasosTallo = 50;
+            const altoPaso = altoTallo / pasosTallo;
+            let nuevaY = y;
+
+            const dibujarTallo = () => {
+                if (nuevaY < y + altoTallo) {
+                    ctxFlor.beginPath();
+                    ctxFlor.moveTo(x, y);
+                    ctxFlor.lineTo(x, nuevaY);
+                    ctxFlor.lineWidth = 3;
+                    ctxFlor.strokeStyle = '#4a5d23';
+                    ctxFlor.stroke();
+                    nuevaY += altoPaso;
+                    setTimeout(dibujarTallo, 30);
+                } else {
+                    const pasos = 50;
+                    let contador = 0;
+                    function dibujarHojas() {
+                        if (contador <= pasos) {
+                            const petaloY1 = y + 250 - radioYPetalo;
+                            const petaloY2 = y + 200 - radioYPetalo;
+                            dibujarPetalo(x, petaloY1, 15, 2, 300, '#6b8e23', contador);
+                            dibujarPetalo(x - 30, petaloY2, 15, 2, 300, '#6b8e23', contador);
+                            contador++;
+                            setTimeout(dibujarHojas, 30);
+                        } else {
+                            const anguloIncremento = (Math.PI * 2) / numPetalos;
+                            let contadorPetalos = 0;
+                            function dibujarSiguientePetalo() {
+                                if (contadorPetalos <= numPetalos) {
+                                    const angulo = contadorPetalos * anguloIncremento;
+                                    dibujarPetalo(x, y, radioXPetalo, 2, angulo, '#ffd700', 100);
+                                    contadorPetalos++;
+                                    setTimeout(dibujarSiguientePetalo, 150);
+                                } else {
+                                    ctxFlor.beginPath();
+                                    ctxFlor.arc(x, y, 15, 0, Math.PI * 2);
+                                    ctxFlor.fillStyle = '#5c4a1e';
+                                    ctxFlor.fill();
+                                    ctxFlor.beginPath();
+                                    ctxFlor.arc(x, y, 8, 0, Math.PI * 2);
+                                    ctxFlor.fillStyle = '#8B6508';
+                                    ctxFlor.fill();
+
+                                    setTimeout(() => {
+                                        goToBouquet();
+                                    }, 1200);
+                                }
+                            }
+                            dibujarSiguientePetalo();
+                        }
+                    }
+                    dibujarHojas();
+                }
+            };
+            dibujarTallo();
+        }
+
+        document.getElementById('btn-draw').addEventListener('click', () => {
+            screenCarousel.classList.remove('active');
+            swipeHint.classList.add('hidden');
+            dotsContainer.classList.add('hidden');
+            body.classList.add('hide-garden');
+
+            setTimeout(() => {
+                screenDraw.classList.add('active');
+                ctxFlor.clearRect(0, 0, canvasFlor.width, canvasFlor.height);
+                setTimeout(() => {
+                    document.getElementById('draw-text').classList.add('visible');
+                }, 3000);
+                dibujarFlor(400, 200, 12, 25, 80, 250);
+            }, 500);
+        });
+
+        // ==================================================
+        // IR AL RAMO FINAL
+        // ==================================================
+        function goToBouquet() {
+            screenDraw.classList.remove('active');
+            setTimeout(() => {
+                screenBouquet.classList.add('active');
+                setTimeout(() => {
+                    const bouquet = document.getElementById('bouquet-svg');
+                    bouquet.classList.add('visible');
+                    setTimeout(() => bouquet.classList.add('animate'), 300);
+                    setTimeout(() => {
+                        document.getElementById('final-message').classList.add('visible');
+                    }, 1800);
+                    setTimeout(() => {
+                        document.getElementById('btn-restart').classList.add('visible');
+                    }, 2800);
+                }, 400);
+            }, 500);
+        }
+
+        // ==================================================
+        // GENERAR RAMO FINAL
+        // ==================================================
+        const flowersGroup = document.getElementById('flowers-group');
+        const SVG_NS = 'http://www.w3.org/2000/svg';
+
+        const flowerConfigs = [
+            { x: 200, y: 340, petalLen: 38, petalW: 12, centerR: 26, numPetals: 12, delay: 0.6 },
+            { x: 250, y: 300, petalLen: 44, petalW: 14, centerR: 30, numPetals: 12, delay: 0.5 },
+            { x: 300, y: 340, petalLen: 38, petalW: 12, centerR: 26, numPetals: 12, delay: 0.7 },
+            { x: 170, y: 420, petalLen: 32, petalW: 10, centerR: 22, numPetals: 10, delay: 0.8 },
+            { x: 330, y: 420, petalLen: 32, petalW: 10, centerR: 22, numPetals: 10, delay: 0.9 }
+        ];
+
+        flowerConfigs.forEach((cfg) => {
+            const flowerGroup = document.createElementNS(SVG_NS, 'g');
+            flowerGroup.setAttribute('transform', `translate(${cfg.x}, ${cfg.y})`);
+
+            for (let i = 0; i < cfg.numPetals; i++) {
+                const angle = (360 / cfg.numPetals) * i;
+
+                const petalWrapper = document.createElementNS(SVG_NS, 'g');
+                petalWrapper.setAttribute('transform', `rotate(${angle})`);
+
+                const petal = document.createElementNS(SVG_NS, 'ellipse');
+                petal.setAttribute('class', 'bouquet-petal');
+                petal.setAttribute('cx', '0');
+                petal.setAttribute('cy', -cfg.petalLen);
+                petal.setAttribute('rx', cfg.petalW);
+                petal.setAttribute('ry', cfg.petalLen);
+                petal.style.transitionDelay = (cfg.delay + i * 0.04) + 's';
+
+                petalWrapper.appendChild(petal);
+                flowerGroup.appendChild(petalWrapper);
+            }
+
+            const centerOuter = document.createElementNS(SVG_NS, 'circle');
+            centerOuter.setAttribute('class', 'bouquet-center');
+            centerOuter.setAttribute('cx', '0');
+            centerOuter.setAttribute('cy', '0');
+            centerOuter.setAttribute('r', cfg.centerR);
+            centerOuter.style.transitionDelay = (cfg.delay + 0.6) + 's';
+            flowerGroup.appendChild(centerOuter);
+
+            const centerInner = document.createElementNS(SVG_NS, 'circle');
+            centerInner.setAttribute('class', 'bouquet-center');
+            centerInner.setAttribute('cx', '0');
+            centerInner.setAttribute('cy', '0');
+            centerInner.setAttribute('r', cfg.centerR * 0.6);
+            centerInner.setAttribute('fill', '#8B6508');
+            centerInner.style.transitionDelay = (cfg.delay + 0.7) + 's';
+            flowerGroup.appendChild(centerInner);
+
+            flowersGroup.appendChild(flowerGroup);
+        });
+
+        document.querySelectorAll('.bouquet-leaf').forEach((leaf, i) => {
+            leaf.style.transitionDelay = (0.2 + i * 0.1) + 's';
+        });
+
+        // ==================================================
+        // REINICIAR
+        // ==================================================
+        document.getElementById('btn-restart').addEventListener('click', () => {
+            const bouquet = document.getElementById('bouquet-svg');
+            bouquet.classList.remove('visible', 'animate');
+            document.getElementById('final-message').classList.remove('visible');
+            document.getElementById('btn-restart').classList.remove('visible');
+            document.getElementById('draw-text').classList.remove('visible');
+            ctxFlor.clearRect(0, 0, canvasFlor.width, canvasFlor.height);
+
+            cardScenes.forEach(c => c.classList.remove('active', 'exit-left', 'exit-right'));
+            dotsContainer.classList.remove('hidden');
+            swipeHint.classList.remove('hidden');
+            dots.forEach((d, i) => d.classList.toggle('active', i === 0));
+            body.classList.remove('hide-garden');
+
+            currentCard = -1;
+            isAnimating = false;
+
+            screenBouquet.classList.remove('active');
+            setTimeout(() => {
+                screenWelcome.classList.remove('hidden');
+            }, 500);
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (e.target.closest('#screen-carousel')) return;
+            e.preventDefault();
+        }, { passive: false });
+
+    </script>
 </body>
 </html>
