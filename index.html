@@ -24,7 +24,6 @@
         body.theme-sunset { color: #fff; }
         body.theme-night { color: #fff; }
 
-        /* ===== CAPAS DE FONDO ===== */
         .bg-layers { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
         .bg-layer { position: absolute; inset: 0; opacity: 0; transition: opacity 2.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .bg-layer.active { opacity: 1; }
@@ -33,7 +32,6 @@
         .bg-sunset    { background: linear-gradient(135deg, #ff9a76 0%, #d55b8a 45%, #6a4c93 100%); }
         .bg-night     { background: linear-gradient(135deg, #0b0b0b 0%, #1a1a2e 50%, #16213e 100%); }
 
-        /* ===== REJILLAS MÁS PEQUEÑAS Y SUTILES ===== */
         .grid-overlay { position: absolute; inset: 0; transition: opacity 2.4s ease; }
         .grid-day {
             background-image: 
@@ -67,72 +65,18 @@
         .sun-rays { position: absolute; inset: -50%; background: conic-gradient(from 0deg, transparent 0deg, rgba(255, 220, 100, 0.10) 12deg, transparent 24deg, transparent 60deg, rgba(255, 220, 100, 0.07) 72deg, transparent 84deg, transparent 150deg, rgba(255, 220, 100, 0.08) 162deg, transparent 174deg, transparent 240deg, rgba(255, 220, 100, 0.06) 252deg, transparent 264deg); animation: rotateRays 90s linear infinite; transform-origin: 50% 40%; }
         @keyframes rotateRays { to { transform: rotate(360deg); } }
 
-        /* ===== AURORAS MÁS VISIBLES Y CON MÁS MOVIMIENTO ===== */
-        .aurora {
-            position: absolute;
-            top: -25%; left: -30%;
-            width: 160%; height: 95%;
-            pointer-events: none;
-            filter: blur(40px);
-            opacity: 0;
-            transition: opacity 3s ease;
-        }
+        .aurora { position: absolute; top: -25%; left: -30%; width: 160%; height: 95%; pointer-events: none; filter: blur(40px); opacity: 0; transition: opacity 3s ease; }
         .bg-layer.active .aurora { opacity: 1; }
-        .aurora .aurora-band {
-            position: absolute; inset: 0;
-            border-radius: 50%;
-            will-change: transform, opacity;
-        }
-        .aurora .aurora-band:nth-child(1) {
-            background: linear-gradient(90deg, transparent 3%, var(--aurora-c1) 25%, var(--aurora-c2) 50%, var(--aurora-c3) 72%, transparent 97%);
-            animation: auroraWave1 10s ease-in-out infinite;
-        }
-        .aurora .aurora-band:nth-child(2) {
-            background: linear-gradient(90deg, transparent 8%, var(--aurora-c3) 35%, var(--aurora-c1) 60%, transparent 92%);
-            animation: auroraWave2 14s ease-in-out infinite;
-            filter: blur(25px);
-            top: 12%; height: 75%;
-        }
-        .aurora .aurora-band:nth-child(3) {
-            background: linear-gradient(90deg, transparent 12%, var(--aurora-c2) 30%, var(--aurora-c3) 48%, var(--aurora-c1) 68%, transparent 92%);
-            animation: auroraWave3 8s ease-in-out infinite;
-            filter: blur(30px);
-            top: -20%; height: 90%;
-            mix-blend-mode: screen;
-        }
-        @keyframes auroraWave1 {
-            0%, 100% { transform: translateX(-35%) skewY(-12deg) scaleY(0.6) rotate(-4deg); opacity: 1; }
-            25% { transform: translateX(-5%) skewY(-2deg) scaleY(1.15) rotate(0deg); opacity: 1; }
-            50% { transform: translateX(20%) skewY(8deg) scaleY(0.9) rotate(3deg); opacity: 1; }
-            75% { transform: translateX(35%) skewY(14deg) scaleY(1.3) rotate(5deg); opacity: 1; }
-        }
-        @keyframes auroraWave2 {
-            0%, 100% { transform: translateX(35%) skewY(14deg) scaleY(1.35) rotate(4deg); opacity: 1; }
-            25% { transform: translateX(10%) skewY(4deg) scaleY(0.8) rotate(-2deg); opacity: 1; }
-            50% { transform: translateX(-20%) skewY(-8deg) scaleY(1.2) rotate(-4deg); opacity: 1; }
-            75% { transform: translateX(-35%) skewY(-14deg) scaleY(0.85) rotate(-6deg); opacity: 1; }
-        }
-        @keyframes auroraWave3 {
-            0%, 100% { transform: translateX(-25%) skewY(-8deg) scaleY(0.85) scaleX(1); opacity: 1; }
-            25% { transform: translateX(0%) skewY(0deg) scaleY(1.15) scaleX(1.05); opacity: 1; }
-            50% { transform: translateX(25%) skewY(10deg) scaleY(1.3) scaleX(1.1); opacity: 1; }
-            75% { transform: translateX(10%) skewY(4deg) scaleY(0.9) scaleX(1); opacity: 1; }
-        }
-        .bg-sunset .aurora {
-            --aurora-c1: rgba(255, 200, 130, 0.95);
-            --aurora-c2: rgba(235, 130, 220, 0.9);
-            --aurora-c3: rgba(255, 230, 160, 0.85);
-            filter: blur(45px);
-        }
-        .bg-night .aurora {
-            --aurora-c1: rgba(90, 255, 190, 0.95);
-            --aurora-c2: rgba(155, 110, 255, 0.9);
-            --aurora-c3: rgba(90, 230, 255, 0.85);
-            top: -20%; height: 90%;
-            filter: blur(48px);
-        }
+        .aurora .aurora-band { position: absolute; inset: 0; border-radius: 50%; will-change: transform, opacity; }
+        .aurora .aurora-band:nth-child(1) { background: linear-gradient(90deg, transparent 3%, var(--aurora-c1) 25%, var(--aurora-c2) 50%, var(--aurora-c3) 72%, transparent 97%); animation: auroraWave1 10s ease-in-out infinite; }
+        .aurora .aurora-band:nth-child(2) { background: linear-gradient(90deg, transparent 8%, var(--aurora-c3) 35%, var(--aurora-c1) 60%, transparent 92%); animation: auroraWave2 14s ease-in-out infinite; filter: blur(25px); top: 12%; height: 75%; }
+        .aurora .aurora-band:nth-child(3) { background: linear-gradient(90deg, transparent 12%, var(--aurora-c2) 30%, var(--aurora-c3) 48%, var(--aurora-c1) 68%, transparent 92%); animation: auroraWave3 8s ease-in-out infinite; filter: blur(30px); top: -20%; height: 90%; mix-blend-mode: screen; }
+        @keyframes auroraWave1 { 0%, 100% { transform: translateX(-35%) skewY(-12deg) scaleY(0.6) rotate(-4deg); opacity: 1; } 25% { transform: translateX(-5%) skewY(-2deg) scaleY(1.15) rotate(0deg); opacity: 1; } 50% { transform: translateX(20%) skewY(8deg) scaleY(0.9) rotate(3deg); opacity: 1; } 75% { transform: translateX(35%) skewY(14deg) scaleY(1.3) rotate(5deg); opacity: 1; } }
+        @keyframes auroraWave2 { 0%, 100% { transform: translateX(35%) skewY(14deg) scaleY(1.35) rotate(4deg); opacity: 1; } 25% { transform: translateX(10%) skewY(4deg) scaleY(0.8) rotate(-2deg); opacity: 1; } 50% { transform: translateX(-20%) skewY(-8deg) scaleY(1.2) rotate(-4deg); opacity: 1; } 75% { transform: translateX(-35%) skewY(-14deg) scaleY(0.85) rotate(-6deg); opacity: 1; } }
+        @keyframes auroraWave3 { 0%, 100% { transform: translateX(-25%) skewY(-8deg) scaleY(0.85) scaleX(1); opacity: 1; } 25% { transform: translateX(0%) skewY(0deg) scaleY(1.15) scaleX(1.05); opacity: 1; } 50% { transform: translateX(25%) skewY(10deg) scaleY(1.3) scaleX(1.1); opacity: 1; } 75% { transform: translateX(10%) skewY(4deg) scaleY(0.9) scaleX(1); opacity: 1; } }
+        .bg-sunset .aurora { --aurora-c1: rgba(255, 200, 130, 0.95); --aurora-c2: rgba(235, 130, 220, 0.9); --aurora-c3: rgba(255, 230, 160, 0.85); filter: blur(45px); }
+        .bg-night .aurora { --aurora-c1: rgba(90, 255, 190, 0.95); --aurora-c2: rgba(155, 110, 255, 0.9); --aurora-c3: rgba(90, 230, 255, 0.85); top: -20%; height: 90%; filter: blur(48px); }
 
-        /* ===== INTERRUPTOR DE MODOS ===== */
         .mode-switch { position: fixed; top: 20px; left: 0; right: 0; margin: 0 auto; width: fit-content; z-index: 200; display: flex; gap: 6px; background: rgba(255, 254, 249, 0.85); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); padding: 6px; border-radius: 30px; border: 1px solid rgba(184, 134, 11, 0.3); box-shadow: 0 8px 25px rgba(0,0,0,0.08); transition: background 1.2s, border-color 1.2s, box-shadow 1.2s; }
         body.theme-night .mode-switch, body.theme-sunset .mode-switch { background: rgba(30, 30, 40, 0.8); border-color: rgba(255, 215, 0, 0.3); }
         .mode-btn { background: transparent; border: none; padding: 10px 16px; border-radius: 20px; font-family: 'Poppins', sans-serif; font-size: 0.9rem; font-weight: 600; cursor: pointer; color: #6b5b3e; transition: all 0.6s; white-space: nowrap; }
@@ -150,9 +94,6 @@
         .firefly { position: absolute; width: 5px; height: 5px; background: #ffeb3b; border-radius: 50%; box-shadow: 0 0 8px #ffeb3b, 0 0 16px #ffd700, 0 0 24px #ffb347; animation: fireflyFloat 10s ease-in-out infinite; opacity: 0; }
         @keyframes fireflyFloat { 0% { transform: translate(0, 0) scale(0.5); opacity: 0; } 15% { opacity: 1; } 35% { transform: translate(60px, -80px) scale(1.1); opacity: 0.9; } 55% { transform: translate(-40px, -160px) scale(0.8); opacity: 0.6; } 75% { transform: translate(80px, -240px) scale(1); opacity: 0.9; } 100% { transform: translate(0, -320px) scale(0.5); opacity: 0; } }
 
-        /* (estrellas fugaces eliminadas) */
-
-        /* ===== JARDÍN 3D ===== */
         .garden-3d { position: fixed; bottom: 0; left: 0; width: 100%; height: 100vh; z-index: 2; pointer-events: none; display: flex; justify-content: center; align-items: flex-end; perspective: 1000px; overflow: hidden; transition: opacity 0.8s ease, visibility 0.8s; }
         body.hide-garden .garden-3d { opacity: 0; visibility: hidden; }
         .flowers-3d { position: relative; transform: scale(0.6); transform-origin: bottom center; }
@@ -200,7 +141,6 @@
         @keyframes grow-flower-tree { from { height: 0; border-radius: 1vmin; } }
         @keyframes sunflower-seeds { from { opacity: 0; transform: translateY(0vmin) rotate(0deg); } 20% { opacity: 1; transform: translateY(-3vmin) translateX(-1vmin) rotate(45deg); } 40% { opacity: 1; transform: translateY(-8vmin) translateX(1vmin) rotate(90deg); } 60% { transform: translateY(-12vmin) translateX(-1vmin) rotate(135deg); } 80% { transform: translateY(-16vmin) translateX(2vmin) rotate(180deg); opacity: 0.5; } to { transform: translateY(-25vmin) rotate(225deg); opacity: 0; } }
 
-        /* ===== MINI JARDÍN ===== */
         .mini-garden { position: fixed; bottom: 0; left: 0; right: 0; height: 180px; z-index: 3; pointer-events: none; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 15px; opacity: 0.95; transition: opacity 0.6s ease, visibility 0.6s; }
         body.hide-garden .mini-garden { opacity: 0; visibility: hidden; }
         .mini-flower { position: relative; width: 85px; height: 160px; transform-origin: bottom center; animation: miniSway 3s ease-in-out infinite; }
@@ -221,7 +161,6 @@
         .mini-flower__petal:nth-child(7) { transform: rotate(270deg); } .mini-flower__petal:nth-child(8) { transform: rotate(315deg); }
         .mini-flower__center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 24px; height: 24px; background: radial-gradient(circle, #5D4037, #3E2723); border-radius: 50%; z-index: 2; box-shadow: inset 0 0 5px rgba(0,0,0,0.5); }
 
-        /* ===== PÉTALOS Y EMOJIS ===== */
         .falling-layer { position: fixed; inset: 0; pointer-events: none; z-index: 4; overflow: hidden; transition: opacity 0.8s ease; }
         body.hide-falling .falling-layer { opacity: 0; }
         .petal-fall { position: absolute; top: -30px; background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%); border-radius: 60% 0 60% 60%; box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.5); animation: petalFall linear forwards; will-change: transform; }
@@ -342,40 +281,85 @@
         body.theme-sunset .dot, body.theme-afternoon .dot { background: rgba(255, 255, 255, 0.4); }
         body.theme-sunset .dot.active, body.theme-afternoon .dot.active { background: #fff; box-shadow: 0 0 14px rgba(255, 255, 255, 0.9); }
 
-        /* ===== MOBILE ===== */
+        /* ================================================
+           MOBILE - TODO MÁS GRANDE
+           ================================================ */
         @media (max-width: 640px) {
-            .mode-switch { top: 12px; padding: 5px; gap: 3px; }
-            .mode-btn { padding: 8px 11px; font-size: 0.76rem; }
-            .card { padding: 4.5rem 2.2rem; border-radius: 34px; }
-            .card h2 { font-size: clamp(4rem, 15vw, 5.2rem); margin-bottom: 2rem; }
-            .card p { font-size: 1.5rem; line-height: 1.65; margin-bottom: 2.2rem; }
-            .card .footer { font-size: 2.5rem; margin-bottom: 2.2rem; }
-            .card::before { font-size: 2rem; padding: 8px 28px; top: -26px; }
-            .swipe-hint { bottom: 22px; font-size: 1.1rem; }
-            .dots-container { bottom: 85px; gap: 13px; }
-            .dot { width: 15px; height: 15px; }
-            .mini-garden { height: 140px; padding: 0 8px; }
-            .mini-flower { width: 62px; height: 120px; }
-            .mini-flower__stem { height: 78px; width: 5px; }
-            .mini-flower__leaf { width: 24px; height: 14px; bottom: 35px; }
-            .mini-flower__head { width: 52px; height: 52px; }
-            .mini-flower__petal { width: 8px; height: 22px; margin-left: -4px; margin-top: -22px; }
-            .mini-flower__center { width: 18px; height: 18px; }
-            .flowers-3d { transform: scale(0.55); }
-            #screen-welcome h1 { font-size: clamp(5.5rem, 24vw, 8rem); }
-            #screen-welcome p { font-size: clamp(1.6rem, 7.5vw, 2rem); }
-            .btn { padding: 20px 55px; font-size: 1.35rem; }
+            /* Interruptor de modos más grande */
+            .mode-switch { top: 16px; padding: 7px; gap: 5px; }
+            .mode-btn { padding: 11px 15px; font-size: 0.92rem; border-radius: 22px; }
+
+            /* Tarjetas MÁS GRANDES */
+            .card-scene { width: 94%; top: 44%; }
+            .card { padding: 5.2rem 2.6rem; border-radius: 38px; }
+            .card h2 { font-size: clamp(5rem, 19vw, 6.5rem); margin-bottom: 2.4rem; }
+            .card p { font-size: 1.75rem; line-height: 1.6; margin-bottom: 2.6rem; }
+            .card .footer { font-size: 3rem; margin-bottom: 2.6rem; }
+            .card::before { font-size: 2.4rem; padding: 11px 34px; top: -32px; border-radius: 30px; }
+
+            /* Bienvenida MÁS GRANDE */
+            #screen-welcome h1 { font-size: clamp(6.5rem, 28vw, 9rem); margin-bottom: 2.4rem; }
+            #screen-welcome p { font-size: clamp(2rem, 9vw, 2.4rem); margin-bottom: 3.8rem; padding: 0 12px; }
+
+            /* Botones MÁS GRANDES */
+            .btn { padding: 26px 72px; font-size: 1.6rem; border-radius: 60px; }
+
+            /* Hint, dots y mini jardín MÁS GRANDES */
+            .swipe-hint { bottom: 26px; font-size: 1.3rem; gap: 14px; }
+            .swipe-hint .arrow { font-size: 2.3rem; }
+            .dots-container { bottom: 100px; gap: 17px; }
+            .dot { width: 20px; height: 20px; }
+
+            .mini-garden { height: 165px; padding: 0 8px; }
+            .mini-flower { width: 76px; height: 148px; }
+            .mini-flower__stem { height: 92px; width: 6px; }
+            .mini-flower__leaf { width: 28px; height: 16px; bottom: 42px; }
+            .mini-flower__head { width: 64px; height: 64px; }
+            .mini-flower__petal { width: 10px; height: 27px; margin-left: -5px; margin-top: -27px; }
+            .mini-flower__center { width: 22px; height: 22px; }
+
+            /* Jardín 3D más grande en móvil */
+            .flowers-3d { transform: scale(0.62); }
+
+            /* Pantallas internas */
+            #draw-text { font-size: clamp(3rem, 12vw, 4.5rem); }
+            #final-message { font-size: clamp(3.6rem, 15vw, 5.4rem); }
+            #bouquet-svg { max-width: 92vw; max-height: 52vh; }
+            #screen-bouquet .btn { padding: 24px 65px; font-size: 1.5rem; }
         }
+
+        /* Móviles pequeños (hasta 400px) */
         @media (max-width: 400px) {
-            #screen-welcome h1 { font-size: 5.2rem; }
-            #screen-welcome p { font-size: 1.55rem; }
-            .card { padding: 4rem 1.8rem; }
-            .card h2 { font-size: 4.2rem; }
-            .card p { font-size: 1.4rem; }
-            .card .footer { font-size: 2.3rem; }
-            .btn { padding: 18px 44px; font-size: 1.25rem; }
-            .flowers-3d { transform: scale(0.48); }
-            .mode-btn { padding: 7px 9px; font-size: 0.72rem; }
+            .mode-switch { top: 12px; padding: 6px; gap: 4px; }
+            .mode-btn { padding: 10px 12px; font-size: 0.84rem; }
+
+            #screen-welcome h1 { font-size: 6rem; }
+            #screen-welcome p { font-size: 1.85rem; margin-bottom: 3.2rem; }
+
+            .card { padding: 4.6rem 2.1rem; border-radius: 34px; }
+            .card h2 { font-size: 5rem; margin-bottom: 2.1rem; }
+            .card p { font-size: 1.6rem; margin-bottom: 2.3rem; }
+            .card .footer { font-size: 2.7rem; margin-bottom: 2.3rem; }
+            .card::before { font-size: 2.1rem; padding: 9px 28px; top: -28px; }
+
+            .btn { padding: 22px 55px; font-size: 1.45rem; }
+
+            .mini-garden { height: 150px; }
+            .mini-flower { width: 68px; height: 132px; }
+            .mini-flower__stem { height: 82px; width: 5px; }
+            .mini-flower__leaf { width: 25px; height: 14px; bottom: 37px; }
+            .mini-flower__head { width: 57px; height: 57px; }
+            .mini-flower__petal { width: 9px; height: 24px; margin-left: -4.5px; margin-top: -24px; }
+            .mini-flower__center { width: 20px; height: 20px; }
+
+            .flowers-3d { transform: scale(0.52); }
+
+            .swipe-hint { font-size: 1.15rem; bottom: 22px; }
+            .dots-container { bottom: 88px; gap: 15px; }
+            .dot { width: 17px; height: 17px; }
+
+            #draw-text { font-size: 3rem; }
+            #final-message { font-size: 3.8rem; }
         }
 
         /* ===== TABLET (641px - 1023px) ===== */
@@ -632,8 +616,6 @@
             f.style.animationDuration = (Math.random() * 6 + 8) + 's';
             nightFxLayer.appendChild(f);
         }
-
-        // (estrellas fugaces eliminadas)
 
         function addRipple(e) {
             const btn = e.currentTarget;
