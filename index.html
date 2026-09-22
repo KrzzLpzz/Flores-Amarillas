@@ -282,84 +282,77 @@
         body.theme-sunset .dot.active, body.theme-afternoon .dot.active { background: #fff; box-shadow: 0 0 14px rgba(255, 255, 255, 0.9); }
 
         /* ================================================
-           MOBILE - TODO MÁS GRANDE
+           MOBILE - COMPACTO
            ================================================ */
         @media (max-width: 640px) {
-            /* Interruptor de modos más grande */
-            .mode-switch { top: 16px; padding: 7px; gap: 5px; }
-            .mode-btn { padding: 11px 15px; font-size: 0.92rem; border-radius: 22px; }
+            .mode-switch { top: 10px; padding: 4px; gap: 3px; }
+            .mode-btn { padding: 6px 9px; font-size: 0.72rem; border-radius: 16px; }
 
-            /* Tarjetas MÁS GRANDES */
-            .card-scene { width: 94%; top: 44%; }
-            .card { padding: 5.2rem 2.6rem; border-radius: 38px; }
-            .card h2 { font-size: clamp(5rem, 19vw, 6.5rem); margin-bottom: 2.4rem; }
-            .card p { font-size: 1.75rem; line-height: 1.6; margin-bottom: 2.6rem; }
-            .card .footer { font-size: 3rem; margin-bottom: 2.6rem; }
-            .card::before { font-size: 2.4rem; padding: 11px 34px; top: -32px; border-radius: 30px; }
+            .card-scene { width: 94%; top: 46%; }
+            .card { padding: 3rem 1.8rem; border-radius: 26px; }
+            .card h2 { font-size: clamp(3rem, 12vw, 4rem); margin-bottom: 1.4rem; line-height: 1.15; }
+            .card p { font-size: 1.1rem; line-height: 1.55; margin-bottom: 1.5rem; }
+            .card .footer { font-size: 1.9rem; margin-bottom: 1.5rem; }
+            .card::before { font-size: 1.5rem; padding: 7px 20px; top: -20px; border-radius: 20px; }
 
-            /* Bienvenida MÁS GRANDE */
-            #screen-welcome h1 { font-size: clamp(6.5rem, 28vw, 9rem); margin-bottom: 2.4rem; }
-            #screen-welcome p { font-size: clamp(2rem, 9vw, 2.4rem); margin-bottom: 3.8rem; padding: 0 12px; }
+            #screen-welcome h1 { font-size: clamp(3.8rem, 17vw, 5.5rem); margin-bottom: 1.4rem; }
+            #screen-welcome p { font-size: clamp(1.15rem, 5vw, 1.45rem); margin-bottom: 2.2rem; padding: 0 8px; }
 
-            /* Botones MÁS GRANDES */
-            .btn { padding: 26px 72px; font-size: 1.6rem; border-radius: 60px; }
+            .btn { padding: 14px 38px; font-size: 1.05rem; border-radius: 40px; }
 
-            /* Hint, dots y mini jardín MÁS GRANDES */
-            .swipe-hint { bottom: 26px; font-size: 1.3rem; gap: 14px; }
-            .swipe-hint .arrow { font-size: 2.3rem; }
-            .dots-container { bottom: 100px; gap: 17px; }
-            .dot { width: 20px; height: 20px; }
+            .swipe-hint { bottom: 14px; font-size: 0.95rem; gap: 8px; }
+            .swipe-hint .arrow { font-size: 1.5rem; }
+            .dots-container { bottom: 62px; gap: 10px; }
+            .dot { width: 11px; height: 11px; }
 
-            .mini-garden { height: 165px; padding: 0 8px; }
-            .mini-flower { width: 76px; height: 148px; }
-            .mini-flower__stem { height: 92px; width: 6px; }
-            .mini-flower__leaf { width: 28px; height: 16px; bottom: 42px; }
-            .mini-flower__head { width: 64px; height: 64px; }
-            .mini-flower__petal { width: 10px; height: 27px; margin-left: -5px; margin-top: -27px; }
-            .mini-flower__center { width: 22px; height: 22px; }
+            .mini-garden { height: 100px; padding: 0 6px; }
+            .mini-flower { width: 46px; height: 88px; }
+            .mini-flower__stem { height: 55px; width: 4px; }
+            .mini-flower__leaf { width: 17px; height: 10px; bottom: 24px; }
+            .mini-flower__head { width: 38px; height: 38px; }
+            .mini-flower__petal { width: 6px; height: 16px; margin-left: -3px; margin-top: -16px; }
+            .mini-flower__center { width: 13px; height: 13px; }
 
-            /* Jardín 3D más grande en móvil */
-            .flowers-3d { transform: scale(0.62); }
+            .flowers-3d { transform: scale(0.48); }
 
-            /* Pantallas internas */
-            #draw-text { font-size: clamp(3rem, 12vw, 4.5rem); }
-            #final-message { font-size: clamp(3.6rem, 15vw, 5.4rem); }
-            #bouquet-svg { max-width: 92vw; max-height: 52vh; }
-            #screen-bouquet .btn { padding: 24px 65px; font-size: 1.5rem; }
+            #draw-text { font-size: clamp(2rem, 8.5vw, 2.8rem); }
+            #final-message { font-size: clamp(2.2rem, 9vw, 3.2rem); }
+            #bouquet-svg { max-width: 88vw; max-height: 48vh; }
+            #screen-bouquet .btn { padding: 14px 38px; font-size: 1.05rem; }
         }
 
-        /* Móviles pequeños (hasta 400px) */
+        /* Móviles pequeños */
         @media (max-width: 400px) {
-            .mode-switch { top: 12px; padding: 6px; gap: 4px; }
-            .mode-btn { padding: 10px 12px; font-size: 0.84rem; }
+            .mode-switch { top: 8px; padding: 3px; gap: 2px; }
+            .mode-btn { padding: 5px 7px; font-size: 0.66rem; }
 
-            #screen-welcome h1 { font-size: 6rem; }
-            #screen-welcome p { font-size: 1.85rem; margin-bottom: 3.2rem; }
+            #screen-welcome h1 { font-size: 3.6rem; }
+            #screen-welcome p { font-size: 1.1rem; margin-bottom: 1.9rem; }
 
-            .card { padding: 4.6rem 2.1rem; border-radius: 34px; }
-            .card h2 { font-size: 5rem; margin-bottom: 2.1rem; }
-            .card p { font-size: 1.6rem; margin-bottom: 2.3rem; }
-            .card .footer { font-size: 2.7rem; margin-bottom: 2.3rem; }
-            .card::before { font-size: 2.1rem; padding: 9px 28px; top: -28px; }
+            .card { padding: 2.6rem 1.5rem; border-radius: 24px; }
+            .card h2 { font-size: 3rem; margin-bottom: 1.2rem; }
+            .card p { font-size: 1rem; margin-bottom: 1.3rem; }
+            .card .footer { font-size: 1.7rem; margin-bottom: 1.3rem; }
+            .card::before { font-size: 1.3rem; padding: 6px 16px; top: -18px; }
 
-            .btn { padding: 22px 55px; font-size: 1.45rem; }
+            .btn { padding: 12px 32px; font-size: 0.98rem; }
 
-            .mini-garden { height: 150px; }
-            .mini-flower { width: 68px; height: 132px; }
-            .mini-flower__stem { height: 82px; width: 5px; }
-            .mini-flower__leaf { width: 25px; height: 14px; bottom: 37px; }
-            .mini-flower__head { width: 57px; height: 57px; }
-            .mini-flower__petal { width: 9px; height: 24px; margin-left: -4.5px; margin-top: -24px; }
-            .mini-flower__center { width: 20px; height: 20px; }
+            .mini-garden { height: 88px; }
+            .mini-flower { width: 40px; height: 78px; }
+            .mini-flower__stem { height: 48px; width: 3px; }
+            .mini-flower__leaf { width: 15px; height: 9px; bottom: 21px; }
+            .mini-flower__head { width: 34px; height: 34px; }
+            .mini-flower__petal { width: 5px; height: 14px; margin-left: -2.5px; margin-top: -14px; }
+            .mini-flower__center { width: 11px; height: 11px; }
 
-            .flowers-3d { transform: scale(0.52); }
+            .flowers-3d { transform: scale(0.42); }
 
-            .swipe-hint { font-size: 1.15rem; bottom: 22px; }
-            .dots-container { bottom: 88px; gap: 15px; }
-            .dot { width: 17px; height: 17px; }
+            .swipe-hint { font-size: 0.85rem; bottom: 12px; }
+            .dots-container { bottom: 54px; gap: 9px; }
+            .dot { width: 10px; height: 10px; }
 
-            #draw-text { font-size: 3rem; }
-            #final-message { font-size: 3.8rem; }
+            #draw-text { font-size: 1.9rem; }
+            #final-message { font-size: 2.2rem; }
         }
 
         /* ===== TABLET (641px - 1023px) ===== */
