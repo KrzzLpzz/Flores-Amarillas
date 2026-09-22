@@ -12,30 +12,75 @@
             height: 100%; overflow: hidden;
             font-family: 'Poppins', sans-serif;
             touch-action: none; user-select: none;
-            transition: background 2.5s ease-in-out, color 1.8s ease;
+            background: #0b0b0b; /* fallback */
         }
-        body.theme-day { background: linear-gradient(135deg, #fdfbf7 0%, #f4e8c1 100%); color: #5c4a1e; }
-        body.theme-sunset { background: linear-gradient(135deg, #ffd89b 0%, #ff9a76 40%, #b06a8c 70%, #5a3d7a 100%); color: #fff; }
-        body.theme-night { background: #0b0b0b; color: #fff; }
+        body { transition: color 2s ease; }
+        body.theme-day { color: #5c4a1e; }
+        body.theme-afternoon { color: #5a3d2b; }
+        body.theme-sunset { color: #fff; }
+        body.theme-night { color: #fff; }
 
-        /* Rejillas decorativas */
-        body::before {
-            content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
-            transition: opacity 2.5s ease;
+        /* ===== CAPAS DE FONDO (STACKED PARA TRANSICIÓN SUAVE) ===== */
+        .bg-layers {
+            position: fixed; inset: 0; z-index: 0;
+            pointer-events: none; overflow: hidden;
+        }
+        .bg-layer {
+            position: absolute; inset: 0;
             opacity: 0;
+            transition: opacity 2.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        body.theme-sunset::before {
-            background-image: repeating-linear-gradient(220deg, rgba(0,0,0,0.06) 0px, rgba(0,0,0,0.06) 19px, transparent 19px, transparent 22px);
-            opacity: 0.5;
+        .bg-layer.active { opacity: 1; }
+
+        .bg-day       { background: linear-gradient(135deg, #fdfbf7 0%, #f4e8c1 100%); }
+        .bg-afternoon { background: linear-gradient(135deg, #fff3d6 0%, #ffd89b 40%, #ffab6e 100%); }
+        .bg-sunset    { background: linear-gradient(135deg, #ff9a76 0%, #d55b8a 45%, #6a4c93 100%); }
+        .bg-night     { background: linear-gradient(135deg, #0b0b0b 0%, #1a1a2e 50%, #16213e 100%); }
+
+        /* Rejillas decorativas (una por tema) */
+        .grid-overlay {
+            position: absolute; inset: 0;
+            transition: opacity 2.4s ease;
         }
-        body.theme-night::before {
+        .grid-day {
             background-image: 
-                repeating-linear-gradient(220deg, rgba(0,0,0,0.8) 0px, rgba(0,0,0,0.8) 19px, transparent 19px, transparent 22px),
-                repeating-linear-gradient(189deg, rgba(0,0,0,0.8) 0px, rgba(0,0,0,0.8) 19px, transparent 19px, transparent 22px),
-                repeating-linear-gradient(148deg, rgba(0,0,0,0.8) 0px, rgba(0,0,0,0.8) 19px, transparent 19px, transparent 22px),
-                linear-gradient(90deg, #1a1a2e, #16213e);
-            opacity: 0.6;
+                repeating-linear-gradient(220deg, rgba(184, 134, 11, 0.05) 0px, rgba(184, 134, 11, 0.05) 19px, transparent 19px, transparent 24px),
+                repeating-linear-gradient(148deg, rgba(184, 134, 11, 0.04) 0px, rgba(184, 134, 11, 0.04) 19px, transparent 19px, transparent 24px);
+            opacity: 1;
         }
+        .grid-afternoon {
+            background-image: 
+                repeating-linear-gradient(220deg, rgba(139, 69, 19, 0.07) 0px, rgba(139, 69, 19, 0.07) 19px, transparent 19px, transparent 24px),
+                repeating-linear-gradient(148deg, rgba(139, 69, 19, 0.05) 0px, rgba(139, 69, 19, 0.05) 19px, transparent 19px, transparent 24px);
+            opacity: 1;
+        }
+        .grid-sunset {
+            background-image: 
+                repeating-linear-gradient(220deg, rgba(0, 0, 0, 0.08) 0px, rgba(0, 0, 0, 0.08) 19px, transparent 19px, transparent 24px),
+                repeating-linear-gradient(148deg, rgba(0, 0, 0, 0.06) 0px, rgba(0, 0, 0, 0.06) 19px, transparent 19px, transparent 24px);
+            opacity: 1;
+        }
+        .grid-night {
+            background-image: 
+                repeating-linear-gradient(220deg, rgba(0, 0, 0, 0.7) 0px, rgba(0, 0, 0, 0.7) 19px, transparent 19px, transparent 24px),
+                repeating-linear-gradient(189deg, rgba(0, 0, 0, 0.7) 0px, rgba(0, 0, 0, 0.7) 19px, transparent 19px, transparent 24px),
+                repeating-linear-gradient(148deg, rgba(0, 0, 0, 0.7) 0px, rgba(0, 0, 0, 0.7) 19px, transparent 19px, transparent 24px);
+            opacity: 1;
+        }
+
+        /* Estrellas en la noche */
+        .bg-night .stars {
+            position: absolute; inset: 0;
+            background-image: 
+                radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.7), transparent),
+                radial-gradient(1px 1px at 60% 70%, rgba(255,255,255,0.5), transparent),
+                radial-gradient(1.5px 1.5px at 80% 20%, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 40% 90%, rgba(255,255,255,0.6), transparent),
+                radial-gradient(1px 1px at 90% 60%, rgba(255,255,255,0.7), transparent),
+                radial-gradient(1px 1px at 10% 80%, rgba(255,255,255,0.5), transparent);
+            animation: twinkle 4s ease-in-out infinite;
+        }
+        @keyframes twinkle { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
 
         /* ===== INTERRUPTOR DE MODOS ===== */
         .mode-switch {
@@ -43,25 +88,31 @@
             z-index: 200;
             display: flex; gap: 6px;
             background: rgba(255, 254, 249, 0.8);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
             padding: 6px; border-radius: 30px;
             border: 1px solid rgba(184, 134, 11, 0.3);
             box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-            transition: background 1.5s, border-color 1.5s;
+            transition: background 1.2s, border-color 1.2s, box-shadow 1.2s;
+        }
+        body.theme-night .mode-switch,
+        body.theme-sunset .mode-switch {
+            background: rgba(30, 30, 40, 0.75);
+            border-color: rgba(255, 215, 0, 0.3);
         }
         .mode-btn {
             background: transparent; border: none;
             padding: 10px 16px; border-radius: 20px;
             font-family: 'Poppins', sans-serif; font-size: 0.9rem;
             font-weight: 600; cursor: pointer;
-            color: #6b5b3e; transition: all 0.5s;
+            color: #6b5b3e; transition: all 0.6s;
             white-space: nowrap;
         }
+        body.theme-night .mode-btn,
+        body.theme-sunset .mode-btn { color: #e0e0e0; }
         .mode-btn.active { background: #b8860b; color: #fff; }
-        .mode-btn:hover:not(.active) { background: rgba(184, 134, 11, 0.15); }
-        body.theme-night .mode-switch { background: rgba(30, 30, 40, 0.8); border-color: rgba(255, 215, 0, 0.3); }
-        body.theme-night .mode-btn { color: #e0e0e0; }
         body.theme-night .mode-btn.active { background: #ffd700; color: #111; }
+        body.theme-sunset .mode-btn.active { background: #d55b8a; color: #fff; }
+        .mode-btn:hover:not(.active) { background: rgba(184, 134, 11, 0.15); }
 
         /* ===== JARDÍN 3D DE FONDO ===== */
         .garden-3d {
@@ -174,7 +225,6 @@
         }
         body.hide-garden .mini-garden { opacity: 0; visibility: hidden; }
 
-        /* Estilos de la flor mini (reutilizables) */
         .mini-flower { position: relative; width: 80px; height: 150px; transform-origin: bottom center; animation: miniSway 3s ease-in-out infinite; }
         .mini-flower:nth-child(1) { animation-delay: 0s; } .mini-flower:nth-child(2) { animation-delay: 0.7s; }
         .mini-flower:nth-child(3) { animation-delay: 1.4s; } .mini-flower:nth-child(4) { animation-delay: 2.1s; }
@@ -229,7 +279,7 @@
             100% { transform: translateY(115vh) translateX(-60px) rotate(-360deg) scale(1.1); opacity: 0; }
         }
 
-        /* ===== FLORES DISPERSAS (MINI-JARDÍN EN EL FONDO DEL RAMO) ===== */
+        /* ===== FLORES DISPERSAS (MINI-JARDÍN DE FONDO EN EL RAMO) ===== */
         .scattered-garden {
             position: fixed; inset: 0; pointer-events: none;
             z-index: 1; opacity: 0;
@@ -263,7 +313,7 @@
             color: #b8860b; margin-bottom: 2rem; line-height: 1.05;
             text-shadow: 0 4px 25px rgba(255, 215, 0, 0.5), 0 0 50px rgba(255, 215, 0, 0.35);
             animation: fadeInUp 1.2s ease;
-            transition: color 1.2s;
+            transition: color 1.5s, text-shadow 1.5s;
         }
         body.theme-night #screen-welcome h1 { color: #ffd700; text-shadow: 0 4px 25px rgba(255, 215, 0, 0.6), 0 0 50px rgba(255, 215, 0, 0.4); }
         body.theme-sunset #screen-welcome h1 { color: #fff7d6; text-shadow: 0 4px 25px rgba(255, 255, 255, 0.4), 0 0 50px rgba(255, 215, 0, 0.4); }
@@ -271,10 +321,11 @@
             font-size: clamp(1.6rem, 7vw, 2.4rem);
             color: #6b5b3e; margin-bottom: 3.5rem; max-width: 750px; line-height: 1.5;
             animation: fadeInUp 1.2s ease 0.3s backwards;
-            transition: color 1.2s;
+            transition: color 1.5s;
         }
         body.theme-night #screen-welcome p { color: #e0e0e0; }
-        body.theme-sunset #screen-welcome p { color: #fff; }
+        body.theme-sunset #screen-welcome p,
+        body.theme-afternoon #screen-welcome p { color: #fff; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ===== BOTONES ===== */
@@ -320,7 +371,8 @@
             transition: background 1.2s, border-color 1.2s, box-shadow 1.2s;
         }
         body.theme-night .card { background: rgba(30, 30, 40, 0.88); border-color: rgba(255, 215, 0, 0.35); box-shadow: 0 20px 50px rgba(0,0,0,0.55); }
-        body.theme-sunset .card { background: rgba(255, 250, 240, 0.88); border-color: rgba(255, 200, 100, 0.6); box-shadow: 0 20px 50px rgba(139, 69, 19, 0.25); }
+        body.theme-sunset .card { background: rgba(255, 250, 240, 0.9); border-color: rgba(255, 200, 100, 0.6); box-shadow: 0 20px 50px rgba(139, 69, 19, 0.25); }
+        body.theme-afternoon .card { background: rgba(255, 252, 240, 0.9); border-color: rgba(255, 180, 100, 0.55); }
         .card::before {
             content: '🌻 💛 🌻';
             position: absolute; top: -28px; left: 50%; transform: translateX(-50%);
@@ -331,7 +383,8 @@
             transition: background 1.2s;
         }
         body.theme-night .card::before { background: rgba(30, 30, 40, 0.98); }
-        body.theme-sunset .card::before { background: rgba(255, 250, 240, 0.98); }
+        body.theme-sunset .card::before,
+        body.theme-afternoon .card::before { background: rgba(255, 252, 240, 0.98); }
         .card h2 {
             font-family: 'Great Vibes', cursive;
             font-size: clamp(3.8rem, 16vw, 6rem);
@@ -340,6 +393,7 @@
         }
         body.theme-night .card h2 { color: #ffd700; }
         body.theme-sunset .card h2 { color: #c25b1e; }
+        body.theme-afternoon .card h2 { color: #c25b1e; }
         .card p {
             font-size: clamp(1.4rem, 6vw, 1.9rem);
             line-height: 1.6; color: #6b5b3e; margin-bottom: 2.5rem;
@@ -347,6 +401,7 @@
         }
         body.theme-night .card p { color: #e0e0e0; }
         body.theme-sunset .card p { color: #5a3d2b; }
+        body.theme-afternoon .card p { color: #5a3d2b; }
         .card .footer {
             font-family: 'Great Vibes', cursive;
             font-size: clamp(2.4rem, 10vw, 3.5rem);
@@ -354,7 +409,8 @@
             transition: color 1.2s;
         }
         body.theme-night .card .footer { color: #ffd700; }
-        body.theme-sunset .card .footer { color: #c25b1e; }
+        body.theme-sunset .card .footer,
+        body.theme-afternoon .card .footer { color: #c25b1e; }
 
         /* ===== PANTALLA DIBUJO ===== */
         #screen-draw {
@@ -373,7 +429,8 @@
         }
         #draw-text.visible { opacity: 1; }
         body.theme-night #draw-text { color: #ffd700; }
-        body.theme-sunset #draw-text { color: #c25b1e; }
+        body.theme-sunset #draw-text,
+        body.theme-afternoon #draw-text { color: #fff; text-shadow: 0 2px 15px rgba(0,0,0,0.3); }
 
         /* ===== RAMO FINAL ===== */
         #screen-bouquet {
@@ -405,12 +462,13 @@
             font-size: clamp(3rem, 12vw, 4.8rem);
             color: #b8860b; text-align: center; margin: 2rem 0;
             opacity: 0; transform: translateY(20px);
-            transition: opacity 1s ease 1.5s, transform 1s ease 1.5s, color 1.2s;
+            transition: opacity 1s ease 1.5s, transform 1s ease 1.5s, color 1.5s;
             position: relative; z-index: 5;
         }
         #final-message.visible { opacity: 1; transform: translateY(0); }
         body.theme-night #final-message { color: #ffd700; }
-        body.theme-sunset #final-message { color: #fff; text-shadow: 0 2px 15px rgba(0,0,0,0.3); }
+        body.theme-sunset #final-message,
+        body.theme-afternoon #final-message { color: #fff; text-shadow: 0 2px 15px rgba(0,0,0,0.3); }
         #screen-bouquet .btn { opacity: 0; transform: translateY(20px); transition: opacity 1s ease 2.5s, transform 1s ease 2.5s, background 0.6s, box-shadow 0.6s; position: relative; z-index: 5; }
         #screen-bouquet .btn.visible { opacity: 1; transform: translateY(0); }
         #screen-bouquet .btn.visible:hover { transform: translateY(-3px); }
@@ -422,22 +480,25 @@
             color: #b8860b; font-weight: 600; opacity: 0.85;
             animation: pulseHint 2s infinite; pointer-events: none;
             display: flex; align-items: center; gap: 12px; white-space: nowrap;
-            transition: color 1.2s;
+            transition: color 1.5s;
         }
         body.theme-night .swipe-hint { color: #ffd700; }
-        body.theme-sunset .swipe-hint { color: #fff; }
+        body.theme-sunset .swipe-hint,
+        body.theme-afternoon .swipe-hint { color: #fff; }
         .swipe-hint .arrow { font-size: 1.8rem; animation: swipeArrow 2s infinite; }
         @keyframes pulseHint { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
         @keyframes swipeArrow { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-10px); } }
         .swipe-hint.hidden { opacity: 0; }
         .dots-container { position: fixed; bottom: 95px; left: 50%; transform: translateX(-50%); display: flex; gap: 14px; z-index: 15; transition: opacity 0.5s ease; }
         .dots-container.hidden { opacity: 0; }
-        .dot { width: 16px; height: 16px; border-radius: 50%; background: rgba(184, 134, 11, 0.35); transition: background 0.6s ease, transform 0.4s ease; }
+        .dot { width: 16px; height: 16px; border-radius: 50%; background: rgba(184, 134, 11, 0.35); transition: background 0.8s ease, transform 0.4s ease; }
         .dot.active { background: #b8860b; transform: scale(1.4); box-shadow: 0 0 14px rgba(184, 134, 11, 0.7); }
         body.theme-night .dot { background: rgba(255, 215, 0, 0.35); }
         body.theme-night .dot.active { background: #ffd700; box-shadow: 0 0 14px rgba(255, 215, 0, 0.9); }
-        body.theme-sunset .dot { background: rgba(255, 255, 255, 0.4); }
-        body.theme-sunset .dot.active { background: #fff; box-shadow: 0 0 14px rgba(255, 255, 255, 0.9); }
+        body.theme-sunset .dot,
+        body.theme-afternoon .dot { background: rgba(255, 255, 255, 0.4); }
+        body.theme-sunset .dot.active,
+        body.theme-afternoon .dot.active { background: #fff; box-shadow: 0 0 14px rgba(255, 255, 255, 0.9); }
 
         /* ===== MOBILE ===== */
         @media (max-width: 640px) {
@@ -472,12 +533,20 @@
 </head>
 <body class="theme-day">
 
+    <!-- Capas de fondo apiladas (transición suave) -->
+    <div class="bg-layers">
+        <div class="bg-layer bg-day active"><div class="grid-overlay grid-day"></div></div>
+        <div class="bg-layer bg-afternoon"><div class="grid-overlay grid-afternoon"></div></div>
+        <div class="bg-layer bg-sunset"><div class="grid-overlay grid-sunset"></div></div>
+        <div class="bg-layer bg-night"><div class="grid-overlay grid-night"></div><div class="stars"></div></div>
+    </div>
+
     <!-- Interruptor de modos -->
     <div class="mode-switch">
-        <button class="mode-btn active" data-mode="day">☀️ Día</button>
+        <button class="mode-btn" data-mode="day">☀️ Día</button>
         <button class="mode-btn" data-mode="sunset">🌅 Atardecer</button>
         <button class="mode-btn" data-mode="night">🌙 Noche</button>
-        <button class="mode-btn" data-mode="auto">✨ Auto</button>
+        <button class="mode-btn active" data-mode="auto">✨ Auto</button>
     </div>
 
     <!-- Capa de pétalos y emojis cayendo -->
@@ -596,14 +665,12 @@
                 </div>`;
         }
 
-        // Poblar el mini jardín inferior
         const miniGardenBar = document.getElementById('mini-garden');
         for (let i = 0; i < 6; i++) miniGardenBar.innerHTML += createMiniFlowerHTML();
 
-        // ============ GENERAR FLORES DISPERSAS (MINI-JARDÍN EN EL RAMO) ============
+        // ============ FLORES DISPERSAS (FONDO DEL RAMO) ============
         const scatteredGarden = document.getElementById('scattered-garden');
-        const totalScattered = 24;
-        for (let i = 0; i < totalScattered; i++) {
+        for (let i = 0; i < 24; i++) {
             const wrapper = document.createElement('div');
             wrapper.className = 'scattered-flower';
             const size = Math.random() * 0.7 + 0.5;
@@ -681,52 +748,50 @@
 
         setInterval(spawnPetal, 450);
         setInterval(spawnEmoji, 900);
-        // Población inicial
         for (let i = 0; i < 8; i++) setTimeout(spawnPetal, i * 250);
         for (let i = 0; i < 5; i++) setTimeout(spawnEmoji, i * 500);
 
-        // ============ INTERRUPTOR DE MODOS ============
+        // ============ SISTEMA DE TEMAS ============
         const body = document.body;
-        let autoTimer = null;
-        let autoStep = 0;
-        const autoSequence = ['day', 'sunset', 'night'];
         const modeButtons = document.querySelectorAll('.mode-btn');
+        const autoThemes = ['day', 'afternoon', 'sunset', 'night']; // Progresión por tarjeta
+        let currentMode = 'auto'; // 'day' | 'sunset' | 'night' | 'auto'
+        let currentTheme = 'day';
+
+        function setTheme(themeName) {
+            if (themeName === currentTheme) return;
+            currentTheme = themeName;
+            // Cambiar capa de fondo activa (transición suave por opacidad)
+            document.querySelectorAll('.bg-layer').forEach(layer => {
+                layer.classList.toggle('active', layer.classList.contains('bg-' + themeName));
+            });
+            // Cambiar clase del body para los colores de texto
+            body.classList.remove('theme-day', 'theme-afternoon', 'theme-sunset', 'theme-night');
+            body.classList.add('theme-' + themeName);
+        }
 
         function setActiveButton(mode) {
             modeButtons.forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
         }
 
-        function applyTheme(mode, isAuto = false) {
-            body.classList.remove('theme-day', 'theme-sunset', 'theme-night');
-            // Forzar reflow para que la transición se reinicie
-            void body.offsetWidth;
-            body.classList.add('theme-' + mode);
-            if (!isAuto) setActiveButton(mode);
-        }
-
-        function stopAuto() {
-            if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
-        }
-
-        function startAuto() {
-            stopAuto();
-            autoStep = 0;
-            applyTheme(autoSequence[autoStep], true);
-            setActiveButton('auto');
-            autoTimer = setInterval(() => {
-                autoStep = (autoStep + 1) % autoSequence.length;
-                applyTheme(autoSequence[autoStep], true);
-            }, 6000); // 6 segundos por tema
+        // Aplicar el tema correspondiente a la tarjeta actual (solo en modo Auto)
+        function applyAutoThemeForCard(cardIndex) {
+            if (currentMode !== 'auto') return;
+            const theme = autoThemes[Math.min(cardIndex, autoThemes.length - 1)];
+            setTheme(theme);
         }
 
         modeButtons.forEach(btn => {
             btn.addEventListener('click', () => {
                 const mode = btn.dataset.mode;
+                setActiveButton(mode);
                 if (mode === 'auto') {
-                    startAuto();
+                    currentMode = 'auto';
+                    // Aplicar el tema según la tarjeta actual
+                    applyAutoThemeForCard(currentCard >= 0 ? currentCard : 0);
                 } else {
-                    stopAuto();
-                    applyTheme(mode);
+                    currentMode = mode;
+                    setTheme(mode);
                 }
             });
         });
@@ -769,6 +834,8 @@
                 setTimeout(() => prevEl.classList.remove(direction), 600);
             }
             currentCard = nextCard;
+            // En modo Auto, el fondo avanza con la tarjeta
+            applyAutoThemeForCard(nextCard);
             setTimeout(() => {
                 cardScenes[nextCard].classList.add('active');
                 dots.forEach((dot, i) => dot.classList.toggle('active', i === nextCard));
@@ -908,7 +975,6 @@
         function goToBouquet() {
             screenDraw.classList.remove('active');
             setTimeout(() => {
-                // Reactivar pétalos/emojis, mantener oculto el jardín, mostrar flores dispersas
                 body.classList.remove('hide-falling');
                 body.classList.add('hide-garden');
                 document.getElementById('scattered-garden').classList.add('visible');
@@ -981,6 +1047,10 @@
             dots.forEach((d, i) => d.classList.toggle('active', i === 0));
             body.classList.remove('hide-garden', 'hide-falling');
             currentCard = -1; isAnimating = false;
+            // Resetear al modo auto y tema día
+            currentMode = 'auto';
+            setActiveButton('auto');
+            setTheme('day');
             screenBouquet.classList.remove('active');
             setTimeout(() => screenWelcome.classList.remove('hidden'), 500);
         });
