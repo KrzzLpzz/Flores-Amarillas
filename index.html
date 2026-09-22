@@ -12,7 +12,7 @@
             height: 100%; overflow: hidden;
             font-family: 'Poppins', sans-serif;
             touch-action: none; user-select: none;
-            background: #0b0b0b; /* fallback */
+            background: #0b0b0b;
         }
         body { transition: color 2s ease; }
         body.theme-day { color: #5c4a1e; }
@@ -37,7 +37,6 @@
         .bg-sunset    { background: linear-gradient(135deg, #ff9a76 0%, #d55b8a 45%, #6a4c93 100%); }
         .bg-night     { background: linear-gradient(135deg, #0b0b0b 0%, #1a1a2e 50%, #16213e 100%); }
 
-        /* Rejillas decorativas (una por tema) */
         .grid-overlay {
             position: absolute; inset: 0;
             transition: opacity 2.4s ease;
@@ -68,7 +67,6 @@
             opacity: 1;
         }
 
-        /* Estrellas en la noche */
         .bg-night .stars {
             position: absolute; inset: 0;
             background-image: 
@@ -352,9 +350,10 @@
         #screen-carousel.active { opacity: 1; visibility: visible; }
         #carousel { position: relative; width: 100%; height: 100vh; overflow: hidden; }
         .card-scene {
-            position: absolute; top: 50%; left: 50%;
+            position: absolute; top: 45%;
+            left: 50%;
             transform: translate(-50%, -50%) scale(0.9);
-            width: 96%; max-width: 780px;
+            width: 96%; max-width: 880px;
             opacity: 0; pointer-events: none; visibility: hidden;
             transition: opacity 0.6s ease, transform 0.6s ease;
         }
@@ -365,7 +364,8 @@
             background: rgba(255, 254, 249, 0.88);
             backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 215, 0, 0.5);
-            border-radius: 36px; padding: 5rem 3.5rem;
+            border-radius: 40px;
+            padding: 5.5rem 4rem;
             box-shadow: 0 20px 50px rgba(139, 101, 8, 0.18), inset 0 0 25px rgba(255, 215, 0, 0.1);
             text-align: center; position: relative;
             transition: background 1.2s, border-color 1.2s, box-shadow 1.2s;
@@ -375,9 +375,9 @@
         body.theme-afternoon .card { background: rgba(255, 252, 240, 0.9); border-color: rgba(255, 180, 100, 0.55); }
         .card::before {
             content: '🌻 💛 🌻';
-            position: absolute; top: -28px; left: 50%; transform: translateX(-50%);
+            position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
             background: rgba(255, 254, 249, 0.98);
-            padding: 10px 38px; font-size: 2.3rem; border-radius: 30px;
+            padding: 10px 42px; font-size: 2.5rem; border-radius: 32px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
             border: 1px solid rgba(255, 215, 0, 0.4);
             transition: background 1.2s;
@@ -387,16 +387,16 @@
         body.theme-afternoon .card::before { background: rgba(255, 252, 240, 0.98); }
         .card h2 {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(3.8rem, 16vw, 6rem);
-            color: #b8860b; margin-bottom: 2.2rem; line-height: 1.15;
+            font-size: clamp(4.2rem, 17vw, 6.5rem);
+            color: #b8860b; margin-bottom: 2.4rem; line-height: 1.15;
             transition: color 1.2s;
         }
         body.theme-night .card h2 { color: #ffd700; }
         body.theme-sunset .card h2 { color: #c25b1e; }
         body.theme-afternoon .card h2 { color: #c25b1e; }
         .card p {
-            font-size: clamp(1.4rem, 6vw, 1.9rem);
-            line-height: 1.6; color: #6b5b3e; margin-bottom: 2.5rem;
+            font-size: clamp(1.5rem, 6.2vw, 2rem);
+            line-height: 1.65; color: #6b5b3e; margin-bottom: 2.7rem;
             transition: color 1.2s;
         }
         body.theme-night .card p { color: #e0e0e0; }
@@ -404,7 +404,7 @@
         body.theme-afternoon .card p { color: #5a3d2b; }
         .card .footer {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(2.4rem, 10vw, 3.5rem);
+            font-size: clamp(2.6rem, 11vw, 3.8rem);
             color: #b8860b; margin-bottom: 2.5rem;
             transition: color 1.2s;
         }
@@ -504,9 +504,9 @@
         @media (max-width: 640px) {
             .mode-switch { top: 12px; padding: 5px; }
             .mode-btn { padding: 7px 10px; font-size: 0.72rem; }
-            .card { padding: 3.5rem 2rem; border-radius: 28px; }
-            .card p { font-size: 1.25rem; }
-            .card::before { font-size: 1.6rem; padding: 6px 22px; top: -20px; }
+            .card { padding: 3.8rem 2rem; border-radius: 30px; }
+            .card p { font-size: 1.3rem; }
+            .card::before { font-size: 1.7rem; padding: 6px 24px; top: -22px; }
             .swipe-hint { bottom: 15px; font-size: 1rem; }
             .dots-container { bottom: 70px; }
             .mini-garden { height: 110px; padding: 0 10px; }
@@ -522,9 +522,9 @@
             #screen-welcome h1 { font-size: 4.5rem; }
             #screen-welcome p { font-size: 1.35rem; }
             .card { padding: 3rem 1.6rem; }
-            .card h2 { font-size: 3.2rem; }
+            .card h2 { font-size: 3.4rem; }
             .card p { font-size: 1.2rem; }
-            .card .footer { font-size: 2rem; }
+            .card .footer { font-size: 2.1rem; }
             .btn { padding: 16px 40px; font-size: 1.2rem; }
             .flowers-3d { transform: scale(0.4); }
             .mode-btn { padding: 6px 8px; font-size: 0.68rem; }
@@ -533,7 +533,7 @@
 </head>
 <body class="theme-day">
 
-    <!-- Capas de fondo apiladas (transición suave) -->
+    <!-- Capas de fondo apiladas -->
     <div class="bg-layers">
         <div class="bg-layer bg-day active"><div class="grid-overlay grid-day"></div></div>
         <div class="bg-layer bg-afternoon"><div class="grid-overlay grid-afternoon"></div></div>
@@ -552,7 +552,7 @@
     <!-- Capa de pétalos y emojis cayendo -->
     <div class="falling-layer" id="falling-layer"></div>
 
-    <!-- Flores dispersas (mini-jardín de fondo en el ramo) -->
+    <!-- Flores dispersas (fondo del ramo) -->
     <div class="scattered-garden" id="scattered-garden"></div>
 
     <!-- Jardín 3D de fondo -->
@@ -576,31 +576,31 @@
             <div class="card-scene" data-index="0">
                 <div class="card">
                     <h2>Para Valeria</h2>
-                    <p>No hacen falta muchas palabras... solo quería dejarte un poquito de cariño en forma de flores. 🌻</p>
-                    <div class="footer">Porque pensé en ti 🌻</div>
+                    <p>A veces las palabras se quedan cortas. Por eso preferí decirte esto con flores. 🌻</p>
+                    <div class="footer">Porque hay cosas que se sienten, no se explican.</div>
                     <button class="btn btn-next" data-next="1">Siguiente ✨</button>
                 </div>
             </div>
             <div class="card-scene" data-index="1">
                 <div class="card">
                     <h2>Una razón</h2>
-                    <p>Porque tienes esa forma especial de hacer que un momento sencillo pueda sentirse bonito.</p>
-                    <div class="footer">Y eso vale muchísimo. ✨</div>
+                    <p>Contigo hasta lo más simple se vuelve especial. Una charla, una risa, un silencio... todo tiene otro color.</p>
+                    <div class="footer">Y eso no lo hace cualquiera. ✨</div>
                     <button class="btn btn-next" data-next="2">Siguiente ✨</button>
                 </div>
             </div>
             <div class="card-scene" data-index="2">
                 <div class="card">
                     <h2>Para ti</h2>
-                    <p>Que estas flores te recuerden que mereces detalles bonitos, sonrisas sinceras y mucho cariño.</p>
+                    <p>Ojalá estas flores te recuerden lo que vales. Cada pétalo es un motivo. Cada tallo, una razón. Y todas apuntan a ti.</p>
                     <div class="footer">Con cariño, para Valeria 💛</div>
                     <button class="btn btn-next" data-next="3">Siguiente ✨</button>
                 </div>
             </div>
             <div class="card-scene" data-index="3">
                 <div class="card">
-                    <h2>Una sorpresa</h2>
-                    <p>Si pudiera entregarte este ramo en persona, probablemente sonreiría antes de decirte cualquier cosa. Así que por ahora... quédate con estas flores. 🌻</p>
+                    <h2>Lo último</h2>
+                    <p>Si estuvieras aquí, te lo daría sin decir nada. Solo mirándote. Pero como no puedo, te dejo esto: un pedacito de lo que siento, disfrazado de flores amarillas.</p>
                     <div class="footer">Son para ti, Valeria. ❤️</div>
                     <button class="btn" id="btn-draw">Dibujar mi flor 🌻</button>
                 </div>
@@ -754,18 +754,16 @@
         // ============ SISTEMA DE TEMAS ============
         const body = document.body;
         const modeButtons = document.querySelectorAll('.mode-btn');
-        const autoThemes = ['day', 'afternoon', 'sunset', 'night']; // Progresión por tarjeta
-        let currentMode = 'auto'; // 'day' | 'sunset' | 'night' | 'auto'
+        const autoThemes = ['day', 'afternoon', 'sunset', 'night'];
+        let currentMode = 'auto';
         let currentTheme = 'day';
 
         function setTheme(themeName) {
             if (themeName === currentTheme) return;
             currentTheme = themeName;
-            // Cambiar capa de fondo activa (transición suave por opacidad)
             document.querySelectorAll('.bg-layer').forEach(layer => {
                 layer.classList.toggle('active', layer.classList.contains('bg-' + themeName));
             });
-            // Cambiar clase del body para los colores de texto
             body.classList.remove('theme-day', 'theme-afternoon', 'theme-sunset', 'theme-night');
             body.classList.add('theme-' + themeName);
         }
@@ -774,7 +772,6 @@
             modeButtons.forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
         }
 
-        // Aplicar el tema correspondiente a la tarjeta actual (solo en modo Auto)
         function applyAutoThemeForCard(cardIndex) {
             if (currentMode !== 'auto') return;
             const theme = autoThemes[Math.min(cardIndex, autoThemes.length - 1)];
@@ -787,7 +784,6 @@
                 setActiveButton(mode);
                 if (mode === 'auto') {
                     currentMode = 'auto';
-                    // Aplicar el tema según la tarjeta actual
                     applyAutoThemeForCard(currentCard >= 0 ? currentCard : 0);
                 } else {
                     currentMode = mode;
@@ -834,7 +830,6 @@
                 setTimeout(() => prevEl.classList.remove(direction), 600);
             }
             currentCard = nextCard;
-            // En modo Auto, el fondo avanza con la tarjeta
             applyAutoThemeForCard(nextCard);
             setTimeout(() => {
                 cardScenes[nextCard].classList.add('active');
@@ -1047,7 +1042,6 @@
             dots.forEach((d, i) => d.classList.toggle('active', i === 0));
             body.classList.remove('hide-garden', 'hide-falling');
             currentCard = -1; isAnimating = false;
-            // Resetear al modo auto y tema día
             currentMode = 'auto';
             setActiveButton('auto');
             setTheme('day');
