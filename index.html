@@ -8,230 +8,78 @@
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body {
-            height: 100%; overflow: hidden;
+        html { width: 100%; height: 100%; overflow: hidden; }
+        body {
+            width: 100%; height: 100%;
+            max-width: 100vw;
+            overflow: hidden;
+            position: relative;
             font-family: 'Poppins', sans-serif;
             touch-action: none; user-select: none;
             background: #0b0b0b;
+            transition: color 2s ease;
         }
-        body { transition: color 2s ease; }
         body.theme-day { color: #5c4a1e; }
         body.theme-afternoon { color: #5a3d2b; }
         body.theme-sunset { color: #fff; }
         body.theme-night { color: #fff; }
 
-        /* ===== CAPAS DE FONDO ===== */
-        .bg-layers {
-            position: fixed; inset: 0; z-index: 0;
-            pointer-events: none; overflow: hidden;
-        }
-        .bg-layer {
-            position: absolute; inset: 0;
-            opacity: 0;
-            transition: opacity 2.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        .bg-layers { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+        .bg-layer { position: absolute; inset: 0; opacity: 0; transition: opacity 2.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .bg-layer.active { opacity: 1; }
-
         .bg-day       { background: linear-gradient(135deg, #fdfbf7 0%, #f4e8c1 100%); }
         .bg-afternoon { background: linear-gradient(135deg, #fff3d6 0%, #ffd89b 40%, #ffab6e 100%); }
         .bg-sunset    { background: linear-gradient(135deg, #ff9a76 0%, #d55b8a 45%, #6a4c93 100%); }
         .bg-night     { background: linear-gradient(135deg, #0b0b0b 0%, #1a1a2e 50%, #16213e 100%); }
 
         .grid-overlay { position: absolute; inset: 0; transition: opacity 2.4s ease; }
-        .grid-day {
-            background-image: 
-                repeating-linear-gradient(220deg, rgba(184, 134, 11, 0.05) 0px, rgba(184, 134, 11, 0.05) 19px, transparent 19px, transparent 24px),
-                repeating-linear-gradient(148deg, rgba(184, 134, 11, 0.04) 0px, rgba(184, 134, 11, 0.04) 19px, transparent 19px, transparent 24px);
-            opacity: 1;
-        }
-        .grid-afternoon {
-            background-image: 
-                repeating-linear-gradient(220deg, rgba(139, 69, 19, 0.07) 0px, rgba(139, 69, 19, 0.07) 19px, transparent 19px, transparent 24px),
-                repeating-linear-gradient(148deg, rgba(139, 69, 19, 0.05) 0px, rgba(139, 69, 19, 0.05) 19px, transparent 19px, transparent 24px);
-            opacity: 1;
-        }
-        .grid-sunset {
-            background-image: 
-                repeating-linear-gradient(220deg, rgba(0, 0, 0, 0.08) 0px, rgba(0, 0, 0, 0.08) 19px, transparent 19px, transparent 24px),
-                repeating-linear-gradient(148deg, rgba(0, 0, 0, 0.06) 0px, rgba(0, 0, 0, 0.06) 19px, transparent 19px, transparent 24px);
-            opacity: 1;
-        }
-        .grid-night {
-            background-image: 
-                repeating-linear-gradient(220deg, rgba(0, 0, 0, 0.7) 0px, rgba(0, 0, 0, 0.7) 19px, transparent 19px, transparent 24px),
-                repeating-linear-gradient(189deg, rgba(0, 0, 0, 0.7) 0px, rgba(0, 0, 0, 0.7) 19px, transparent 19px, transparent 24px),
-                repeating-linear-gradient(148deg, rgba(0, 0, 0, 0.7) 0px, rgba(0, 0, 0, 0.7) 19px, transparent 19px, transparent 24px);
-            opacity: 1;
-        }
+        .grid-day { background-image: repeating-linear-gradient(220deg, rgba(184, 134, 11, 0.05) 0px, rgba(184, 134, 11, 0.05) 19px, transparent 19px, transparent 24px), repeating-linear-gradient(148deg, rgba(184, 134, 11, 0.04) 0px, rgba(184, 134, 11, 0.04) 19px, transparent 19px, transparent 24px); }
+        .grid-afternoon { background-image: repeating-linear-gradient(220deg, rgba(139, 69, 19, 0.07) 0px, rgba(139, 69, 19, 0.07) 19px, transparent 19px, transparent 24px), repeating-linear-gradient(148deg, rgba(139, 69, 19, 0.05) 0px, rgba(139, 69, 19, 0.05) 19px, transparent 19px, transparent 24px); }
+        .grid-sunset { background-image: repeating-linear-gradient(220deg, rgba(0, 0, 0, 0.08) 0px, rgba(0, 0, 0, 0.08) 19px, transparent 19px, transparent 24px), repeating-linear-gradient(148deg, rgba(0, 0, 0, 0.06) 0px, rgba(0, 0, 0, 0.06) 19px, transparent 19px, transparent 24px); }
+        .grid-night { background-image: repeating-linear-gradient(220deg, rgba(0, 0, 0, 0.7) 0px, rgba(0, 0, 0, 0.7) 19px, transparent 19px, transparent 24px), repeating-linear-gradient(189deg, rgba(0, 0, 0, 0.7) 0px, rgba(0, 0, 0, 0.7) 19px, transparent 19px, transparent 24px), repeating-linear-gradient(148deg, rgba(0, 0, 0, 0.7) 0px, rgba(0, 0, 0, 0.7) 19px, transparent 19px, transparent 24px); }
 
-        /* Estrellas fijas del modo noche */
         .bg-night .stars {
             position: absolute; inset: 0;
-            background-image: 
-                radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.7), transparent),
-                radial-gradient(1px 1px at 60% 70%, rgba(255,255,255,0.5), transparent),
-                radial-gradient(1.5px 1.5px at 80% 20%, rgba(255,255,255,0.8), transparent),
-                radial-gradient(1px 1px at 40% 90%, rgba(255,255,255,0.6), transparent),
-                radial-gradient(1px 1px at 90% 60%, rgba(255,255,255,0.7), transparent),
-                radial-gradient(1px 1px at 10% 80%, rgba(255,255,255,0.5), transparent);
+            background-image: radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.7), transparent), radial-gradient(1px 1px at 60% 70%, rgba(255,255,255,0.5), transparent), radial-gradient(1.5px 1.5px at 80% 20%, rgba(255,255,255,0.8), transparent), radial-gradient(1px 1px at 40% 90%, rgba(255,255,255,0.6), transparent), radial-gradient(1px 1px at 90% 60%, rgba(255,255,255,0.7), transparent), radial-gradient(1px 1px at 10% 80%, rgba(255,255,255,0.5), transparent), radial-gradient(1px 1px at 30% 15%, rgba(255,255,255,0.6), transparent), radial-gradient(1px 1px at 70% 45%, rgba(255,255,255,0.7), transparent);
             animation: twinkle 4s ease-in-out infinite;
         }
         @keyframes twinkle { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
 
-        /* ==== EFECTO 6: RAYOS DE SOL EN MODO DÍA ==== */
-        .sun-rays {
-            position: absolute; inset: -50%;
-            background: conic-gradient(from 0deg,
-                transparent 0deg,
-                rgba(255, 220, 100, 0.10) 12deg,
-                transparent 24deg,
-                transparent 60deg,
-                rgba(255, 220, 100, 0.07) 72deg,
-                transparent 84deg,
-                transparent 150deg,
-                rgba(255, 220, 100, 0.08) 162deg,
-                transparent 174deg,
-                transparent 240deg,
-                rgba(255, 220, 100, 0.06) 252deg,
-                transparent 264deg);
-            animation: rotateRays 90s linear infinite;
-            transform-origin: 50% 40%;
-        }
+        .sun-rays { position: absolute; inset: -50%; background: conic-gradient(from 0deg, transparent 0deg, rgba(255, 220, 100, 0.10) 12deg, transparent 24deg, transparent 60deg, rgba(255, 220, 100, 0.07) 72deg, transparent 84deg, transparent 150deg, rgba(255, 220, 100, 0.08) 162deg, transparent 174deg, transparent 240deg, rgba(255, 220, 100, 0.06) 252deg, transparent 264deg); animation: rotateRays 90s linear infinite; transform-origin: 50% 40%; }
         @keyframes rotateRays { to { transform: rotate(360deg); } }
 
-        /* ==== EFECTO 8: AURORAS BOREALES ==== */
-        .aurora {
-            position: absolute;
-            top: -15%; left: -20%;
-            width: 140%; height: 70%;
-            pointer-events: none;
-            filter: blur(50px);
-            opacity: 0;
-            transition: opacity 3s ease;
-        }
+        .aurora { position: absolute; top: -15%; left: -25%; width: 150%; height: 75%; pointer-events: none; filter: blur(50px); opacity: 0; transition: opacity 3s ease; }
         .bg-layer.active .aurora { opacity: 1; }
+        .aurora .aurora-band { position: absolute; inset: 0; border-radius: 50%; will-change: transform, opacity; }
+        .aurora .aurora-band:nth-child(1) { background: linear-gradient(90deg, transparent 5%, var(--aurora-c1) 30%, var(--aurora-c2) 55%, var(--aurora-c3) 75%, transparent 95%); animation: auroraWave1 14s ease-in-out infinite; }
+        .aurora .aurora-band:nth-child(2) { background: linear-gradient(90deg, transparent 10%, var(--aurora-c3) 40%, var(--aurora-c1) 65%, transparent 90%); animation: auroraWave2 18s ease-in-out infinite; filter: blur(30px); top: 15%; height: 70%; opacity: 0.85; }
+        .aurora .aurora-band:nth-child(3) { background: linear-gradient(90deg, transparent 15%, var(--aurora-c2) 35%, var(--aurora-c3) 50%, var(--aurora-c1) 70%, transparent 90%); animation: auroraWave3 11s ease-in-out infinite; filter: blur(40px); top: -15%; height: 85%; opacity: 0.75; mix-blend-mode: screen; }
+        @keyframes auroraWave1 { 0%, 100% { transform: translateX(-18%) skewY(-7deg) scaleY(0.75) rotate(-2deg); opacity: 0.85; } 33% { transform: translateX(8%) skewY(3deg) scaleY(1.15) rotate(1deg); opacity: 1; } 66% { transform: translateX(18%) skewY(8deg) scaleY(0.9) rotate(2deg); opacity: 0.9; } }
+        @keyframes auroraWave2 { 0%, 100% { transform: translateX(20%) skewY(8deg) scaleY(1.2) rotate(2deg); opacity: 0.65; } 50% { transform: translateX(-20%) skewY(-8deg) scaleY(0.8) rotate(-2deg); opacity: 1; } }
+        @keyframes auroraWave3 { 0%, 100% { transform: translateX(-12%) skewY(-5deg) scaleY(0.85); opacity: 0.55; } 50% { transform: translateX(15%) skewY(6deg) scaleY(1.25); opacity: 1; } }
+        .bg-sunset .aurora { --aurora-c1: rgba(255, 180, 120, 0.7); --aurora-c2: rgba(220, 130, 200, 0.65); --aurora-c3: rgba(255, 220, 150, 0.55); }
+        .bg-night .aurora { --aurora-c1: rgba(80, 255, 180, 0.7); --aurora-c2: rgba(140, 100, 255, 0.65); --aurora-c3: rgba(80, 220, 255, 0.6); top: -10%; height: 70%; filter: blur(55px); }
 
-        .aurora::before,
-        .aurora::after {
-            content: '';
-            position: absolute; inset: 0;
-            border-radius: 50%;
-        }
-        .aurora::before {
-            background: linear-gradient(90deg, transparent 10%, var(--aurora-c1) 35%, var(--aurora-c2) 60%, transparent 90%);
-            animation: auroraWave1 16s ease-in-out infinite;
-        }
-        .aurora::after {
-            background: linear-gradient(90deg, transparent 15%, var(--aurora-c3) 45%, var(--aurora-c2) 70%, transparent 95%);
-            animation: auroraWave2 22s ease-in-out infinite;
-            filter: blur(30px);
-            opacity: 0.8;
-            top: 20%; height: 60%;
-        }
-        @keyframes auroraWave1 {
-            0%, 100% { transform: translateX(-12%) skewY(-4deg) scaleY(0.85); }
-            50% { transform: translateX(12%) skewY(4deg) scaleY(1.15); }
-        }
-        @keyframes auroraWave2 {
-            0%, 100% { transform: translateX(15%) skewY(5deg) scaleY(1.1); }
-            50% { transform: translateX(-15%) skewY(-5deg) scaleY(0.85); }
-        }
-
-        /* Aurora cálida para atardecer */
-        .bg-sunset .aurora {
-            --aurora-c1: rgba(255, 180, 120, 0.55);
-            --aurora-c2: rgba(220, 130, 200, 0.5);
-            --aurora-c3: rgba(255, 220, 150, 0.4);
-        }
-
-        /* Aurora fría estilo boreal para la noche */
-        .bg-night .aurora {
-            --aurora-c1: rgba(80, 255, 180, 0.55);   /* verde aurora */
-            --aurora-c2: rgba(140, 100, 255, 0.5);   /* violeta */
-            --aurora-c3: rgba(80, 220, 255, 0.45);   /* turquesa */
-            top: -10%; height: 65%;
-            filter: blur(60px);
-        }
-
-        /* ===== INTERRUPTOR DE MODOS ===== */
-        .mode-switch {
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            z-index: 200;
-            display: flex; gap: 6px;
-            background: rgba(255, 254, 249, 0.8);
-            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-            padding: 6px; border-radius: 30px;
-            border: 1px solid rgba(184, 134, 11, 0.3);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-            transition: background 1.2s, border-color 1.2s, box-shadow 1.2s;
-        }
-        body.theme-night .mode-switch,
-        body.theme-sunset .mode-switch {
-            background: rgba(30, 30, 40, 0.75);
-            border-color: rgba(255, 215, 0, 0.3);
-        }
-        .mode-btn {
-            background: transparent; border: none;
-            padding: 10px 16px; border-radius: 20px;
-            font-family: 'Poppins', sans-serif; font-size: 0.9rem;
-            font-weight: 600; cursor: pointer;
-            color: #6b5b3e; transition: all 0.6s;
-            white-space: nowrap;
-        }
-        body.theme-night .mode-btn,
-        body.theme-sunset .mode-btn { color: #e0e0e0; }
+        .mode-switch { position: fixed; top: 20px; left: 0; right: 0; margin: 0 auto; width: fit-content; z-index: 200; display: flex; gap: 6px; background: rgba(255, 254, 249, 0.85); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); padding: 6px; border-radius: 30px; border: 1px solid rgba(184, 134, 11, 0.3); box-shadow: 0 8px 25px rgba(0,0,0,0.08); transition: background 1.2s, border-color 1.2s, box-shadow 1.2s; }
+        body.theme-night .mode-switch, body.theme-sunset .mode-switch { background: rgba(30, 30, 40, 0.8); border-color: rgba(255, 215, 0, 0.3); }
+        .mode-btn { background: transparent; border: none; padding: 10px 16px; border-radius: 20px; font-family: 'Poppins', sans-serif; font-size: 0.9rem; font-weight: 600; cursor: pointer; color: #6b5b3e; transition: all 0.6s; white-space: nowrap; }
+        body.theme-night .mode-btn, body.theme-sunset .mode-btn { color: #e0e0e0; }
         .mode-btn.active { background: #b8860b; color: #fff; }
         body.theme-night .mode-btn.active { background: #ffd700; color: #111; }
         body.theme-sunset .mode-btn.active { background: #d55b8a; color: #fff; }
         .mode-btn:hover:not(.active) { background: rgba(184, 134, 11, 0.15); }
 
-        /* ==== CAPA DE EFECTOS NOCTURNOS (luciérnagas + estrellas fugaces) ==== */
-        .night-fx-layer {
-            position: fixed; inset: 0; pointer-events: none;
-            z-index: 3; overflow: hidden;
-            opacity: 0;
-            transition: opacity 2s ease;
-        }
+        .night-fx-layer { position: fixed; inset: 0; pointer-events: none; z-index: 3; overflow: hidden; opacity: 0; transition: opacity 2s ease; }
         body.theme-night .night-fx-layer { opacity: 1; }
 
-        /* ==== EFECTO 7: LUCIÉRNAGAS ==== */
-        .firefly {
-            position: absolute;
-            width: 5px; height: 5px;
-            background: #ffeb3b;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #ffeb3b, 0 0 16px #ffd700, 0 0 24px #ffb347;
-            animation: fireflyFloat 10s ease-in-out infinite;
-            opacity: 0;
-        }
-        @keyframes fireflyFloat {
-            0%   { transform: translate(0, 0) scale(0.5); opacity: 0; }
-            15%  { opacity: 1; }
-            35%  { transform: translate(60px, -80px) scale(1.1); opacity: 0.9; }
-            55%  { transform: translate(-40px, -160px) scale(0.8); opacity: 0.6; }
-            75%  { transform: translate(80px, -240px) scale(1); opacity: 0.9; }
-            100% { transform: translate(0, -320px) scale(0.5); opacity: 0; }
-        }
+        .transition-layer { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 5; width: 100%; height: 100%; }
 
-        /* ==== EFECTO 4: ESTRELLAS FUGACES ==== */
-        .shooting-star {
-            position: absolute;
-            width: 180px; height: 2px;
-            background: linear-gradient(90deg, transparent, #fff, rgba(255, 255, 255, 0.9), transparent);
-            border-radius: 2px;
-            filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 12px rgba(180, 220, 255, 0.8));
-            transform-origin: left center;
-            pointer-events: none;
-        }
+        .firefly { position: absolute; width: 5px; height: 5px; background: #ffeb3b; border-radius: 50%; box-shadow: 0 0 8px #ffeb3b, 0 0 16px #ffd700, 0 0 24px #ffb347; animation: fireflyFloat 10s ease-in-out infinite; opacity: 0; }
+        @keyframes fireflyFloat { 0% { transform: translate(0, 0) scale(0.5); opacity: 0; } 15% { opacity: 1; } 35% { transform: translate(60px, -80px) scale(1.1); opacity: 0.9; } 55% { transform: translate(-40px, -160px) scale(0.8); opacity: 0.6; } 75% { transform: translate(80px, -240px) scale(1); opacity: 0.9; } 100% { transform: translate(0, -320px) scale(0.5); opacity: 0; } }
 
-        /* ===== JARDÍN 3D DE FONDO ===== */
-        .garden-3d {
-            position: fixed; bottom: 0; left: 0; width: 100%; height: 100vh;
-            z-index: 2; pointer-events: none;
-            display: flex; justify-content: center; align-items: flex-end;
-            perspective: 1000px; overflow: hidden;
-            transition: opacity 0.8s ease, visibility 0.8s;
-        }
+        .shooting-star { position: absolute; width: 200px; height: 2px; background: linear-gradient(90deg, transparent, #fff, rgba(255, 255, 255, 0.9), transparent); border-radius: 2px; filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 12px rgba(180, 220, 255, 0.9)); transform-origin: left center; pointer-events: none; }
+
+        .garden-3d { position: fixed; bottom: 0; left: 0; width: 100%; height: 100vh; z-index: 2; pointer-events: none; display: flex; justify-content: center; align-items: flex-end; perspective: 1000px; overflow: hidden; transition: opacity 0.8s ease, visibility 0.8s; }
         body.hide-garden .garden-3d { opacity: 0; visibility: hidden; }
         .flowers-3d { position: relative; transform: scale(0.6); transform-origin: bottom center; }
         .flower-3d { position: absolute; bottom: 10vmin; transform-origin: bottom center; z-index: 50; will-change: transform; }
@@ -249,56 +97,16 @@
         .flower__leafs--1 { animation-delay: 1.1s; } .flower__leafs--2 { animation-delay: 1.4s; }
         .flower__leafs--3 { animation-delay: 1.7s; } .flower__leafs--4 { animation-delay: 2.0s; }
         .flower__leafs--5 { animation-delay: 2.0s; }
-        .flower__leaf-3d {
-            position: absolute; bottom: 0; left: 50%;
-            width: 23vmin; height: 6vmin;
-            border-radius: 10% 100% 10% 100%;
-            background-color: #ffd700;
-            background-image: linear-gradient(to top, #ff8c00, #ffd700, #ffff00);
-            transform-origin: bottom center; opacity: 0.95;
-            box-shadow: inset 0 0 1vmin rgba(255,255,255,0.7), 0 0 3vmin rgba(255,215,0,0.4);
-            z-index: 2;
-        }
-        .flower__white-circle-3d {
-            position: absolute; left: -4vmin; top: -4vmin;
-            width: 10vmin; height: 10vmin; border-radius: 50%;
-            background-color: #8b4513;
-            background-image: radial-gradient(circle at 30% 30%, #654321, #8b4513, #2f1b14);
-            box-shadow: inset 0 0 2vmin rgba(0,0,0,0.8), 0 0 1vmin rgba(139,69,19,0.6);
-        }
-        .flower__white-circle-3d::after {
-            content: ""; position: absolute; left: 46%; top: 31%;
-            transform: translate(-50%, -50%);
-            width: 80%; height: 80%; z-index: 3; border-radius: inherit;
-            background-image: repeating-conic-gradient(from 0deg, #2f1b14 0deg 15deg, #654321 15deg 30deg),
-                              radial-gradient(circle at center, #8b4513, #654321);
-        }
-        .flower__line-3d {
-            height: 55vmin; width: 2vmin;
-            background-image: linear-gradient(to left, rgba(0,0,0,0.3), transparent, rgba(255,255,255,0.2)),
-                              linear-gradient(to top, transparent 10%, #2d5016, #4a7c23, #6b8e23);
-            box-shadow: inset 0 0 2px rgba(0,0,0,0.7);
-            animation: grow-flower-tree 4s backwards;
-        }
-        .flower__line__leaf-3d {
-            --w: 8vmin; --h: calc(var(--w) + 3vmin);
-            position: absolute; top: 20%; left: 90%;
-            width: var(--w); height: var(--h);
-            border-top-right-radius: var(--h); border-bottom-left-radius: var(--h);
-            background-image: linear-gradient(to top, rgba(45,80,22,0.6), #4a7c23, #6b8e23);
-        }
+        .flower__leaf-3d { position: absolute; bottom: 0; left: 50%; width: 23vmin; height: 6vmin; border-radius: 10% 100% 10% 100%; background-color: #ffd700; background-image: linear-gradient(to top, #ff8c00, #ffd700, #ffff00); transform-origin: bottom center; opacity: 0.95; box-shadow: inset 0 0 1vmin rgba(255,255,255,0.7), 0 0 3vmin rgba(255,215,0,0.4); z-index: 2; }
+        .flower__white-circle-3d { position: absolute; left: -4vmin; top: -4vmin; width: 10vmin; height: 10vmin; border-radius: 50%; background-color: #8b4513; background-image: radial-gradient(circle at 30% 30%, #654321, #8b4513, #2f1b14); box-shadow: inset 0 0 2vmin rgba(0,0,0,0.8), 0 0 1vmin rgba(139,69,19,0.6); }
+        .flower__white-circle-3d::after { content: ""; position: absolute; left: 46%; top: 31%; transform: translate(-50%, -50%); width: 80%; height: 80%; z-index: 3; border-radius: inherit; background-image: repeating-conic-gradient(from 0deg, #2f1b14 0deg 15deg, #654321 15deg 30deg), radial-gradient(circle at center, #8b4513, #654321); }
+        .flower__line-3d { height: 55vmin; width: 2vmin; background-image: linear-gradient(to left, rgba(0,0,0,0.3), transparent, rgba(255,255,255,0.2)), linear-gradient(to top, transparent 10%, #2d5016, #4a7c23, #6b8e23); box-shadow: inset 0 0 2px rgba(0,0,0,0.7); animation: grow-flower-tree 4s backwards; }
+        .flower__line__leaf-3d { --w: 8vmin; --h: calc(var(--w) + 3vmin); position: absolute; top: 20%; left: 90%; width: var(--w); height: var(--h); border-top-right-radius: var(--h); border-bottom-left-radius: var(--h); background-image: linear-gradient(to top, rgba(45,80,22,0.6), #4a7c23, #6b8e23); }
         .flower__line__leaf-3d--1 { transform: rotate(70deg) rotateY(30deg); }
         .flower__line__leaf-3d--2 { top: 45%; transform: rotate(70deg) rotateY(30deg); }
         .flower__line__leaf-3d--3 { border-top-right-radius: 0; border-bottom-left-radius: 0; border-top-left-radius: var(--h); border-bottom-right-radius: var(--h); left: -460%; top: 12%; transform: rotate(-70deg) rotateY(30deg); }
         .flower__line__leaf-3d--4 { border-top-right-radius: 0; border-bottom-left-radius: 0; border-top-left-radius: var(--h); border-bottom-right-radius: var(--h); left: -460%; top: 40%; transform: rotate(-70deg) rotateY(30deg); }
-        .flower__light-3d {
-            position: absolute; bottom: 0vmin;
-            width: 0.8vmin; height: 0.8vmin;
-            background-color: #8b4513; border-radius: 50%;
-            filter: blur(0.1vmin);
-            animation: sunflower-seeds 6s linear infinite backwards;
-            box-shadow: 0 0 1vmin rgba(139,69,19,0.8);
-        }
+        .flower__light-3d { position: absolute; bottom: 0vmin; width: 0.8vmin; height: 0.8vmin; background-color: #8b4513; border-radius: 50%; filter: blur(0.1vmin); animation: sunflower-seeds 6s linear infinite backwards; box-shadow: 0 0 1vmin rgba(139,69,19,0.8); }
         .flower__light-3d:nth-child(odd) { background-color: #654321; }
         .flower__light-3d--1 { left: -2vmin; animation-delay: 1s; }
         .flower__light-3d--2 { left: 3vmin; animation-delay: 0.5s; }
@@ -316,25 +124,10 @@
         @keyframes moving-flower-5 { from, to { transform: rotate(-5deg); } 50% { transform: rotate(-8deg) rotateY(5deg); } }
         @keyframes blooming-flower { from { transform: scale(0); } }
         @keyframes grow-flower-tree { from { height: 0; border-radius: 1vmin; } }
-        @keyframes sunflower-seeds {
-            from { opacity: 0; transform: translateY(0vmin) rotate(0deg); }
-            20% { opacity: 1; transform: translateY(-3vmin) translateX(-1vmin) rotate(45deg); }
-            40% { opacity: 1; transform: translateY(-8vmin) translateX(1vmin) rotate(90deg); }
-            60% { transform: translateY(-12vmin) translateX(-1vmin) rotate(135deg); }
-            80% { transform: translateY(-16vmin) translateX(2vmin) rotate(180deg); opacity: 0.5; }
-            to { transform: translateY(-25vmin) rotate(225deg); opacity: 0; }
-        }
+        @keyframes sunflower-seeds { from { opacity: 0; transform: translateY(0vmin) rotate(0deg); } 20% { opacity: 1; transform: translateY(-3vmin) translateX(-1vmin) rotate(45deg); } 40% { opacity: 1; transform: translateY(-8vmin) translateX(1vmin) rotate(90deg); } 60% { transform: translateY(-12vmin) translateX(-1vmin) rotate(135deg); } 80% { transform: translateY(-16vmin) translateX(2vmin) rotate(180deg); opacity: 0.5; } to { transform: translateY(-25vmin) rotate(225deg); opacity: 0; } }
 
-        /* ===== MINI JARDÍN (BARRA INFERIOR) ===== */
-        .mini-garden {
-            position: fixed; bottom: 0; left: 0; right: 0; height: 160px;
-            z-index: 3; pointer-events: none;
-            display: flex; justify-content: space-between; align-items: flex-end;
-            padding: 0 20px; opacity: 0.95;
-            transition: opacity 0.6s ease, visibility 0.6s;
-        }
+        .mini-garden { position: fixed; bottom: 0; left: 0; right: 0; height: 160px; z-index: 3; pointer-events: none; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 20px; opacity: 0.95; transition: opacity 0.6s ease, visibility 0.6s; }
         body.hide-garden .mini-garden { opacity: 0; visibility: hidden; }
-
         .mini-flower { position: relative; width: 80px; height: 150px; transform-origin: bottom center; animation: miniSway 3s ease-in-out infinite; }
         .mini-flower:nth-child(1) { animation-delay: 0s; } .mini-flower:nth-child(2) { animation-delay: 0.7s; }
         .mini-flower:nth-child(3) { animation-delay: 1.4s; } .mini-flower:nth-child(4) { animation-delay: 2.1s; }
@@ -353,261 +146,88 @@
         .mini-flower__petal:nth-child(7) { transform: rotate(270deg); } .mini-flower__petal:nth-child(8) { transform: rotate(315deg); }
         .mini-flower__center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 22px; height: 22px; background: radial-gradient(circle, #5D4037, #3E2723); border-radius: 50%; z-index: 2; box-shadow: inset 0 0 5px rgba(0,0,0,0.5); }
 
-        /* ===== CAPA DE PÉTALOS Y EMOJIS CAYENDO ===== */
-        .falling-layer {
-            position: fixed; inset: 0; pointer-events: none;
-            z-index: 4; overflow: hidden;
-            transition: opacity 0.8s ease;
-        }
+        .falling-layer { position: fixed; inset: 0; pointer-events: none; z-index: 4; overflow: hidden; transition: opacity 0.8s ease; }
         body.hide-falling .falling-layer { opacity: 0; }
+        .petal-fall { position: absolute; top: -30px; background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%); border-radius: 60% 0 60% 60%; box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.5); animation: petalFall linear forwards; will-change: transform; }
+        @keyframes petalFall { 0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; } 10% { opacity: 0.85; } 90% { opacity: 0.85; } 100% { transform: translateY(110vh) translateX(80px) rotate(720deg); opacity: 0; } }
+        .emoji-fall { position: absolute; top: -50px; animation: emojiFall linear forwards; will-change: transform; filter: drop-shadow(0 2px 6px rgba(255, 215, 0, 0.4)); }
+        @keyframes emojiFall { 0% { transform: translateY(0) translateX(0) rotate(0deg) scale(0.8); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(115vh) translateX(-60px) rotate(-360deg) scale(1.1); opacity: 0; } }
 
-        .petal-fall {
-            position: absolute; top: -30px;
-            background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
-            border-radius: 60% 0 60% 60%;
-            box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.5);
-            animation: petalFall linear forwards;
-            will-change: transform;
-        }
-        @keyframes petalFall {
-            0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.85; }
-            90% { opacity: 0.85; }
-            100% { transform: translateY(110vh) translateX(80px) rotate(720deg); opacity: 0; }
-        }
+        .trail-particle { position: fixed; pointer-events: none; z-index: 999; border-radius: 50%; background: radial-gradient(circle, #fff8b0, #ffd700 40%, #ff8c00 80%); box-shadow: 0 0 8px #ffd700, 0 0 16px #ff8c00; animation: trailFade 0.9s ease-out forwards; will-change: transform, opacity; }
+        @keyframes trailFade { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(0); opacity: 0; } }
 
-        .emoji-fall {
-            position: absolute; top: -50px;
-            animation: emojiFall linear forwards;
-            will-change: transform;
-            filter: drop-shadow(0 2px 6px rgba(255, 215, 0, 0.4));
-        }
-        @keyframes emojiFall {
-            0% { transform: translateY(0) translateX(0) rotate(0deg) scale(0.8); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(115vh) translateX(-60px) rotate(-360deg) scale(1.1); opacity: 0; }
-        }
-
-        /* ==== EFECTO 1: CURSOR TRAIL DORADO ==== */
-        .trail-particle {
-            position: fixed; pointer-events: none;
-            z-index: 999;
-            border-radius: 50%;
-            background: radial-gradient(circle, #fff8b0, #ffd700 40%, #ff8c00 80%);
-            box-shadow: 0 0 8px #ffd700, 0 0 16px #ff8c00;
-            animation: trailFade 0.9s ease-out forwards;
-            will-change: transform, opacity;
-        }
-        @keyframes trailFade {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(0); opacity: 0; }
-        }
-
-        /* ==== EFECTO 5: RIPPLE EN BOTONES ==== */
         .btn { position: relative; overflow: hidden; }
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            transform: scale(0);
-            animation: rippleAnim 0.75s ease-out;
-            pointer-events: none;
-        }
-        @keyframes rippleAnim {
-            to { transform: scale(4); opacity: 0; }
-        }
+        .ripple { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.6); transform: scale(0); animation: rippleAnim 0.75s ease-out; pointer-events: none; }
+        @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
 
-        /* ===== FLORES DISPERSAS (FONDO DEL RAMO) ===== */
-        .scattered-garden {
-            position: fixed; inset: 0; pointer-events: none;
-            z-index: 1; opacity: 0;
-            transition: opacity 2s ease;
-            overflow: hidden;
-        }
+        .scattered-garden { position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: 0; transition: opacity 2s ease; overflow: hidden; }
         .scattered-garden.visible { opacity: 1; }
-        .scattered-flower {
-            position: absolute;
-            transform-origin: center center;
-            animation: scatteredFloat 8s ease-in-out infinite;
-            opacity: 0.1;
-        }
+        .scattered-flower { position: absolute; transform-origin: center center; animation: scatteredFloat 8s ease-in-out infinite; opacity: 0.1; }
         .scattered-flower .mini-flower { animation: miniSway 4s ease-in-out infinite; }
-        @keyframes scatteredFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(12deg); }
-        }
+        @keyframes scatteredFloat { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(12deg); } }
 
-        /* ===== PANTALLA 1: BIENVENIDA ===== */
-        #screen-welcome {
-            position: fixed; inset: 0;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            text-align: center; padding: 8vw 5vw; z-index: 20;
-            transition: opacity 0.8s ease, visibility 0.8s;
-        }
+        #screen-welcome { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 8vw 5vw; z-index: 20; transition: opacity 0.8s ease, visibility 0.8s; }
         #screen-welcome.hidden { opacity: 0; visibility: hidden; }
-        #screen-welcome h1 {
-            font-family: 'Great Vibes', cursive;
-            font-size: clamp(5rem, 22vw, 10rem);
-            color: #b8860b; margin-bottom: 2rem; line-height: 1.05;
-            text-shadow: 0 4px 25px rgba(255, 215, 0, 0.5), 0 0 50px rgba(255, 215, 0, 0.35);
-            animation: fadeInUp 1.2s ease;
-            transition: color 1.5s, text-shadow 1.5s;
-        }
+        #screen-welcome h1 { font-family: 'Great Vibes', cursive; font-size: clamp(5rem, 22vw, 10rem); color: #b8860b; margin-bottom: 2rem; line-height: 1.05; text-shadow: 0 4px 25px rgba(255, 215, 0, 0.5), 0 0 50px rgba(255, 215, 0, 0.35); animation: fadeInUp 1.2s ease; transition: color 1.5s, text-shadow 1.5s; position: relative; z-index: 2; }
         body.theme-night #screen-welcome h1 { color: #ffd700; text-shadow: 0 4px 25px rgba(255, 215, 0, 0.6), 0 0 50px rgba(255, 215, 0, 0.4); }
         body.theme-sunset #screen-welcome h1 { color: #fff7d6; text-shadow: 0 4px 25px rgba(255, 255, 255, 0.4), 0 0 50px rgba(255, 215, 0, 0.4); }
-        #screen-welcome p {
-            font-size: clamp(1.6rem, 7vw, 2.4rem);
-            color: #6b5b3e; margin-bottom: 3.5rem; max-width: 750px; line-height: 1.5;
-            animation: fadeInUp 1.2s ease 0.3s backwards;
-            transition: color 1.5s;
-        }
-        body.theme-night #screen-welcome p { color: #e0e0e0; }
-        body.theme-sunset #screen-welcome p,
-        body.theme-afternoon #screen-welcome p { color: #fff; }
+        #screen-welcome p { font-size: clamp(1.6rem, 7vw, 2.4rem); color: #6b5b3e; margin-bottom: 3.5rem; max-width: 750px; line-height: 1.5; animation: fadeInUp 1.2s ease 0.3s backwards; transition: color 1.5s; position: relative; z-index: 2; text-shadow: 0 0 20px rgba(253, 251, 247, 0.9), 0 0 30px rgba(253, 251, 247, 0.7); }
+        body.theme-night #screen-welcome p { color: #e0e0e0; text-shadow: 0 0 20px rgba(11, 11, 11, 0.9), 0 0 30px rgba(11, 11, 11, 0.7); }
+        body.theme-sunset #screen-welcome p, body.theme-afternoon #screen-welcome p { color: #fff; text-shadow: 0 2px 15px rgba(0,0,0,0.4); }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ===== BOTONES ===== */
-        .btn {
-            background: #b8860b; color: #fff; border: none;
-            padding: 22px 65px; border-radius: 50px;
-            font-size: clamp(1.3rem, 5.5vw, 1.8rem);
-            font-family: 'Poppins', sans-serif; font-weight: 600;
-            cursor: pointer; box-shadow: 0 10px 30px rgba(184, 134, 11, 0.45);
-            transition: transform 0.2s, background 0.6s, box-shadow 0.6s, color 0.6s;
-            letter-spacing: 1px; z-index: 10;
-        }
+        .btn { background: #b8860b; color: #fff; border: none; padding: 22px 65px; border-radius: 50px; font-size: clamp(1.3rem, 5.5vw, 1.8rem); font-family: 'Poppins', sans-serif; font-weight: 600; cursor: pointer; box-shadow: 0 10px 30px rgba(184, 134, 11, 0.45); transition: transform 0.2s, background 0.6s, box-shadow 0.6s, color 0.6s; letter-spacing: 1px; z-index: 10; }
         .btn:hover { background: #8B6508; transform: translateY(-3px); box-shadow: 0 15px 35px rgba(184, 134, 11, 0.55); }
         .btn:active { transform: translateY(0) scale(0.97); }
         body.theme-night .btn { background: #ffd700; color: #111; box-shadow: 0 10px 30px rgba(255, 215, 0, 0.55); }
         body.theme-night .btn:hover { background: #ffeb3b; }
 
-        /* ===== CARRUSEL ===== */
-        #screen-carousel {
-            position: fixed; inset: 0; z-index: 10;
-            opacity: 0; visibility: hidden;
-            transition: opacity 0.8s ease, visibility 0.8s;
-        }
+        #screen-carousel { position: fixed; inset: 0; z-index: 10; opacity: 0; visibility: hidden; transition: opacity 0.8s ease, visibility 0.8s; }
         #screen-carousel.active { opacity: 1; visibility: visible; }
         #carousel { position: relative; width: 100%; height: 100vh; overflow: hidden; }
-        .card-scene {
-            position: absolute; top: 45%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
-            width: 96%; max-width: 880px;
-            opacity: 0; pointer-events: none; visibility: hidden;
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
+        .card-scene { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%) scale(0.9); width: 96%; max-width: 880px; opacity: 0; pointer-events: none; visibility: hidden; transition: opacity 0.6s ease, transform 0.6s ease; }
         .card-scene.active { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; visibility: visible; }
         .card-scene.exit-left { opacity: 0; transform: translate(-150%, -50%) scale(0.8); visibility: hidden; }
         .card-scene.exit-right { opacity: 0; transform: translate(50%, -50%) scale(0.8); visibility: hidden; }
-        .card {
-            background: rgba(255, 254, 249, 0.88);
-            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 215, 0, 0.5);
-            border-radius: 40px;
-            padding: 5.5rem 4rem;
-            box-shadow: 0 20px 50px rgba(139, 101, 8, 0.18), inset 0 0 25px rgba(255, 215, 0, 0.1);
-            text-align: center; position: relative;
-            transition: background 1.2s, border-color 1.2s, box-shadow 1.2s;
-        }
+        .card { background: rgba(255, 254, 249, 0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 215, 0, 0.5); border-radius: 40px; padding: 5.5rem 4rem; box-shadow: 0 20px 50px rgba(139, 101, 8, 0.18), inset 0 0 25px rgba(255, 215, 0, 0.1); text-align: center; position: relative; transition: background 1.2s, border-color 1.2s, box-shadow 1.2s; }
         body.theme-night .card { background: rgba(30, 30, 40, 0.88); border-color: rgba(255, 215, 0, 0.35); box-shadow: 0 20px 50px rgba(0,0,0,0.55); }
         body.theme-sunset .card { background: rgba(255, 250, 240, 0.9); border-color: rgba(255, 200, 100, 0.6); box-shadow: 0 20px 50px rgba(139, 69, 19, 0.25); }
         body.theme-afternoon .card { background: rgba(255, 252, 240, 0.9); border-color: rgba(255, 180, 100, 0.55); }
-        .card::before {
-            content: '🌻 💛 🌻';
-            position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
-            background: rgba(255, 254, 249, 0.98);
-            padding: 10px 42px; font-size: 2.5rem; border-radius: 32px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255, 215, 0, 0.4);
-            transition: background 1.2s;
-        }
+        .card::before { content: '🌻 💛 🌻'; position: absolute; top: -30px; left: 50%; transform: translate(-50%, 0); background: rgba(255, 254, 249, 0.98); padding: 10px 42px; font-size: 2.5rem; border-radius: 32px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border: 1px solid rgba(255, 215, 0, 0.4); transition: background 1.2s; }
         body.theme-night .card::before { background: rgba(30, 30, 40, 0.98); }
-        body.theme-sunset .card::before,
-        body.theme-afternoon .card::before { background: rgba(255, 252, 240, 0.98); }
-        .card h2 {
-            font-family: 'Great Vibes', cursive;
-            font-size: clamp(4.2rem, 17vw, 6.5rem);
-            color: #b8860b; margin-bottom: 2.4rem; line-height: 1.15;
-            transition: color 1.2s;
-        }
+        body.theme-sunset .card::before, body.theme-afternoon .card::before { background: rgba(255, 252, 240, 0.98); }
+        .card h2 { font-family: 'Great Vibes', cursive; font-size: clamp(4.2rem, 17vw, 6.5rem); color: #b8860b; margin-bottom: 2.4rem; line-height: 1.15; transition: color 1.2s; }
         body.theme-night .card h2 { color: #ffd700; }
         body.theme-sunset .card h2 { color: #c25b1e; }
         body.theme-afternoon .card h2 { color: #c25b1e; }
-        .card p {
-            font-size: clamp(1.5rem, 6.2vw, 2rem);
-            line-height: 1.65; color: #6b5b3e; margin-bottom: 2.7rem;
-            transition: color 1.2s;
-        }
+        .card p { font-size: clamp(1.5rem, 6.2vw, 2rem); line-height: 1.65; color: #6b5b3e; margin-bottom: 2.7rem; transition: color 1.2s; }
         body.theme-night .card p { color: #e0e0e0; }
         body.theme-sunset .card p { color: #5a3d2b; }
         body.theme-afternoon .card p { color: #5a3d2b; }
-        .card .footer {
-            font-family: 'Great Vibes', cursive;
-            font-size: clamp(2.6rem, 11vw, 3.8rem);
-            color: #b8860b; margin-bottom: 2.5rem;
-            transition: color 1.2s;
-        }
+        .card .footer { font-family: 'Great Vibes', cursive; font-size: clamp(2.6rem, 11vw, 3.8rem); color: #b8860b; margin-bottom: 2.5rem; transition: color 1.2s; }
         body.theme-night .card .footer { color: #ffd700; }
-        body.theme-sunset .card .footer,
-        body.theme-afternoon .card .footer { color: #c25b1e; }
+        body.theme-sunset .card .footer, body.theme-afternoon .card .footer { color: #c25b1e; }
 
-        /* ==== EFECTO 9: REVELADO ESCALONADO ==== */
         .card-scene.active h2 { animation: revealItem 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s backwards; }
         .card-scene.active p { animation: revealItem 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.35s backwards; }
         .card-scene.active .footer { animation: revealItem 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.55s backwards; }
         .card-scene.active .btn { animation: revealItem 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.75s backwards; }
-        .card-scene.active .card::before { animation: revealItem 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) 0.05s backwards; }
-        @keyframes revealItem {
-            from { opacity: 0; transform: translateY(24px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .card-scene.active .card::before { animation: revealItemBefore 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) 0.05s backwards; }
+        @keyframes revealItem { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes revealItemBefore { from { opacity: 0; transform: translate(-50%, 24px); } to { opacity: 1; transform: translate(-50%, 0); } }
 
-        /* ===== PANTALLA DIBUJO ===== */
-        #screen-draw {
-            position: fixed; inset: 0; z-index: 15;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: transparent; opacity: 0; visibility: hidden;
-            transition: opacity 0.8s ease, visibility 0.8s;
-        }
+        #screen-draw { position: fixed; inset: 0; z-index: 15; display: flex; flex-direction: column; align-items: center; justify-content: center; background: transparent; opacity: 0; visibility: hidden; transition: opacity 0.8s ease, visibility 0.8s; }
         #screen-draw.active { opacity: 1; visibility: visible; }
-
-        /* ==== EFECTO 10: PULSO DE RESPIRACIÓN EN EL CANVAS ==== */
-        #canvas-flor {
-            max-width: 95vw; max-height: 65vh;
-            animation: canvasGlow 3.2s ease-in-out infinite;
-        }
-        @keyframes canvasGlow {
-            0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3)) drop-shadow(0 0 40px rgba(255, 215, 0, 0.15)); }
-            50% { filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.6)) drop-shadow(0 0 80px rgba(255, 215, 0, 0.35)); }
-        }
-
-        #draw-text {
-            font-family: 'Great Vibes', cursive;
-            font-size: clamp(2.6rem, 10vw, 4.2rem);
-            color: #b8860b; text-align: center; margin-top: 1.5rem; padding: 0 20px;
-            opacity: 0; transition: opacity 1s ease, color 1.2s;
-        }
+        #canvas-flor { max-width: 95vw; max-height: 65vh; animation: canvasGlow 3.2s ease-in-out infinite; }
+        @keyframes canvasGlow { 0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3)) drop-shadow(0 0 40px rgba(255, 215, 0, 0.15)); } 50% { filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.6)) drop-shadow(0 0 80px rgba(255, 215, 0, 0.35)); } }
+        #draw-text { font-family: 'Great Vibes', cursive; font-size: clamp(2.6rem, 10vw, 4.2rem); color: #b8860b; text-align: center; margin-top: 1.5rem; padding: 0 20px; opacity: 0; transition: opacity 1s ease, color 1.2s; }
         #draw-text.visible { opacity: 1; }
         body.theme-night #draw-text { color: #ffd700; }
-        body.theme-sunset #draw-text,
-        body.theme-afternoon #draw-text { color: #fff; text-shadow: 0 2px 15px rgba(0,0,0,0.3); }
+        body.theme-sunset #draw-text, body.theme-afternoon #draw-text { color: #fff; text-shadow: 0 2px 15px rgba(0,0,0,0.3); }
 
-        /* ===== RAMO FINAL ===== */
-        #screen-bouquet {
-            position: fixed; inset: 0; z-index: 30;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: transparent; opacity: 0; visibility: hidden;
-            transition: opacity 1s ease, visibility 1s; padding: 5vw;
-        }
+        #screen-bouquet { position: fixed; inset: 0; z-index: 30; display: flex; flex-direction: column; align-items: center; justify-content: center; background: transparent; opacity: 0; visibility: hidden; transition: opacity 1s ease, visibility 1s; padding: 5vw; }
         #screen-bouquet.active { opacity: 1; visibility: visible; }
-        #bouquet-svg {
-            width: 95vw; max-width: 700px; max-height: 55vh;
-            overflow: visible; opacity: 0; transform: scale(0.85);
-            transition: opacity 1.2s ease, transform 1.2s ease;
-            position: relative; z-index: 5;
-        }
+        #bouquet-svg { width: 95vw; max-width: 700px; max-height: 55vh; overflow: visible; opacity: 0; transform: scale(0.85); transition: opacity 1.2s ease, transform 1.2s ease; position: relative; z-index: 5; }
         #bouquet-svg.visible { opacity: 1; transform: scale(1); }
         .bouquet-stem { fill: none; stroke: #4a5d23; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 800; stroke-dashoffset: 800; transition: stroke-dashoffset 1.8s ease-in-out; }
         #bouquet-svg.animate .bouquet-stem { stroke-dashoffset: 0; }
@@ -619,46 +239,20 @@
         #bouquet-svg.animate .bouquet-center { opacity: 1; transform: scale(1); }
         .bouquet-wrapper { fill: #e8d5a8; opacity: 0; transition: opacity 1s ease; }
         #bouquet-svg.animate .bouquet-wrapper { opacity: 0.95; }
-        #final-message {
-            font-family: 'Great Vibes', cursive;
-            font-size: clamp(3rem, 12vw, 4.8rem);
-            color: #b8860b; text-align: center; margin: 2rem 0;
-            opacity: 0; transform: translateY(20px);
-            transition: opacity 1s ease 0.5s, transform 1s ease 0.5s, color 1.5s;
-            position: relative; z-index: 5;
-            min-height: 1.2em;
-        }
+        #final-message { font-family: 'Great Vibes', cursive; font-size: clamp(3rem, 12vw, 4.8rem); color: #b8860b; text-align: center; margin: 2rem 0; opacity: 0; transform: translateY(20px); transition: opacity 1s ease 0.5s, transform 1s ease 0.5s, color 1.5s; position: relative; z-index: 5; min-height: 1.2em; }
         #final-message.visible { opacity: 1; transform: translateY(0); }
         body.theme-night #final-message { color: #ffd700; }
-        body.theme-sunset #final-message,
-        body.theme-afternoon #final-message { color: #fff; text-shadow: 0 2px 15px rgba(0,0,0,0.3); }
+        body.theme-sunset #final-message, body.theme-afternoon #final-message { color: #fff; text-shadow: 0 2px 15px rgba(0,0,0,0.3); }
         #screen-bouquet .btn { opacity: 0; transform: translateY(20px); transition: opacity 1s ease 2.5s, transform 1s ease 2.5s, background 0.6s, box-shadow 0.6s; position: relative; z-index: 5; }
         #screen-bouquet .btn.visible { opacity: 1; transform: translateY(0); }
         #screen-bouquet .btn.visible:hover { transform: translateY(-3px); }
 
-        /* Cursor parpadeante para typewriter */
-        .typewriter-cursor {
-            display: inline-block;
-            width: 3px; height: 1em;
-            background: currentColor;
-            vertical-align: text-bottom;
-            margin-left: 4px;
-            animation: blink 0.9s infinite;
-        }
+        .typewriter-cursor { display: inline-block; width: 3px; height: 1em; background: currentColor; vertical-align: text-bottom; margin-left: 4px; animation: blink 0.9s infinite; }
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* ===== HINT Y DOTS ===== */
-        .swipe-hint {
-            position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%);
-            z-index: 15; font-size: clamp(1.1rem, 5vw, 1.5rem);
-            color: #b8860b; font-weight: 600; opacity: 0.85;
-            animation: pulseHint 2s infinite; pointer-events: none;
-            display: flex; align-items: center; gap: 12px; white-space: nowrap;
-            transition: color 1.5s;
-        }
+        .swipe-hint { position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%); z-index: 15; font-size: clamp(1.1rem, 5vw, 1.5rem); color: #b8860b; font-weight: 600; opacity: 0.85; animation: pulseHint 2s infinite; pointer-events: none; display: flex; align-items: center; gap: 12px; white-space: nowrap; transition: color 1.5s; }
         body.theme-night .swipe-hint { color: #ffd700; }
-        body.theme-sunset .swipe-hint,
-        body.theme-afternoon .swipe-hint { color: #fff; }
+        body.theme-sunset .swipe-hint, body.theme-afternoon .swipe-hint { color: #fff; }
         .swipe-hint .arrow { font-size: 1.8rem; animation: swipeArrow 2s infinite; }
         @keyframes pulseHint { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
         @keyframes swipeArrow { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-10px); } }
@@ -669,10 +263,8 @@
         .dot.active { background: #b8860b; transform: scale(1.4); box-shadow: 0 0 14px rgba(184, 134, 11, 0.7); }
         body.theme-night .dot { background: rgba(255, 215, 0, 0.35); }
         body.theme-night .dot.active { background: #ffd700; box-shadow: 0 0 14px rgba(255, 215, 0, 0.9); }
-        body.theme-sunset .dot,
-        body.theme-afternoon .dot { background: rgba(255, 255, 255, 0.4); }
-        body.theme-sunset .dot.active,
-        body.theme-afternoon .dot.active { background: #fff; box-shadow: 0 0 14px rgba(255, 255, 255, 0.9); }
+        body.theme-sunset .dot, body.theme-afternoon .dot { background: rgba(255, 255, 255, 0.4); }
+        body.theme-sunset .dot.active, body.theme-afternoon .dot.active { background: #fff; box-shadow: 0 0 14px rgba(255, 255, 255, 0.9); }
 
         /* ===== MOBILE ===== */
         @media (max-width: 640px) {
@@ -704,38 +296,150 @@
             .mode-btn { padding: 6px 8px; font-size: 0.68rem; }
         }
 
-        /* Reducir movimiento */
+        /* ===== TABLET / LAPTOP PEQUEÑO (641px - 1023px) ===== */
+        @media (min-width: 641px) and (max-width: 1023px) {
+            #screen-welcome h1 { font-size: clamp(3.5rem, 8vw, 5.5rem); }
+            #screen-welcome p { font-size: clamp(1.2rem, 2.2vw, 1.6rem); max-width: 560px; }
+            .btn { padding: 16px 44px; font-size: 1.1rem; }
+            .card-scene { max-width: 640px; top: 46%; }
+            .card { padding: 3.5rem 2.5rem; border-radius: 30px; }
+            .card h2 { font-size: clamp(2.8rem, 5.5vw, 3.8rem); margin-bottom: 1.6rem; }
+            .card p { font-size: clamp(1.1rem, 1.8vw, 1.3rem); margin-bottom: 1.8rem; }
+            .card .footer { font-size: clamp(1.7rem, 3.5vw, 2.3rem); margin-bottom: 1.8rem; }
+            .card::before { font-size: 1.8rem; padding: 8px 28px; top: -22px; }
+            .flowers-3d { transform: scale(0.42); }
+            .mini-garden { height: 120px; }
+            .mini-flower { width: 60px; height: 110px; }
+            .mini-flower__stem { height: 70px; }
+            .mini-flower__head { width: 48px; height: 48px; }
+        }
+
+        /* ===== DESKTOP / PANTALLAS GRANDES (1024px+) ===== */
+        @media (min-width: 1024px) {
+            /* Jardín 3D mucho más pequeño */
+            .flowers-3d { transform: scale(0.22); }
+
+            /* Bienvenida proporcional */
+            #screen-welcome { padding: 6vw 5vw; }
+            #screen-welcome h1 {
+                font-size: clamp(3rem, 5vw, 4.5rem);
+                margin-bottom: 1.2rem;
+                line-height: 1.1;
+            }
+            #screen-welcome p {
+                font-size: clamp(1rem, 1.2vw, 1.25rem);
+                max-width: 560px;
+                margin-bottom: 2rem;
+                line-height: 1.6;
+            }
+
+            /* Botones compactos */
+            .btn { padding: 14px 42px; font-size: 1rem; letter-spacing: 0.5px; }
+
+            /* Interruptor de modos más pequeño */
+            .mode-switch { top: 14px; padding: 4px; gap: 4px; }
+            .mode-btn { padding: 7px 12px; font-size: 0.78rem; }
+
+            /* Tarjetas con mejor proporción */
+            .card-scene { max-width: 620px; top: 47%; }
+            .card {
+                padding: 3rem 2.5rem;
+                border-radius: 28px;
+            }
+            .card::before {
+                font-size: 1.5rem;
+                padding: 8px 26px;
+                top: -22px;
+                border-radius: 24px;
+            }
+            .card h2 {
+                font-size: clamp(2.4rem, 3.5vw, 3.2rem);
+                margin-bottom: 1.4rem;
+            }
+            .card p {
+                font-size: clamp(0.98rem, 1.1vw, 1.15rem);
+                margin-bottom: 1.6rem;
+                line-height: 1.65;
+            }
+            .card .footer {
+                font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+                margin-bottom: 1.6rem;
+            }
+
+            /* Mini jardín más discreto */
+            .mini-garden { height: 110px; padding: 0 25px; }
+            .mini-flower { width: 55px; height: 100px; }
+            .mini-flower__stem { height: 63px; width: 4px; }
+            .mini-flower__leaf { width: 20px; height: 12px; bottom: 28px; }
+            .mini-flower__head { width: 44px; height: 44px; }
+            .mini-flower__petal { width: 7px; height: 19px; margin-left: -3.5px; margin-top: -19px; }
+            .mini-flower__center { width: 15px; height: 15px; }
+
+            /* Hint y dots */
+            .swipe-hint { font-size: 0.95rem; bottom: 22px; gap: 8px; }
+            .swipe-hint .arrow { font-size: 1.3rem; }
+            .dots-container { bottom: 65px; gap: 10px; }
+            .dot { width: 10px; height: 10px; }
+            .dot.active { transform: scale(1.3); box-shadow: 0 0 10px rgba(184, 134, 11, 0.6); }
+
+            /* Ramo final más contenido */
+            #bouquet-svg { max-width: 420px; max-height: 48vh; }
+            #final-message { font-size: clamp(2rem, 3vw, 2.8rem); margin: 1.2rem 0; }
+            #draw-text { font-size: clamp(1.8rem, 2.8vw, 2.4rem); }
+            #canvas-flor { max-height: 60vh; }
+
+            /* Pétalos/emojis ligeramente más pequeños */
+            .petal-fall { box-shadow: inset 0 0 3px rgba(255, 255, 255, 0.5); }
+        }
+
+        /* ===== PANTALLAS MUY GRANDES (1440px+) ===== */
+        @media (min-width: 1440px) {
+            .flowers-3d { transform: scale(0.26); }
+            #screen-welcome h1 { font-size: 4.8rem; }
+            #screen-welcome p { font-size: 1.25rem; }
+            .card-scene { max-width: 660px; }
+            .card { padding: 3.2rem 2.8rem; }
+            .card h2 { font-size: 3.4rem; }
+            .card p { font-size: 1.2rem; }
+            .card .footer { font-size: 2.2rem; }
+            .mini-garden { height: 120px; }
+            .mini-flower { width: 60px; height: 110px; }
+            .mini-flower__stem { height: 70px; }
+            .mini-flower__head { width: 48px; height: 48px; }
+            .mini-flower__petal { width: 8px; height: 21px; margin-left: -4px; margin-top: -21px; }
+            .mini-flower__center { width: 17px; height: 17px; }
+        }
+
+        /* ===== PANTALLAS ULTRA ANCHAS (1920px+) ===== */
+        @media (min-width: 1920px) {
+            .flowers-3d { transform: scale(0.3); }
+            #screen-welcome h1 { font-size: 5.2rem; }
+            .card-scene { max-width: 700px; }
+            .card h2 { font-size: 3.6rem; }
+            .card p { font-size: 1.3rem; }
+            .mini-garden { height: 130px; }
+            .mini-flower { width: 65px; height: 120px; }
+            .mini-flower__stem { height: 75px; }
+            .mini-flower__head { width: 52px; height: 52px; }
+        }
+
         @media (prefers-reduced-motion: reduce) {
-            .sun-rays, .aurora::before, .aurora::after { animation: none; }
+            .sun-rays, .aurora .aurora-band { animation: none; }
         }
     </style>
 </head>
 <body class="theme-day">
 
-    <!-- Capas de fondo apiladas -->
     <div class="bg-layers">
-        <div class="bg-layer bg-day active">
-            <div class="sun-rays"></div>
-            <div class="grid-overlay grid-day"></div>
-        </div>
-        <div class="bg-layer bg-afternoon">
-            <div class="grid-overlay grid-afternoon"></div>
-        </div>
-        <div class="bg-layer bg-sunset">
-            <div class="aurora"></div>
-            <div class="grid-overlay grid-sunset"></div>
-        </div>
-        <div class="bg-layer bg-night">
-            <div class="aurora"></div>
-            <div class="stars"></div>
-            <div class="grid-overlay grid-night"></div>
-        </div>
+        <div class="bg-layer bg-day active"><div class="sun-rays"></div><div class="grid-overlay grid-day"></div></div>
+        <div class="bg-layer bg-afternoon"><div class="grid-overlay grid-afternoon"></div></div>
+        <div class="bg-layer bg-sunset"><div class="aurora"><div class="aurora-band"></div><div class="aurora-band"></div><div class="aurora-band"></div></div><div class="grid-overlay grid-sunset"></div></div>
+        <div class="bg-layer bg-night"><div class="aurora"><div class="aurora-band"></div><div class="aurora-band"></div><div class="aurora-band"></div></div><div class="stars"></div><div class="grid-overlay grid-night"></div></div>
     </div>
 
-    <!-- Capa de efectos nocturnos (luciérnagas y estrellas fugaces) -->
     <div class="night-fx-layer" id="nightFxLayer"></div>
+    <div class="transition-layer" id="transition-layer"></div>
 
-    <!-- Interruptor de modos -->
     <div class="mode-switch">
         <button class="mode-btn" data-mode="day">☀️ Día</button>
         <button class="mode-btn" data-mode="sunset">🌅 Atardecer</button>
@@ -743,93 +447,38 @@
         <button class="mode-btn active" data-mode="auto">✨ Auto</button>
     </div>
 
-    <!-- Capa de pétalos y emojis cayendo -->
     <div class="falling-layer" id="falling-layer"></div>
-
-    <!-- Flores dispersas (fondo del ramo) -->
     <div class="scattered-garden" id="scattered-garden"></div>
 
-    <!-- Jardín 3D de fondo -->
-    <div class="garden-3d" id="garden-3d">
-        <div class="flowers-3d" id="flowers-3d"></div>
-    </div>
+    <div class="garden-3d" id="garden-3d"><div class="flowers-3d" id="flowers-3d"></div></div>
 
-    <!-- Mini jardín (barra inferior) -->
     <div class="mini-garden" id="mini-garden"></div>
 
-    <!-- PANTALLA 1: BIENVENIDA -->
     <section id="screen-welcome">
         <h1>Para Valeria</h1>
         <p>Hay cosas que solo se pueden decir con flores amarillas. ¿Me acompañas?</p>
         <button class="btn" id="btn-iniciar">Iniciar 💛</button>
     </section>
 
-    <!-- PANTALLA 2: CARRUSEL -->
     <section id="screen-carousel">
         <div id="carousel">
-            <div class="card-scene" data-index="0">
-                <div class="card">
-                    <h2>Para Valeria</h2>
-                    <p>A veces las palabras se quedan cortas. Por eso preferí decirte esto con flores. 🌻</p>
-                    <div class="footer">Porque hay cosas que se sienten, no se explican.</div>
-                    <button class="btn btn-next" data-next="1">Siguiente ✨</button>
-                </div>
-            </div>
-            <div class="card-scene" data-index="1">
-                <div class="card">
-                    <h2>Una razón</h2>
-                    <p>Contigo hasta lo más simple se vuelve especial. Una charla, una risa, un silencio... todo tiene otro color.</p>
-                    <div class="footer">Y eso no lo hace cualquiera. ✨</div>
-                    <button class="btn btn-next" data-next="2">Siguiente ✨</button>
-                </div>
-            </div>
-            <div class="card-scene" data-index="2">
-                <div class="card">
-                    <h2>Para ti</h2>
-                    <p>Ojalá estas flores te recuerden lo que vales. Cada pétalo es un motivo. Cada tallo, una razón. Y todas apuntan a ti.</p>
-                    <div class="footer">Con cariño, para Valeria 💛</div>
-                    <button class="btn btn-next" data-next="3">Siguiente ✨</button>
-                </div>
-            </div>
-            <div class="card-scene" data-index="3">
-                <div class="card">
-                    <h2>Lo último</h2>
-                    <p>Si estuvieras aquí, te lo daría sin decir nada. Solo mirándote. Pero como no puedo, te dejo esto: un pedacito de lo que siento, disfrazado de flores amarillas.</p>
-                    <div class="footer">Son para ti, Valeria. ❤️</div>
-                    <button class="btn" id="btn-draw">Dibujar mi flor 🌻</button>
-                </div>
-            </div>
+            <div class="card-scene" data-index="0"><div class="card"><h2>Para Valeria</h2><p>A veces las palabras se quedan cortas. Por eso preferí decirte esto con flores. 🌻</p><div class="footer">Porque hay cosas que se sienten, no se explican.</div><button class="btn btn-next" data-next="1">Siguiente ✨</button></div></div>
+            <div class="card-scene" data-index="1"><div class="card"><h2>Una razón</h2><p>Contigo hasta lo más simple se vuelve especial. Una charla, una risa, un silencio... todo tiene otro color.</p><div class="footer">Y eso no lo hace cualquiera. ✨</div><button class="btn btn-next" data-next="2">Siguiente ✨</button></div></div>
+            <div class="card-scene" data-index="2"><div class="card"><h2>Para ti</h2><p>Ojalá estas flores te recuerden lo que vales. Cada pétalo es un motivo. Cada tallo, una razón. Y todas apuntan a ti.</p><div class="footer">Con cariño, para Valeria 💛</div><button class="btn btn-next" data-next="3">Siguiente ✨</button></div></div>
+            <div class="card-scene" data-index="3"><div class="card"><h2>Lo último</h2><p>Si estuvieras aquí, te lo daría sin decir nada. Solo mirándote. Pero como no puedo, te dejo esto: un pedacito de lo que siento, disfrazado de flores amarillas.</p><div class="footer">Son para ti, Valeria. ❤️</div><button class="btn" id="btn-draw">Dibujar mi flor 🌻</button></div></div>
         </div>
         <div class="swipe-hint" id="swipe-hint"><span class="arrow">👉</span><span>Desliza o haz clic</span></div>
-        <div class="dots-container" id="dots-container">
-            <div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
-        </div>
+        <div class="dots-container" id="dots-container"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
     </section>
 
-    <!-- PANTALLA 3: DIBUJO -->
-    <section id="screen-draw">
-        <canvas id="canvas-flor" width="800" height="600"></canvas>
-        <div id="draw-text">Se está dibujando algo para ti... 🌻</div>
-    </section>
+    <section id="screen-draw"><canvas id="canvas-flor" width="800" height="600"></canvas><div id="draw-text">Se está dibujando algo para ti... 🌻</div></section>
 
-    <!-- PANTALLA 4: RAMO FINAL -->
     <section id="screen-bouquet">
         <svg id="bouquet-svg" viewBox="0 0 500 600" xmlns="http://www.w3.org/2000/svg">
             <path class="bouquet-wrapper" d="M 250 580 L 130 320 L 250 280 L 370 320 Z" />
             <path class="bouquet-wrapper" d="M 250 580 L 170 360 L 250 320 L 330 360 Z" fill="#c4a172" />
-            <g id="stems-group">
-                <path class="bouquet-stem" d="M 250 560 Q 230 460 200 340" />
-                <path class="bouquet-stem" d="M 250 560 Q 250 440 250 300" />
-                <path class="bouquet-stem" d="M 250 560 Q 270 460 300 340" />
-                <path class="bouquet-stem" d="M 250 560 Q 210 480 170 420" />
-                <path class="bouquet-stem" d="M 250 560 Q 290 480 330 420" />
-            </g>
-            <g id="leaves-group">
-                <path class="bouquet-leaf" d="M 220 480 Q 140 450 120 380 Q 180 400 220 460 Z" />
-                <path class="bouquet-leaf" d="M 280 480 Q 360 450 380 380 Q 320 400 280 460 Z" />
-                <path class="bouquet-leaf" d="M 235 400 Q 170 380 150 320 Q 200 340 235 380 Z" />
-                <path class="bouquet-leaf" d="M 265 400 Q 330 380 350 320 Q 300 340 265 380 Z" />
-            </g>
+            <g id="stems-group"><path class="bouquet-stem" d="M 250 560 Q 230 460 200 340" /><path class="bouquet-stem" d="M 250 560 Q 250 440 250 300" /><path class="bouquet-stem" d="M 250 560 Q 270 460 300 340" /><path class="bouquet-stem" d="M 250 560 Q 210 480 170 420" /><path class="bouquet-stem" d="M 250 560 Q 290 480 330 420" /></g>
+            <g id="leaves-group"><path class="bouquet-leaf" d="M 220 480 Q 140 450 120 380 Q 180 400 220 460 Z" /><path class="bouquet-leaf" d="M 280 480 Q 360 450 380 380 Q 320 400 280 460 Z" /><path class="bouquet-leaf" d="M 235 400 Q 170 380 150 320 Q 200 340 235 380 Z" /><path class="bouquet-leaf" d="M 265 400 Q 330 380 350 320 Q 300 340 265 380 Z" /></g>
             <g id="flowers-group"></g>
         </svg>
         <div id="final-message"></div>
@@ -837,32 +486,17 @@
     </section>
 
     <script>
-        // ============ TÍTULO DINÁMICO ============
         let TituloOriginal = document.title;
         window.addEventListener('blur', () => { TituloOriginal = document.title; document.title = "No te vayas, regresa :("; });
         window.addEventListener('focus', () => { document.title = TituloOriginal; });
 
-        // ============ GENERAR MINI-FLOR HTML ============
         function createMiniFlowerHTML() {
-            return `
-                <div class="mini-flower">
-                    <div class="mini-flower__head">
-                        <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
-                        <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
-                        <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
-                        <div class="mini-flower__petal"></div><div class="mini-flower__petal"></div>
-                        <div class="mini-flower__center"></div>
-                    </div>
-                    <div class="mini-flower__stem"></div>
-                    <div class="mini-flower__leaf mini-flower__leaf--left"></div>
-                    <div class="mini-flower__leaf mini-flower__leaf--right"></div>
-                </div>`;
+            return `<div class="mini-flower"><div class="mini-flower__head"><div class="mini-flower__petal"></div><div class="mini-flower__petal"></div><div class="mini-flower__petal"></div><div class="mini-flower__petal"></div><div class="mini-flower__petal"></div><div class="mini-flower__petal"></div><div class="mini-flower__petal"></div><div class="mini-flower__petal"></div><div class="mini-flower__center"></div></div><div class="mini-flower__stem"></div><div class="mini-flower__leaf mini-flower__leaf--left"></div><div class="mini-flower__leaf mini-flower__leaf--right"></div></div>`;
         }
 
         const miniGardenBar = document.getElementById('mini-garden');
         for (let i = 0; i < 6; i++) miniGardenBar.innerHTML += createMiniFlowerHTML();
 
-        // ============ FLORES DISPERSAS (FONDO DEL RAMO) ============
         const scatteredGarden = document.getElementById('scattered-garden');
         for (let i = 0; i < 24; i++) {
             const wrapper = document.createElement('div');
@@ -878,7 +512,6 @@
             scatteredGarden.appendChild(wrapper);
         }
 
-        // ============ GENERAR JARDÍN 3D ============
         const flowers3dContainer = document.getElementById('flowers-3d');
         function create3DFlower(flowerClass, leafsClass, numPetals) {
             const f = document.createElement('div');
@@ -890,13 +523,7 @@
             }
             html += `<div class="flower__white-circle-3d"></div>`;
             for (let i = 1; i <= 8; i++) html += `<div class="flower__light-3d flower__light-3d--${i}"></div>`;
-            html += `</div>`;
-            html += `<div class="flower__line-3d">
-                <div class="flower__line__leaf-3d flower__line__leaf-3d--1"></div>
-                <div class="flower__line__leaf-3d flower__line__leaf-3d--2"></div>
-                <div class="flower__line__leaf-3d flower__line__leaf-3d--3"></div>
-                <div class="flower__line__leaf-3d flower__line__leaf-3d--4"></div>
-            </div>`;
+            html += `</div><div class="flower__line-3d"><div class="flower__line__leaf-3d flower__line__leaf-3d--1"></div><div class="flower__line__leaf-3d flower__line__leaf-3d--2"></div><div class="flower__line__leaf-3d flower__line__leaf-3d--3"></div><div class="flower__line__leaf-3d flower__line__leaf-3d--4"></div></div>`;
             f.innerHTML = html;
             flowers3dContainer.appendChild(f);
         }
@@ -906,7 +533,6 @@
         create3DFlower('flower-3d--4', 'flower__leafs--4', 12);
         create3DFlower('flower-3d--5', 'flower__leafs--5', 10);
 
-        // ============ PÉTALOS Y EMOJIS CAYENDO ============
         const fallingLayer = document.getElementById('falling-layer');
         const emojisList = ['🌻', '💛', '🌼', '✨', '💫', '🌟', '💛', '🌻'];
 
@@ -917,7 +543,7 @@
             const size = Math.random() * 14 + 12;
             petal.style.width = size + 'px';
             petal.style.height = (size * 1.2) + 'px';
-            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.left = Math.random() * 100 + '%';
             const duration = Math.random() * 6 + 6;
             petal.style.animationDuration = duration + 's';
             petal.style.opacity = Math.random() * 0.4 + 0.5;
@@ -933,7 +559,7 @@
             emoji.textContent = emojisList[Math.floor(Math.random() * emojisList.length)];
             const size = Math.random() * 2 + 1.6;
             emoji.style.fontSize = size + 'rem';
-            emoji.style.left = Math.random() * 100 + 'vw';
+            emoji.style.left = Math.random() * 100 + '%';
             const duration = Math.random() * 8 + 8;
             emoji.style.animationDuration = duration + 's';
             fallingLayer.appendChild(emoji);
@@ -945,7 +571,6 @@
         for (let i = 0; i < 8; i++) setTimeout(spawnPetal, i * 250);
         for (let i = 0; i < 5; i++) setTimeout(spawnEmoji, i * 500);
 
-        // ============ EFECTO 1: CURSOR TRAIL DORADO ============
         let lastTrailTime = 0;
         function spawnTrail(x, y) {
             const now = performance.now();
@@ -962,69 +587,45 @@
             setTimeout(() => p.remove(), 900);
         }
         window.addEventListener('mousemove', e => spawnTrail(e.clientX, e.clientY));
-        window.addEventListener('touchmove', e => {
-            const t = e.touches[0];
-            if (t) spawnTrail(t.clientX, t.clientY);
-        }, { passive: true });
+        window.addEventListener('touchmove', e => { const t = e.touches[0]; if (t) spawnTrail(t.clientX, t.clientY); }, { passive: true });
 
-        // ============ EFECTO 7: LUCIÉRNAGAS EN MODO NOCHE ============
         const nightFxLayer = document.getElementById('nightFxLayer');
-        function spawnFireflies() {
-            for (let i = 0; i < 18; i++) {
-                const f = document.createElement('div');
-                f.className = 'firefly';
-                f.style.left = (Math.random() * 100) + 'vw';
-                f.style.top = (Math.random() * 100 + 30) + 'vh';
-                f.style.animationDelay = (Math.random() * 10) + 's';
-                f.style.animationDuration = (Math.random() * 6 + 8) + 's';
-                nightFxLayer.appendChild(f);
-            }
+        for (let i = 0; i < 18; i++) {
+            const f = document.createElement('div');
+            f.className = 'firefly';
+            f.style.left = (Math.random() * 100) + '%';
+            f.style.top = (Math.random() * 100 + 30) + '%';
+            f.style.animationDelay = (Math.random() * 10) + 's';
+            f.style.animationDuration = (Math.random() * 6 + 8) + 's';
+            nightFxLayer.appendChild(f);
         }
-        spawnFireflies();
 
-        // ============ EFECTO 4: ESTRELLAS FUGACES ============
         function shootStar() {
             if (!document.body.classList.contains('theme-night')) return;
             const star = document.createElement('div');
             star.className = 'shooting-star';
-            const startX = Math.random() * 40 + 55; // 55vw - 95vw
-            const startY = Math.random() * 30 + 5;  // 5vh - 35vh
-            star.style.left = startX + 'vw';
-            star.style.top = startY + 'vh';
+            star.style.left = (Math.random() * 45 + 50) + '%';
+            star.style.top = (Math.random() * 35 + 3) + '%';
             nightFxLayer.appendChild(star);
-
-            const angle = 200 + Math.random() * 20; // ángulo hacia abajo-izquierda
-            const dx = -400 - Math.random() * 300;
-            const dy = 300 + Math.random() * 200;
-            const duration = 1000 + Math.random() * 600;
-
+            const angle = 200 + Math.random() * 25;
+            const dx = -450 - Math.random() * 350;
+            const dy = 350 + Math.random() * 250;
+            const duration = 900 + Math.random() * 500;
             star.animate([
                 { transform: `translate(0, 0) rotate(${angle}deg)`, opacity: 0 },
-                { transform: `translate(${dx * 0.15}px, ${dy * 0.15}px) rotate(${angle}deg)`, opacity: 1, offset: 0.2 },
+                { transform: `translate(${dx * 0.15}px, ${dy * 0.15}px) rotate(${angle}deg)`, opacity: 1, offset: 0.15 },
                 { transform: `translate(${dx}px, ${dy}px) rotate(${angle}deg)`, opacity: 0 }
-            ], {
-                duration: duration,
-                easing: 'cubic-bezier(0.3, 0.6, 0.4, 1)',
-                fill: 'forwards'
-            });
+            ], { duration, easing: 'cubic-bezier(0.3, 0.6, 0.4, 1)', fill: 'forwards' });
             setTimeout(() => star.remove(), duration + 100);
         }
-        setInterval(() => { if (Math.random() > 0.35) shootStar(); }, 4500);
-        // Estrella inicial cuando entra en noche
-        setTimeout(shootStar, 1500);
+        setInterval(() => { if (Math.random() > 0.2) shootStar(); if (Math.random() > 0.75) setTimeout(shootStar, 300); }, 1600);
 
-        // ============ EFECTO 5: RIPPLE EN BOTONES ============
         function addRipple(e) {
             const btn = e.currentTarget;
             const rect = btn.getBoundingClientRect();
             let x, y;
-            if (e.touches && e.touches[0]) {
-                x = e.touches[0].clientX - rect.left;
-                y = e.touches[0].clientY - rect.top;
-            } else {
-                x = e.clientX - rect.left;
-                y = e.clientY - rect.top;
-            }
+            if (e.touches && e.touches[0]) { x = e.touches[0].clientX - rect.left; y = e.touches[0].clientY - rect.top; }
+            else { x = e.clientX - rect.left; y = e.clientY - rect.top; }
             const size = Math.max(rect.width, rect.height);
             const ripple = document.createElement('span');
             ripple.className = 'ripple';
@@ -1043,7 +644,6 @@
         }
         attachRipple();
 
-        // ============ EFECTO 3: FUEGOS ARTIFICIALES DE FLORES ============
         function burstFlowers(cx, cy) {
             const count = 45;
             for (let i = 0; i < count; i++) {
@@ -1056,57 +656,39 @@
                 p.style.top = (cy - size / 2) + 'px';
                 p.style.animation = 'none';
                 document.body.appendChild(p);
-
                 const angle = (Math.PI * 2 / count) * i + Math.random() * 0.4;
                 const dist = Math.random() * 220 + 140;
                 const dx = Math.cos(angle) * dist;
                 const dy = Math.sin(angle) * dist;
                 const duration = 1100 + Math.random() * 700;
-
-                p.animate([
-                    { transform: 'translate(0, 0) scale(1)', opacity: 1 },
-                    { transform: `translate(${dx}px, ${dy}px) scale(0)`, opacity: 0 }
-                ], {
-                    duration: duration,
-                    easing: 'cubic-bezier(0.15, 0.7, 0.3, 1)',
-                    fill: 'forwards'
-                });
+                p.animate([{ transform: 'translate(0, 0) scale(1)', opacity: 1 }, { transform: `translate(${dx}px, ${dy}px) scale(0)`, opacity: 0 }], { duration, easing: 'cubic-bezier(0.15, 0.7, 0.3, 1)', fill: 'forwards' });
                 setTimeout(() => p.remove(), duration + 100);
             }
         }
 
-        // ============ EFECTO 13: PÉTALOS EXPLOSIVOS AL CAMBIAR TARJETA ============
+        const transitionLayer = document.getElementById('transition-layer');
         function petalTransition() {
+            const w = window.innerWidth;
             for (let i = 0; i < 14; i++) {
                 const p = document.createElement('div');
                 p.className = 'petal-fall';
-                p.style.position = 'fixed';
-                p.style.top = (Math.random() * 40 + 30) + 'vh';
+                p.style.top = (Math.random() * 40 + 30) + '%';
                 const fromLeft = Math.random() > 0.5;
-                p.style.left = fromLeft ? '-20px' : (window.innerWidth + 20) + 'px';
+                p.style.left = fromLeft ? '0px' : w + 'px';
                 p.style.width = (Math.random() * 8 + 12) + 'px';
                 p.style.height = (Math.random() * 10 + 16) + 'px';
                 p.style.animation = 'none';
-                document.body.appendChild(p);
-
+                p.style.position = 'absolute';
+                transitionLayer.appendChild(p);
                 const direction = fromLeft ? 1 : -1;
                 const dx = direction * (Math.random() * 250 + 120);
                 const dy = Math.random() * 200 + 80;
                 const rot = Math.random() * 720;
-
-                p.animate([
-                    { transform: 'translate(0, 0) rotate(0deg)', opacity: 1 },
-                    { transform: `translate(${dx}px, ${dy}px) rotate(${rot}deg)`, opacity: 0 }
-                ], {
-                    duration: 1300,
-                    easing: 'cubic-bezier(0.2, 0.8, 0.3, 1)',
-                    fill: 'forwards'
-                });
+                p.animate([{ transform: 'translate(0, 0) rotate(0deg)', opacity: 1 }, { transform: `translate(${dx}px, ${dy}px) rotate(${rot}deg)`, opacity: 0 }], { duration: 1300, easing: 'cubic-bezier(0.2, 0.8, 0.3, 1)', fill: 'forwards' });
                 setTimeout(() => p.remove(), 1400);
             }
         }
 
-        // ============ SISTEMA DE TEMAS ============
         const body = document.body;
         const modeButtons = document.querySelectorAll('.mode-btn');
         const autoThemes = ['day', 'afternoon', 'sunset', 'night'];
@@ -1116,38 +698,25 @@
         function setTheme(themeName) {
             if (themeName === currentTheme) return;
             currentTheme = themeName;
-            document.querySelectorAll('.bg-layer').forEach(layer => {
-                layer.classList.toggle('active', layer.classList.contains('bg-' + themeName));
-            });
+            document.querySelectorAll('.bg-layer').forEach(layer => { layer.classList.toggle('active', layer.classList.contains('bg-' + themeName)); });
             body.classList.remove('theme-day', 'theme-afternoon', 'theme-sunset', 'theme-night');
             body.classList.add('theme-' + themeName);
         }
-
-        function setActiveButton(mode) {
-            modeButtons.forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
-        }
-
+        function setActiveButton(mode) { modeButtons.forEach(b => b.classList.toggle('active', b.dataset.mode === mode)); }
         function applyAutoThemeForCard(cardIndex) {
             if (currentMode !== 'auto') return;
             const theme = autoThemes[Math.min(cardIndex, autoThemes.length - 1)];
             setTheme(theme);
         }
-
         modeButtons.forEach(btn => {
             btn.addEventListener('click', () => {
                 const mode = btn.dataset.mode;
                 setActiveButton(mode);
-                if (mode === 'auto') {
-                    currentMode = 'auto';
-                    applyAutoThemeForCard(currentCard >= 0 ? currentCard : 0);
-                } else {
-                    currentMode = mode;
-                    setTheme(mode);
-                }
+                if (mode === 'auto') { currentMode = 'auto'; applyAutoThemeForCard(currentCard >= 0 ? currentCard : 0); }
+                else { currentMode = mode; setTheme(mode); }
             });
         });
 
-        // ============ NAVEGACIÓN ============
         const screenWelcome = document.getElementById('screen-welcome');
         const screenCarousel = document.getElementById('screen-carousel');
         const screenDraw = document.getElementById('screen-draw');
@@ -1155,13 +724,9 @@
 
         document.getElementById('btn-iniciar').addEventListener('click', () => {
             screenWelcome.classList.add('hidden');
-            setTimeout(() => {
-                screenCarousel.classList.add('active');
-                goToCard(0);
-            }, 500);
+            setTimeout(() => { screenCarousel.classList.add('active'); goToCard(0); }, 500);
         });
 
-        // ============ CARRUSEL ============
         const cardScenes = Array.from(document.querySelectorAll('.card-scene'));
         const totalCards = cardScenes.length;
         const dots = document.querySelectorAll('.dot');
@@ -1184,9 +749,7 @@
                 prevEl.classList.add(direction);
                 setTimeout(() => prevEl.classList.remove(direction), 600);
             }
-            // Explosión de pétalos al cambiar de tarjeta
             if (prevCard >= 0) petalTransition();
-
             currentCard = nextCard;
             applyAutoThemeForCard(nextCard);
             setTimeout(() => {
@@ -1195,23 +758,16 @@
                 if (nextCard === totalCards - 1) swipeHint.classList.add('hidden');
                 else swipeHint.classList.remove('hidden');
                 isAnimating = false;
-                // Re-aplicar ripple por si acaso se añadieron botones dinámicamente
                 attachRipple();
             }, 350);
         }
 
         document.querySelectorAll('.btn-next').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                goToCard(parseInt(btn.getAttribute('data-next'), 10));
-            });
+            btn.addEventListener('click', (e) => { e.stopPropagation(); goToCard(parseInt(btn.getAttribute('data-next'), 10)); });
         });
 
         let touchStartX = 0, touchStartY = 0;
-        screenCarousel.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-            touchStartY = e.changedTouches[0].screenY;
-        }, { passive: true });
+        screenCarousel.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; touchStartY = e.changedTouches[0].screenY; }, { passive: true });
         screenCarousel.addEventListener('touchend', (e) => {
             const dx = touchStartX - e.changedTouches[0].screenX;
             const dy = touchStartY - e.changedTouches[0].screenY;
@@ -1231,17 +787,12 @@
             else goToCard(currentCard - 1);
         }, { passive: false });
 
-        // ============ DIBUJO EN CANVAS ============
         const canvasFlor = document.getElementById('canvas-flor');
         const ctxFlor = canvasFlor.getContext('2d');
 
         function dibujarPetalo(x, y, radioX, escala, rotacion, color, pasos) {
             const anguloIncremento = (Math.PI / pasos) * 2;
-            ctxFlor.save();
-            ctxFlor.translate(x, y);
-            ctxFlor.rotate(rotacion);
-            ctxFlor.scale(1, escala);
-            ctxFlor.beginPath();
+            ctxFlor.save(); ctxFlor.translate(x, y); ctxFlor.rotate(rotacion); ctxFlor.scale(1, escala); ctxFlor.beginPath();
             for (let i = 0; i <= pasos; i++) {
                 const anguloActual = i * anguloIncremento;
                 const radioActual = Math.sin(anguloActual) * radioX;
@@ -1250,11 +801,7 @@
                 if (i === 0) ctxFlor.moveTo(puntoX, puntoY);
                 else ctxFlor.lineTo(puntoX, puntoY);
             }
-            ctxFlor.strokeStyle = color;
-            ctxFlor.fillStyle = color;
-            ctxFlor.fill();
-            ctxFlor.stroke();
-            ctxFlor.restore();
+            ctxFlor.strokeStyle = color; ctxFlor.fillStyle = color; ctxFlor.fill(); ctxFlor.stroke(); ctxFlor.restore();
         }
 
         function dibujarFlor(x, y, numPetalos, radioXPetalo, radioYPetalo, altoTallo) {
@@ -1263,12 +810,7 @@
             let nuevaY = y;
             const dibujarTallo = () => {
                 if (nuevaY < y + altoTallo) {
-                    ctxFlor.beginPath();
-                    ctxFlor.moveTo(x, y);
-                    ctxFlor.lineTo(x, nuevaY);
-                    ctxFlor.lineWidth = 3;
-                    ctxFlor.strokeStyle = '#4a5d23';
-                    ctxFlor.stroke();
+                    ctxFlor.beginPath(); ctxFlor.moveTo(x, y); ctxFlor.lineTo(x, nuevaY); ctxFlor.lineWidth = 3; ctxFlor.strokeStyle = '#4a5d23'; ctxFlor.stroke();
                     nuevaY += altoPaso;
                     setTimeout(dibujarTallo, 30);
                 } else {
@@ -1292,14 +834,8 @@
                                     contadorPetalos++;
                                     setTimeout(dibujarSiguientePetalo, 150);
                                 } else {
-                                    ctxFlor.beginPath();
-                                    ctxFlor.arc(x, y, 15, 0, Math.PI * 2);
-                                    ctxFlor.fillStyle = '#5c4a1e';
-                                    ctxFlor.fill();
-                                    ctxFlor.beginPath();
-                                    ctxFlor.arc(x, y, 8, 0, Math.PI * 2);
-                                    ctxFlor.fillStyle = '#8B6508';
-                                    ctxFlor.fill();
+                                    ctxFlor.beginPath(); ctxFlor.arc(x, y, 15, 0, Math.PI * 2); ctxFlor.fillStyle = '#5c4a1e'; ctxFlor.fill();
+                                    ctxFlor.beginPath(); ctxFlor.arc(x, y, 8, 0, Math.PI * 2); ctxFlor.fillStyle = '#8B6508'; ctxFlor.fill();
                                     setTimeout(goToBouquet, 1200);
                                 }
                             }
@@ -1317,7 +853,6 @@
             swipeHint.classList.add('hidden');
             dotsContainer.classList.add('hidden');
             body.classList.add('hide-garden', 'hide-falling');
-
             setTimeout(() => {
                 screenDraw.classList.add('active');
                 ctxFlor.clearRect(0, 0, canvasFlor.width, canvasFlor.height);
@@ -1326,7 +861,6 @@
             }, 500);
         });
 
-        // ============ IR AL RAMO FINAL ============
         function goToBouquet() {
             screenDraw.classList.remove('active');
             setTimeout(() => {
@@ -1338,28 +872,19 @@
                     const bouquet = document.getElementById('bouquet-svg');
                     bouquet.classList.add('visible');
                     setTimeout(() => bouquet.classList.add('animate'), 300);
-                    // Typewriter para el mensaje final
                     setTimeout(() => {
                         const finalMsg = document.getElementById('final-message');
                         finalMsg.classList.add('visible');
                         typewriter(finalMsg, 'Con cariño, para Valeria 💛', 75);
                     }, 1800);
-                    // Fuegos artificiales cuando aparece el ramo
-                    setTimeout(() => {
-                        burstFlowers(window.innerWidth / 2, window.innerHeight / 2 - 50);
-                    }, 600);
-                    setTimeout(() => {
-                        burstFlowers(window.innerWidth * 0.3, window.innerHeight * 0.4);
-                    }, 1100);
-                    setTimeout(() => {
-                        burstFlowers(window.innerWidth * 0.7, window.innerHeight * 0.4);
-                    }, 1500);
+                    setTimeout(() => burstFlowers(window.innerWidth / 2, window.innerHeight / 2 - 50), 600);
+                    setTimeout(() => burstFlowers(window.innerWidth * 0.3, window.innerHeight * 0.4), 1100);
+                    setTimeout(() => burstFlowers(window.innerWidth * 0.7, window.innerHeight * 0.4), 1500);
                     setTimeout(() => document.getElementById('btn-restart').classList.add('visible'), 2800);
                 }, 400);
             }, 500);
         }
 
-        // ============ EFECTO 11: TYPEWRITER ============
         function typewriter(element, text, speed = 70) {
             element.textContent = '';
             const chars = Array.from(text);
@@ -1368,17 +893,12 @@
             cursor.className = 'typewriter-cursor';
             element.appendChild(cursor);
             const interval = setInterval(() => {
-                if (i >= chars.length) {
-                    clearInterval(interval);
-                    cursor.remove();
-                    return;
-                }
+                if (i >= chars.length) { clearInterval(interval); cursor.remove(); return; }
                 cursor.insertAdjacentText('beforebegin', chars[i]);
                 i++;
             }, speed);
         }
 
-        // ============ GENERAR RAMO FINAL ============
         const flowersGroup = document.getElementById('flowers-group');
         const SVG_NS = 'http://www.w3.org/2000/svg';
         const flowerConfigs = [
@@ -1417,11 +937,8 @@
             fg.appendChild(ci);
             flowersGroup.appendChild(fg);
         });
-        document.querySelectorAll('.bouquet-leaf').forEach((leaf, i) => {
-            leaf.style.transitionDelay = (0.2 + i * 0.1) + 's';
-        });
+        document.querySelectorAll('.bouquet-leaf').forEach((leaf, i) => { leaf.style.transitionDelay = (0.2 + i * 0.1) + 's'; });
 
-        // ============ REINICIAR ============
         document.getElementById('btn-restart').addEventListener('click', () => {
             const bouquet = document.getElementById('bouquet-svg');
             bouquet.classList.remove('visible', 'animate');
