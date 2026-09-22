@@ -24,6 +24,7 @@
         body.theme-sunset { color: #fff; }
         body.theme-night { color: #fff; }
 
+        /* ===== CAPAS DE FONDO ===== */
         .bg-layers { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
         .bg-layer { position: absolute; inset: 0; opacity: 0; transition: opacity 2.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .bg-layer.active { opacity: 1; }
@@ -32,11 +33,29 @@
         .bg-sunset    { background: linear-gradient(135deg, #ff9a76 0%, #d55b8a 45%, #6a4c93 100%); }
         .bg-night     { background: linear-gradient(135deg, #0b0b0b 0%, #1a1a2e 50%, #16213e 100%); }
 
+        /* ===== REJILLAS MÁS PEQUEÑAS Y SUTILES ===== */
         .grid-overlay { position: absolute; inset: 0; transition: opacity 2.4s ease; }
-        .grid-day { background-image: repeating-linear-gradient(220deg, rgba(184, 134, 11, 0.05) 0px, rgba(184, 134, 11, 0.05) 19px, transparent 19px, transparent 24px), repeating-linear-gradient(148deg, rgba(184, 134, 11, 0.04) 0px, rgba(184, 134, 11, 0.04) 19px, transparent 19px, transparent 24px); }
-        .grid-afternoon { background-image: repeating-linear-gradient(220deg, rgba(139, 69, 19, 0.07) 0px, rgba(139, 69, 19, 0.07) 19px, transparent 19px, transparent 24px), repeating-linear-gradient(148deg, rgba(139, 69, 19, 0.05) 0px, rgba(139, 69, 19, 0.05) 19px, transparent 19px, transparent 24px); }
-        .grid-sunset { background-image: repeating-linear-gradient(220deg, rgba(0, 0, 0, 0.08) 0px, rgba(0, 0, 0, 0.08) 19px, transparent 19px, transparent 24px), repeating-linear-gradient(148deg, rgba(0, 0, 0, 0.06) 0px, rgba(0, 0, 0, 0.06) 19px, transparent 19px, transparent 24px); }
-        .grid-night { background-image: repeating-linear-gradient(220deg, rgba(0, 0, 0, 0.7) 0px, rgba(0, 0, 0, 0.7) 19px, transparent 19px, transparent 24px), repeating-linear-gradient(189deg, rgba(0, 0, 0, 0.7) 0px, rgba(0, 0, 0, 0.7) 19px, transparent 19px, transparent 24px), repeating-linear-gradient(148deg, rgba(0, 0, 0, 0.7) 0px, rgba(0, 0, 0, 0.7) 19px, transparent 19px, transparent 24px); }
+        .grid-day {
+            background-image: 
+                repeating-linear-gradient(220deg, rgba(184, 134, 11, 0.028) 0px, rgba(184, 134, 11, 0.028) 6px, transparent 6px, transparent 12px),
+                repeating-linear-gradient(148deg, rgba(184, 134, 11, 0.024) 0px, rgba(184, 134, 11, 0.024) 6px, transparent 6px, transparent 12px);
+        }
+        .grid-afternoon {
+            background-image: 
+                repeating-linear-gradient(220deg, rgba(139, 69, 19, 0.04) 0px, rgba(139, 69, 19, 0.04) 6px, transparent 6px, transparent 12px),
+                repeating-linear-gradient(148deg, rgba(139, 69, 19, 0.03) 0px, rgba(139, 69, 19, 0.03) 6px, transparent 6px, transparent 12px);
+        }
+        .grid-sunset {
+            background-image: 
+                repeating-linear-gradient(220deg, rgba(0, 0, 0, 0.05) 0px, rgba(0, 0, 0, 0.05) 6px, transparent 6px, transparent 12px),
+                repeating-linear-gradient(148deg, rgba(0, 0, 0, 0.035) 0px, rgba(0, 0, 0, 0.035) 6px, transparent 6px, transparent 12px);
+        }
+        .grid-night {
+            background-image: 
+                repeating-linear-gradient(220deg, rgba(0, 0, 0, 0.5) 0px, rgba(0, 0, 0, 0.5) 6px, transparent 6px, transparent 12px),
+                repeating-linear-gradient(189deg, rgba(0, 0, 0, 0.5) 0px, rgba(0, 0, 0, 0.5) 6px, transparent 6px, transparent 12px),
+                repeating-linear-gradient(148deg, rgba(0, 0, 0, 0.5) 0px, rgba(0, 0, 0, 0.5) 6px, transparent 6px, transparent 12px);
+        }
 
         .bg-night .stars {
             position: absolute; inset: 0;
@@ -48,18 +67,72 @@
         .sun-rays { position: absolute; inset: -50%; background: conic-gradient(from 0deg, transparent 0deg, rgba(255, 220, 100, 0.10) 12deg, transparent 24deg, transparent 60deg, rgba(255, 220, 100, 0.07) 72deg, transparent 84deg, transparent 150deg, rgba(255, 220, 100, 0.08) 162deg, transparent 174deg, transparent 240deg, rgba(255, 220, 100, 0.06) 252deg, transparent 264deg); animation: rotateRays 90s linear infinite; transform-origin: 50% 40%; }
         @keyframes rotateRays { to { transform: rotate(360deg); } }
 
-        .aurora { position: absolute; top: -15%; left: -25%; width: 150%; height: 75%; pointer-events: none; filter: blur(50px); opacity: 0; transition: opacity 3s ease; }
+        /* ===== AURORAS MÁS VISIBLES Y CON MÁS MOVIMIENTO ===== */
+        .aurora {
+            position: absolute;
+            top: -25%; left: -30%;
+            width: 160%; height: 95%;
+            pointer-events: none;
+            filter: blur(40px);
+            opacity: 0;
+            transition: opacity 3s ease;
+        }
         .bg-layer.active .aurora { opacity: 1; }
-        .aurora .aurora-band { position: absolute; inset: 0; border-radius: 50%; will-change: transform, opacity; }
-        .aurora .aurora-band:nth-child(1) { background: linear-gradient(90deg, transparent 5%, var(--aurora-c1) 30%, var(--aurora-c2) 55%, var(--aurora-c3) 75%, transparent 95%); animation: auroraWave1 14s ease-in-out infinite; }
-        .aurora .aurora-band:nth-child(2) { background: linear-gradient(90deg, transparent 10%, var(--aurora-c3) 40%, var(--aurora-c1) 65%, transparent 90%); animation: auroraWave2 18s ease-in-out infinite; filter: blur(30px); top: 15%; height: 70%; opacity: 0.85; }
-        .aurora .aurora-band:nth-child(3) { background: linear-gradient(90deg, transparent 15%, var(--aurora-c2) 35%, var(--aurora-c3) 50%, var(--aurora-c1) 70%, transparent 90%); animation: auroraWave3 11s ease-in-out infinite; filter: blur(40px); top: -15%; height: 85%; opacity: 0.75; mix-blend-mode: screen; }
-        @keyframes auroraWave1 { 0%, 100% { transform: translateX(-18%) skewY(-7deg) scaleY(0.75) rotate(-2deg); opacity: 0.85; } 33% { transform: translateX(8%) skewY(3deg) scaleY(1.15) rotate(1deg); opacity: 1; } 66% { transform: translateX(18%) skewY(8deg) scaleY(0.9) rotate(2deg); opacity: 0.9; } }
-        @keyframes auroraWave2 { 0%, 100% { transform: translateX(20%) skewY(8deg) scaleY(1.2) rotate(2deg); opacity: 0.65; } 50% { transform: translateX(-20%) skewY(-8deg) scaleY(0.8) rotate(-2deg); opacity: 1; } }
-        @keyframes auroraWave3 { 0%, 100% { transform: translateX(-12%) skewY(-5deg) scaleY(0.85); opacity: 0.55; } 50% { transform: translateX(15%) skewY(6deg) scaleY(1.25); opacity: 1; } }
-        .bg-sunset .aurora { --aurora-c1: rgba(255, 180, 120, 0.7); --aurora-c2: rgba(220, 130, 200, 0.65); --aurora-c3: rgba(255, 220, 150, 0.55); }
-        .bg-night .aurora { --aurora-c1: rgba(80, 255, 180, 0.7); --aurora-c2: rgba(140, 100, 255, 0.65); --aurora-c3: rgba(80, 220, 255, 0.6); top: -10%; height: 70%; filter: blur(55px); }
+        .aurora .aurora-band {
+            position: absolute; inset: 0;
+            border-radius: 50%;
+            will-change: transform, opacity;
+        }
+        .aurora .aurora-band:nth-child(1) {
+            background: linear-gradient(90deg, transparent 3%, var(--aurora-c1) 25%, var(--aurora-c2) 50%, var(--aurora-c3) 72%, transparent 97%);
+            animation: auroraWave1 10s ease-in-out infinite;
+        }
+        .aurora .aurora-band:nth-child(2) {
+            background: linear-gradient(90deg, transparent 8%, var(--aurora-c3) 35%, var(--aurora-c1) 60%, transparent 92%);
+            animation: auroraWave2 14s ease-in-out infinite;
+            filter: blur(25px);
+            top: 12%; height: 75%;
+        }
+        .aurora .aurora-band:nth-child(3) {
+            background: linear-gradient(90deg, transparent 12%, var(--aurora-c2) 30%, var(--aurora-c3) 48%, var(--aurora-c1) 68%, transparent 92%);
+            animation: auroraWave3 8s ease-in-out infinite;
+            filter: blur(30px);
+            top: -20%; height: 90%;
+            mix-blend-mode: screen;
+        }
+        @keyframes auroraWave1 {
+            0%, 100% { transform: translateX(-35%) skewY(-12deg) scaleY(0.6) rotate(-4deg); opacity: 1; }
+            25% { transform: translateX(-5%) skewY(-2deg) scaleY(1.15) rotate(0deg); opacity: 1; }
+            50% { transform: translateX(20%) skewY(8deg) scaleY(0.9) rotate(3deg); opacity: 1; }
+            75% { transform: translateX(35%) skewY(14deg) scaleY(1.3) rotate(5deg); opacity: 1; }
+        }
+        @keyframes auroraWave2 {
+            0%, 100% { transform: translateX(35%) skewY(14deg) scaleY(1.35) rotate(4deg); opacity: 1; }
+            25% { transform: translateX(10%) skewY(4deg) scaleY(0.8) rotate(-2deg); opacity: 1; }
+            50% { transform: translateX(-20%) skewY(-8deg) scaleY(1.2) rotate(-4deg); opacity: 1; }
+            75% { transform: translateX(-35%) skewY(-14deg) scaleY(0.85) rotate(-6deg); opacity: 1; }
+        }
+        @keyframes auroraWave3 {
+            0%, 100% { transform: translateX(-25%) skewY(-8deg) scaleY(0.85) scaleX(1); opacity: 1; }
+            25% { transform: translateX(0%) skewY(0deg) scaleY(1.15) scaleX(1.05); opacity: 1; }
+            50% { transform: translateX(25%) skewY(10deg) scaleY(1.3) scaleX(1.1); opacity: 1; }
+            75% { transform: translateX(10%) skewY(4deg) scaleY(0.9) scaleX(1); opacity: 1; }
+        }
+        .bg-sunset .aurora {
+            --aurora-c1: rgba(255, 200, 130, 0.95);
+            --aurora-c2: rgba(235, 130, 220, 0.9);
+            --aurora-c3: rgba(255, 230, 160, 0.85);
+            filter: blur(45px);
+        }
+        .bg-night .aurora {
+            --aurora-c1: rgba(90, 255, 190, 0.95);
+            --aurora-c2: rgba(155, 110, 255, 0.9);
+            --aurora-c3: rgba(90, 230, 255, 0.85);
+            top: -20%; height: 90%;
+            filter: blur(48px);
+        }
 
+        /* ===== INTERRUPTOR DE MODOS ===== */
         .mode-switch { position: fixed; top: 20px; left: 0; right: 0; margin: 0 auto; width: fit-content; z-index: 200; display: flex; gap: 6px; background: rgba(255, 254, 249, 0.85); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); padding: 6px; border-radius: 30px; border: 1px solid rgba(184, 134, 11, 0.3); box-shadow: 0 8px 25px rgba(0,0,0,0.08); transition: background 1.2s, border-color 1.2s, box-shadow 1.2s; }
         body.theme-night .mode-switch, body.theme-sunset .mode-switch { background: rgba(30, 30, 40, 0.8); border-color: rgba(255, 215, 0, 0.3); }
         .mode-btn { background: transparent; border: none; padding: 10px 16px; border-radius: 20px; font-family: 'Poppins', sans-serif; font-size: 0.9rem; font-weight: 600; cursor: pointer; color: #6b5b3e; transition: all 0.6s; white-space: nowrap; }
@@ -77,8 +150,9 @@
         .firefly { position: absolute; width: 5px; height: 5px; background: #ffeb3b; border-radius: 50%; box-shadow: 0 0 8px #ffeb3b, 0 0 16px #ffd700, 0 0 24px #ffb347; animation: fireflyFloat 10s ease-in-out infinite; opacity: 0; }
         @keyframes fireflyFloat { 0% { transform: translate(0, 0) scale(0.5); opacity: 0; } 15% { opacity: 1; } 35% { transform: translate(60px, -80px) scale(1.1); opacity: 0.9; } 55% { transform: translate(-40px, -160px) scale(0.8); opacity: 0.6; } 75% { transform: translate(80px, -240px) scale(1); opacity: 0.9; } 100% { transform: translate(0, -320px) scale(0.5); opacity: 0; } }
 
-        .shooting-star { position: absolute; width: 200px; height: 2px; background: linear-gradient(90deg, transparent, #fff, rgba(255, 255, 255, 0.9), transparent); border-radius: 2px; filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 12px rgba(180, 220, 255, 0.9)); transform-origin: left center; pointer-events: none; }
+        /* (estrellas fugaces eliminadas) */
 
+        /* ===== JARDÍN 3D ===== */
         .garden-3d { position: fixed; bottom: 0; left: 0; width: 100%; height: 100vh; z-index: 2; pointer-events: none; display: flex; justify-content: center; align-items: flex-end; perspective: 1000px; overflow: hidden; transition: opacity 0.8s ease, visibility 0.8s; }
         body.hide-garden .garden-3d { opacity: 0; visibility: hidden; }
         .flowers-3d { position: relative; transform: scale(0.6); transform-origin: bottom center; }
@@ -126,26 +200,28 @@
         @keyframes grow-flower-tree { from { height: 0; border-radius: 1vmin; } }
         @keyframes sunflower-seeds { from { opacity: 0; transform: translateY(0vmin) rotate(0deg); } 20% { opacity: 1; transform: translateY(-3vmin) translateX(-1vmin) rotate(45deg); } 40% { opacity: 1; transform: translateY(-8vmin) translateX(1vmin) rotate(90deg); } 60% { transform: translateY(-12vmin) translateX(-1vmin) rotate(135deg); } 80% { transform: translateY(-16vmin) translateX(2vmin) rotate(180deg); opacity: 0.5; } to { transform: translateY(-25vmin) rotate(225deg); opacity: 0; } }
 
-        .mini-garden { position: fixed; bottom: 0; left: 0; right: 0; height: 160px; z-index: 3; pointer-events: none; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 20px; opacity: 0.95; transition: opacity 0.6s ease, visibility 0.6s; }
+        /* ===== MINI JARDÍN ===== */
+        .mini-garden { position: fixed; bottom: 0; left: 0; right: 0; height: 180px; z-index: 3; pointer-events: none; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 15px; opacity: 0.95; transition: opacity 0.6s ease, visibility 0.6s; }
         body.hide-garden .mini-garden { opacity: 0; visibility: hidden; }
-        .mini-flower { position: relative; width: 80px; height: 150px; transform-origin: bottom center; animation: miniSway 3s ease-in-out infinite; }
+        .mini-flower { position: relative; width: 85px; height: 160px; transform-origin: bottom center; animation: miniSway 3s ease-in-out infinite; }
         .mini-flower:nth-child(1) { animation-delay: 0s; } .mini-flower:nth-child(2) { animation-delay: 0.7s; }
         .mini-flower:nth-child(3) { animation-delay: 1.4s; } .mini-flower:nth-child(4) { animation-delay: 2.1s; }
         .mini-flower:nth-child(5) { animation-delay: 0.3s; } .mini-flower:nth-child(6) { animation-delay: 1.8s; }
         @keyframes miniSway { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
-        .mini-flower__stem { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 6px; height: 95px; background: linear-gradient(to top, #2E7D32, #43A047); border-radius: 3px; }
-        .mini-flower__leaf { position: absolute; bottom: 42px; width: 30px; height: 17px; background: #43A047; border-radius: 50% 0 50% 0; }
+        .mini-flower__stem { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 6px; height: 100px; background: linear-gradient(to top, #2E7D32, #43A047); border-radius: 3px; }
+        .mini-flower__leaf { position: absolute; bottom: 45px; width: 32px; height: 18px; background: #43A047; border-radius: 50% 0 50% 0; }
         .mini-flower__leaf--left { left: 0; transform: rotate(-25deg); }
         .mini-flower__leaf--right { right: 0; transform: scaleX(-1) rotate(-25deg); }
-        .mini-flower__head { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 65px; height: 65px; animation: miniHeadSpin 8s linear infinite; }
+        .mini-flower__head { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 70px; height: 70px; animation: miniHeadSpin 8s linear infinite; }
         @keyframes miniHeadSpin { 0% { transform: translateX(-50%) rotate(0deg); } 100% { transform: translateX(-50%) rotate(360deg); } }
-        .mini-flower__petal { position: absolute; top: 50%; left: 50%; width: 10px; height: 28px; background: linear-gradient(to top, #FFC107, #FFEB3B); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; transform-origin: 50% 100%; margin-left: -5px; margin-top: -28px; }
+        .mini-flower__petal { position: absolute; top: 50%; left: 50%; width: 11px; height: 30px; background: linear-gradient(to top, #FFC107, #FFEB3B); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; transform-origin: 50% 100%; margin-left: -5.5px; margin-top: -30px; }
         .mini-flower__petal:nth-child(1) { transform: rotate(0deg); } .mini-flower__petal:nth-child(2) { transform: rotate(45deg); }
         .mini-flower__petal:nth-child(3) { transform: rotate(90deg); } .mini-flower__petal:nth-child(4) { transform: rotate(135deg); }
         .mini-flower__petal:nth-child(5) { transform: rotate(180deg); } .mini-flower__petal:nth-child(6) { transform: rotate(225deg); }
         .mini-flower__petal:nth-child(7) { transform: rotate(270deg); } .mini-flower__petal:nth-child(8) { transform: rotate(315deg); }
-        .mini-flower__center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 22px; height: 22px; background: radial-gradient(circle, #5D4037, #3E2723); border-radius: 50%; z-index: 2; box-shadow: inset 0 0 5px rgba(0,0,0,0.5); }
+        .mini-flower__center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 24px; height: 24px; background: radial-gradient(circle, #5D4037, #3E2723); border-radius: 50%; z-index: 2; box-shadow: inset 0 0 5px rgba(0,0,0,0.5); }
 
+        /* ===== PÉTALOS Y EMOJIS ===== */
         .falling-layer { position: fixed; inset: 0; pointer-events: none; z-index: 4; overflow: hidden; transition: opacity 0.8s ease; }
         body.hide-falling .falling-layer { opacity: 0; }
         .petal-fall { position: absolute; top: -30px; background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%); border-radius: 60% 0 60% 60%; box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.5); animation: petalFall linear forwards; will-change: transform; }
@@ -168,15 +244,15 @@
 
         #screen-welcome { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 8vw 5vw; z-index: 20; transition: opacity 0.8s ease, visibility 0.8s; }
         #screen-welcome.hidden { opacity: 0; visibility: hidden; }
-        #screen-welcome h1 { font-family: 'Great Vibes', cursive; font-size: clamp(5rem, 22vw, 10rem); color: #b8860b; margin-bottom: 2rem; line-height: 1.05; text-shadow: 0 4px 25px rgba(255, 215, 0, 0.5), 0 0 50px rgba(255, 215, 0, 0.35); animation: fadeInUp 1.2s ease; transition: color 1.5s, text-shadow 1.5s; position: relative; z-index: 2; }
+        #screen-welcome h1 { font-family: 'Great Vibes', cursive; font-size: clamp(5.5rem, 24vw, 10rem); color: #b8860b; margin-bottom: 2rem; line-height: 1.05; text-shadow: 0 4px 25px rgba(255, 215, 0, 0.5), 0 0 50px rgba(255, 215, 0, 0.35); animation: fadeInUp 1.2s ease; transition: color 1.5s, text-shadow 1.5s; position: relative; z-index: 2; }
         body.theme-night #screen-welcome h1 { color: #ffd700; text-shadow: 0 4px 25px rgba(255, 215, 0, 0.6), 0 0 50px rgba(255, 215, 0, 0.4); }
         body.theme-sunset #screen-welcome h1 { color: #fff7d6; text-shadow: 0 4px 25px rgba(255, 255, 255, 0.4), 0 0 50px rgba(255, 215, 0, 0.4); }
-        #screen-welcome p { font-size: clamp(1.6rem, 7vw, 2.4rem); color: #6b5b3e; margin-bottom: 3.5rem; max-width: 750px; line-height: 1.5; animation: fadeInUp 1.2s ease 0.3s backwards; transition: color 1.5s; position: relative; z-index: 2; text-shadow: 0 0 20px rgba(253, 251, 247, 0.9), 0 0 30px rgba(253, 251, 247, 0.7); }
+        #screen-welcome p { font-size: clamp(1.7rem, 7.5vw, 2.5rem); color: #6b5b3e; margin-bottom: 3.5rem; max-width: 750px; line-height: 1.5; animation: fadeInUp 1.2s ease 0.3s backwards; transition: color 1.5s; position: relative; z-index: 2; text-shadow: 0 0 20px rgba(253, 251, 247, 0.9), 0 0 30px rgba(253, 251, 247, 0.7); }
         body.theme-night #screen-welcome p { color: #e0e0e0; text-shadow: 0 0 20px rgba(11, 11, 11, 0.9), 0 0 30px rgba(11, 11, 11, 0.7); }
         body.theme-sunset #screen-welcome p, body.theme-afternoon #screen-welcome p { color: #fff; text-shadow: 0 2px 15px rgba(0,0,0,0.4); }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        .btn { background: #b8860b; color: #fff; border: none; padding: 22px 65px; border-radius: 50px; font-size: clamp(1.3rem, 5.5vw, 1.8rem); font-family: 'Poppins', sans-serif; font-weight: 600; cursor: pointer; box-shadow: 0 10px 30px rgba(184, 134, 11, 0.45); transition: transform 0.2s, background 0.6s, box-shadow 0.6s, color 0.6s; letter-spacing: 1px; z-index: 10; }
+        .btn { background: #b8860b; color: #fff; border: none; padding: 24px 70px; border-radius: 50px; font-size: clamp(1.4rem, 6vw, 1.9rem); font-family: 'Poppins', sans-serif; font-weight: 600; cursor: pointer; box-shadow: 0 10px 30px rgba(184, 134, 11, 0.45); transition: transform 0.2s, background 0.6s, box-shadow 0.6s, color 0.6s; letter-spacing: 1px; z-index: 10; }
         .btn:hover { background: #8B6508; transform: translateY(-3px); box-shadow: 0 15px 35px rgba(184, 134, 11, 0.55); }
         .btn:active { transform: translateY(0) scale(0.97); }
         body.theme-night .btn { background: #ffd700; color: #111; box-shadow: 0 10px 30px rgba(255, 215, 0, 0.55); }
@@ -185,26 +261,26 @@
         #screen-carousel { position: fixed; inset: 0; z-index: 10; opacity: 0; visibility: hidden; transition: opacity 0.8s ease, visibility 0.8s; }
         #screen-carousel.active { opacity: 1; visibility: visible; }
         #carousel { position: relative; width: 100%; height: 100vh; overflow: hidden; }
-        .card-scene { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%) scale(0.9); width: 96%; max-width: 880px; opacity: 0; pointer-events: none; visibility: hidden; transition: opacity 0.6s ease, transform 0.6s ease; }
+        .card-scene { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%) scale(0.9); width: 96%; max-width: 900px; opacity: 0; pointer-events: none; visibility: hidden; transition: opacity 0.6s ease, transform 0.6s ease; }
         .card-scene.active { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; visibility: visible; }
         .card-scene.exit-left { opacity: 0; transform: translate(-150%, -50%) scale(0.8); visibility: hidden; }
         .card-scene.exit-right { opacity: 0; transform: translate(50%, -50%) scale(0.8); visibility: hidden; }
-        .card { background: rgba(255, 254, 249, 0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 215, 0, 0.5); border-radius: 40px; padding: 5.5rem 4rem; box-shadow: 0 20px 50px rgba(139, 101, 8, 0.18), inset 0 0 25px rgba(255, 215, 0, 0.1); text-align: center; position: relative; transition: background 1.2s, border-color 1.2s, box-shadow 1.2s; }
+        .card { background: rgba(255, 254, 249, 0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 215, 0, 0.5); border-radius: 40px; padding: 6rem 4rem; box-shadow: 0 20px 50px rgba(139, 101, 8, 0.18), inset 0 0 25px rgba(255, 215, 0, 0.1); text-align: center; position: relative; transition: background 1.2s, border-color 1.2s, box-shadow 1.2s; }
         body.theme-night .card { background: rgba(30, 30, 40, 0.88); border-color: rgba(255, 215, 0, 0.35); box-shadow: 0 20px 50px rgba(0,0,0,0.55); }
         body.theme-sunset .card { background: rgba(255, 250, 240, 0.9); border-color: rgba(255, 200, 100, 0.6); box-shadow: 0 20px 50px rgba(139, 69, 19, 0.25); }
         body.theme-afternoon .card { background: rgba(255, 252, 240, 0.9); border-color: rgba(255, 180, 100, 0.55); }
-        .card::before { content: '🌻 💛 🌻'; position: absolute; top: -30px; left: 50%; transform: translate(-50%, 0); background: rgba(255, 254, 249, 0.98); padding: 10px 42px; font-size: 2.5rem; border-radius: 32px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border: 1px solid rgba(255, 215, 0, 0.4); transition: background 1.2s; }
+        .card::before { content: '🌻 💛 🌻'; position: absolute; top: -32px; left: 50%; transform: translate(-50%, 0); background: rgba(255, 254, 249, 0.98); padding: 12px 46px; font-size: 2.7rem; border-radius: 34px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border: 1px solid rgba(255, 215, 0, 0.4); transition: background 1.2s; }
         body.theme-night .card::before { background: rgba(30, 30, 40, 0.98); }
         body.theme-sunset .card::before, body.theme-afternoon .card::before { background: rgba(255, 252, 240, 0.98); }
-        .card h2 { font-family: 'Great Vibes', cursive; font-size: clamp(4.2rem, 17vw, 6.5rem); color: #b8860b; margin-bottom: 2.4rem; line-height: 1.15; transition: color 1.2s; }
+        .card h2 { font-family: 'Great Vibes', cursive; font-size: clamp(4.5rem, 18vw, 7rem); color: #b8860b; margin-bottom: 2.5rem; line-height: 1.15; transition: color 1.2s; }
         body.theme-night .card h2 { color: #ffd700; }
         body.theme-sunset .card h2 { color: #c25b1e; }
         body.theme-afternoon .card h2 { color: #c25b1e; }
-        .card p { font-size: clamp(1.5rem, 6.2vw, 2rem); line-height: 1.65; color: #6b5b3e; margin-bottom: 2.7rem; transition: color 1.2s; }
+        .card p { font-size: clamp(1.6rem, 6.5vw, 2.1rem); line-height: 1.65; color: #6b5b3e; margin-bottom: 2.8rem; transition: color 1.2s; }
         body.theme-night .card p { color: #e0e0e0; }
         body.theme-sunset .card p { color: #5a3d2b; }
         body.theme-afternoon .card p { color: #5a3d2b; }
-        .card .footer { font-family: 'Great Vibes', cursive; font-size: clamp(2.6rem, 11vw, 3.8rem); color: #b8860b; margin-bottom: 2.5rem; transition: color 1.2s; }
+        .card .footer { font-family: 'Great Vibes', cursive; font-size: clamp(2.8rem, 12vw, 4rem); color: #b8860b; margin-bottom: 2.6rem; transition: color 1.2s; }
         body.theme-night .card .footer { color: #ffd700; }
         body.theme-sunset .card .footer, body.theme-afternoon .card .footer { color: #c25b1e; }
 
@@ -220,14 +296,14 @@
         #screen-draw.active { opacity: 1; visibility: visible; }
         #canvas-flor { max-width: 95vw; max-height: 65vh; animation: canvasGlow 3.2s ease-in-out infinite; }
         @keyframes canvasGlow { 0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3)) drop-shadow(0 0 40px rgba(255, 215, 0, 0.15)); } 50% { filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.6)) drop-shadow(0 0 80px rgba(255, 215, 0, 0.35)); } }
-        #draw-text { font-family: 'Great Vibes', cursive; font-size: clamp(2.6rem, 10vw, 4.2rem); color: #b8860b; text-align: center; margin-top: 1.5rem; padding: 0 20px; opacity: 0; transition: opacity 1s ease, color 1.2s; }
+        #draw-text { font-family: 'Great Vibes', cursive; font-size: clamp(2.8rem, 11vw, 4.4rem); color: #b8860b; text-align: center; margin-top: 1.5rem; padding: 0 20px; opacity: 0; transition: opacity 1s ease, color 1.2s; }
         #draw-text.visible { opacity: 1; }
         body.theme-night #draw-text { color: #ffd700; }
         body.theme-sunset #draw-text, body.theme-afternoon #draw-text { color: #fff; text-shadow: 0 2px 15px rgba(0,0,0,0.3); }
 
         #screen-bouquet { position: fixed; inset: 0; z-index: 30; display: flex; flex-direction: column; align-items: center; justify-content: center; background: transparent; opacity: 0; visibility: hidden; transition: opacity 1s ease, visibility 1s; padding: 5vw; }
         #screen-bouquet.active { opacity: 1; visibility: visible; }
-        #bouquet-svg { width: 95vw; max-width: 700px; max-height: 55vh; overflow: visible; opacity: 0; transform: scale(0.85); transition: opacity 1.2s ease, transform 1.2s ease; position: relative; z-index: 5; }
+        #bouquet-svg { width: 95vw; max-width: 720px; max-height: 55vh; overflow: visible; opacity: 0; transform: scale(0.85); transition: opacity 1.2s ease, transform 1.2s ease; position: relative; z-index: 5; }
         #bouquet-svg.visible { opacity: 1; transform: scale(1); }
         .bouquet-stem { fill: none; stroke: #4a5d23; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 800; stroke-dashoffset: 800; transition: stroke-dashoffset 1.8s ease-in-out; }
         #bouquet-svg.animate .bouquet-stem { stroke-dashoffset: 0; }
@@ -239,7 +315,7 @@
         #bouquet-svg.animate .bouquet-center { opacity: 1; transform: scale(1); }
         .bouquet-wrapper { fill: #e8d5a8; opacity: 0; transition: opacity 1s ease; }
         #bouquet-svg.animate .bouquet-wrapper { opacity: 0.95; }
-        #final-message { font-family: 'Great Vibes', cursive; font-size: clamp(3rem, 12vw, 4.8rem); color: #b8860b; text-align: center; margin: 2rem 0; opacity: 0; transform: translateY(20px); transition: opacity 1s ease 0.5s, transform 1s ease 0.5s, color 1.5s; position: relative; z-index: 5; min-height: 1.2em; }
+        #final-message { font-family: 'Great Vibes', cursive; font-size: clamp(3.2rem, 13vw, 5rem); color: #b8860b; text-align: center; margin: 2rem 0; opacity: 0; transform: translateY(20px); transition: opacity 1s ease 0.5s, transform 1s ease 0.5s, color 1.5s; position: relative; z-index: 5; min-height: 1.2em; }
         #final-message.visible { opacity: 1; transform: translateY(0); }
         body.theme-night #final-message { color: #ffd700; }
         body.theme-sunset #final-message, body.theme-afternoon #final-message { color: #fff; text-shadow: 0 2px 15px rgba(0,0,0,0.3); }
@@ -250,16 +326,16 @@
         .typewriter-cursor { display: inline-block; width: 3px; height: 1em; background: currentColor; vertical-align: text-bottom; margin-left: 4px; animation: blink 0.9s infinite; }
         @keyframes blink { 50% { opacity: 0; } }
 
-        .swipe-hint { position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%); z-index: 15; font-size: clamp(1.1rem, 5vw, 1.5rem); color: #b8860b; font-weight: 600; opacity: 0.85; animation: pulseHint 2s infinite; pointer-events: none; display: flex; align-items: center; gap: 12px; white-space: nowrap; transition: color 1.5s; }
+        .swipe-hint { position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%); z-index: 15; font-size: clamp(1.2rem, 5.5vw, 1.6rem); color: #b8860b; font-weight: 600; opacity: 0.85; animation: pulseHint 2s infinite; pointer-events: none; display: flex; align-items: center; gap: 12px; white-space: nowrap; transition: color 1.5s; }
         body.theme-night .swipe-hint { color: #ffd700; }
         body.theme-sunset .swipe-hint, body.theme-afternoon .swipe-hint { color: #fff; }
-        .swipe-hint .arrow { font-size: 1.8rem; animation: swipeArrow 2s infinite; }
+        .swipe-hint .arrow { font-size: 2rem; animation: swipeArrow 2s infinite; }
         @keyframes pulseHint { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
         @keyframes swipeArrow { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-10px); } }
         .swipe-hint.hidden { opacity: 0; }
-        .dots-container { position: fixed; bottom: 95px; left: 50%; transform: translateX(-50%); display: flex; gap: 14px; z-index: 15; transition: opacity 0.5s ease; }
+        .dots-container { position: fixed; bottom: 105px; left: 50%; transform: translateX(-50%); display: flex; gap: 16px; z-index: 15; transition: opacity 0.5s ease; }
         .dots-container.hidden { opacity: 0; }
-        .dot { width: 16px; height: 16px; border-radius: 50%; background: rgba(184, 134, 11, 0.35); transition: background 0.8s ease, transform 0.4s ease; }
+        .dot { width: 18px; height: 18px; border-radius: 50%; background: rgba(184, 134, 11, 0.35); transition: background 0.8s ease, transform 0.4s ease; }
         .dot.active { background: #b8860b; transform: scale(1.4); box-shadow: 0 0 14px rgba(184, 134, 11, 0.7); }
         body.theme-night .dot { background: rgba(255, 215, 0, 0.35); }
         body.theme-night .dot.active { background: #ffd700; box-shadow: 0 0 14px rgba(255, 215, 0, 0.9); }
@@ -268,35 +344,41 @@
 
         /* ===== MOBILE ===== */
         @media (max-width: 640px) {
-            .mode-switch { top: 12px; padding: 5px; }
-            .mode-btn { padding: 7px 10px; font-size: 0.72rem; }
-            .card { padding: 3.8rem 2rem; border-radius: 30px; }
-            .card p { font-size: 1.3rem; }
-            .card::before { font-size: 1.7rem; padding: 6px 24px; top: -22px; }
-            .swipe-hint { bottom: 15px; font-size: 1rem; }
-            .dots-container { bottom: 70px; }
-            .mini-garden { height: 110px; padding: 0 10px; }
-            .mini-flower { width: 50px; height: 95px; }
-            .mini-flower__stem { height: 60px; width: 4px; }
-            .mini-flower__leaf { width: 18px; height: 11px; bottom: 25px; }
-            .mini-flower__head { width: 42px; height: 42px; }
-            .mini-flower__petal { width: 7px; height: 18px; margin-left: -3.5px; margin-top: -18px; }
-            .mini-flower__center { width: 14px; height: 14px; }
-            .flowers-3d { transform: scale(0.5); }
+            .mode-switch { top: 12px; padding: 5px; gap: 3px; }
+            .mode-btn { padding: 8px 11px; font-size: 0.76rem; }
+            .card { padding: 4.5rem 2.2rem; border-radius: 34px; }
+            .card h2 { font-size: clamp(4rem, 15vw, 5.2rem); margin-bottom: 2rem; }
+            .card p { font-size: 1.5rem; line-height: 1.65; margin-bottom: 2.2rem; }
+            .card .footer { font-size: 2.5rem; margin-bottom: 2.2rem; }
+            .card::before { font-size: 2rem; padding: 8px 28px; top: -26px; }
+            .swipe-hint { bottom: 22px; font-size: 1.1rem; }
+            .dots-container { bottom: 85px; gap: 13px; }
+            .dot { width: 15px; height: 15px; }
+            .mini-garden { height: 140px; padding: 0 8px; }
+            .mini-flower { width: 62px; height: 120px; }
+            .mini-flower__stem { height: 78px; width: 5px; }
+            .mini-flower__leaf { width: 24px; height: 14px; bottom: 35px; }
+            .mini-flower__head { width: 52px; height: 52px; }
+            .mini-flower__petal { width: 8px; height: 22px; margin-left: -4px; margin-top: -22px; }
+            .mini-flower__center { width: 18px; height: 18px; }
+            .flowers-3d { transform: scale(0.55); }
+            #screen-welcome h1 { font-size: clamp(5.5rem, 24vw, 8rem); }
+            #screen-welcome p { font-size: clamp(1.6rem, 7.5vw, 2rem); }
+            .btn { padding: 20px 55px; font-size: 1.35rem; }
         }
         @media (max-width: 400px) {
-            #screen-welcome h1 { font-size: 4.5rem; }
-            #screen-welcome p { font-size: 1.35rem; }
-            .card { padding: 3rem 1.6rem; }
-            .card h2 { font-size: 3.4rem; }
-            .card p { font-size: 1.2rem; }
-            .card .footer { font-size: 2.1rem; }
-            .btn { padding: 16px 40px; font-size: 1.2rem; }
-            .flowers-3d { transform: scale(0.4); }
-            .mode-btn { padding: 6px 8px; font-size: 0.68rem; }
+            #screen-welcome h1 { font-size: 5.2rem; }
+            #screen-welcome p { font-size: 1.55rem; }
+            .card { padding: 4rem 1.8rem; }
+            .card h2 { font-size: 4.2rem; }
+            .card p { font-size: 1.4rem; }
+            .card .footer { font-size: 2.3rem; }
+            .btn { padding: 18px 44px; font-size: 1.25rem; }
+            .flowers-3d { transform: scale(0.48); }
+            .mode-btn { padding: 7px 9px; font-size: 0.72rem; }
         }
 
-        /* ===== TABLET / LAPTOP PEQUEÑO (641px - 1023px) ===== */
+        /* ===== TABLET (641px - 1023px) ===== */
         @media (min-width: 641px) and (max-width: 1023px) {
             #screen-welcome h1 { font-size: clamp(3.5rem, 8vw, 5.5rem); }
             #screen-welcome p { font-size: clamp(1.2rem, 2.2vw, 1.6rem); max-width: 560px; }
@@ -314,59 +396,21 @@
             .mini-flower__head { width: 48px; height: 48px; }
         }
 
-        /* ===== DESKTOP / PANTALLAS GRANDES (1024px+) ===== */
+        /* ===== DESKTOP (1024px+) ===== */
         @media (min-width: 1024px) {
-            /* Jardín 3D mucho más pequeño */
             .flowers-3d { transform: scale(0.22); }
-
-            /* Bienvenida proporcional */
             #screen-welcome { padding: 6vw 5vw; }
-            #screen-welcome h1 {
-                font-size: clamp(3rem, 5vw, 4.5rem);
-                margin-bottom: 1.2rem;
-                line-height: 1.1;
-            }
-            #screen-welcome p {
-                font-size: clamp(1rem, 1.2vw, 1.25rem);
-                max-width: 560px;
-                margin-bottom: 2rem;
-                line-height: 1.6;
-            }
-
-            /* Botones compactos */
+            #screen-welcome h1 { font-size: clamp(3rem, 5vw, 4.5rem); margin-bottom: 1.2rem; line-height: 1.1; }
+            #screen-welcome p { font-size: clamp(1rem, 1.2vw, 1.25rem); max-width: 560px; margin-bottom: 2rem; line-height: 1.6; }
             .btn { padding: 14px 42px; font-size: 1rem; letter-spacing: 0.5px; }
-
-            /* Interruptor de modos más pequeño */
             .mode-switch { top: 14px; padding: 4px; gap: 4px; }
             .mode-btn { padding: 7px 12px; font-size: 0.78rem; }
-
-            /* Tarjetas con mejor proporción */
             .card-scene { max-width: 620px; top: 47%; }
-            .card {
-                padding: 3rem 2.5rem;
-                border-radius: 28px;
-            }
-            .card::before {
-                font-size: 1.5rem;
-                padding: 8px 26px;
-                top: -22px;
-                border-radius: 24px;
-            }
-            .card h2 {
-                font-size: clamp(2.4rem, 3.5vw, 3.2rem);
-                margin-bottom: 1.4rem;
-            }
-            .card p {
-                font-size: clamp(0.98rem, 1.1vw, 1.15rem);
-                margin-bottom: 1.6rem;
-                line-height: 1.65;
-            }
-            .card .footer {
-                font-size: clamp(1.6rem, 2.6vw, 2.1rem);
-                margin-bottom: 1.6rem;
-            }
-
-            /* Mini jardín más discreto */
+            .card { padding: 3rem 2.5rem; border-radius: 28px; }
+            .card::before { font-size: 1.5rem; padding: 8px 26px; top: -22px; border-radius: 24px; }
+            .card h2 { font-size: clamp(2.4rem, 3.5vw, 3.2rem); margin-bottom: 1.4rem; }
+            .card p { font-size: clamp(0.98rem, 1.1vw, 1.15rem); margin-bottom: 1.6rem; line-height: 1.65; }
+            .card .footer { font-size: clamp(1.6rem, 2.6vw, 2.1rem); margin-bottom: 1.6rem; }
             .mini-garden { height: 110px; padding: 0 25px; }
             .mini-flower { width: 55px; height: 100px; }
             .mini-flower__stem { height: 63px; width: 4px; }
@@ -374,25 +418,16 @@
             .mini-flower__head { width: 44px; height: 44px; }
             .mini-flower__petal { width: 7px; height: 19px; margin-left: -3.5px; margin-top: -19px; }
             .mini-flower__center { width: 15px; height: 15px; }
-
-            /* Hint y dots */
             .swipe-hint { font-size: 0.95rem; bottom: 22px; gap: 8px; }
             .swipe-hint .arrow { font-size: 1.3rem; }
             .dots-container { bottom: 65px; gap: 10px; }
             .dot { width: 10px; height: 10px; }
             .dot.active { transform: scale(1.3); box-shadow: 0 0 10px rgba(184, 134, 11, 0.6); }
-
-            /* Ramo final más contenido */
             #bouquet-svg { max-width: 420px; max-height: 48vh; }
             #final-message { font-size: clamp(2rem, 3vw, 2.8rem); margin: 1.2rem 0; }
             #draw-text { font-size: clamp(1.8rem, 2.8vw, 2.4rem); }
             #canvas-flor { max-height: 60vh; }
-
-            /* Pétalos/emojis ligeramente más pequeños */
-            .petal-fall { box-shadow: inset 0 0 3px rgba(255, 255, 255, 0.5); }
         }
-
-        /* ===== PANTALLAS MUY GRANDES (1440px+) ===== */
         @media (min-width: 1440px) {
             .flowers-3d { transform: scale(0.26); }
             #screen-welcome h1 { font-size: 4.8rem; }
@@ -409,8 +444,6 @@
             .mini-flower__petal { width: 8px; height: 21px; margin-left: -4px; margin-top: -21px; }
             .mini-flower__center { width: 17px; height: 17px; }
         }
-
-        /* ===== PANTALLAS ULTRA ANCHAS (1920px+) ===== */
         @media (min-width: 1920px) {
             .flowers-3d { transform: scale(0.3); }
             #screen-welcome h1 { font-size: 5.2rem; }
@@ -600,25 +633,7 @@
             nightFxLayer.appendChild(f);
         }
 
-        function shootStar() {
-            if (!document.body.classList.contains('theme-night')) return;
-            const star = document.createElement('div');
-            star.className = 'shooting-star';
-            star.style.left = (Math.random() * 45 + 50) + '%';
-            star.style.top = (Math.random() * 35 + 3) + '%';
-            nightFxLayer.appendChild(star);
-            const angle = 200 + Math.random() * 25;
-            const dx = -450 - Math.random() * 350;
-            const dy = 350 + Math.random() * 250;
-            const duration = 900 + Math.random() * 500;
-            star.animate([
-                { transform: `translate(0, 0) rotate(${angle}deg)`, opacity: 0 },
-                { transform: `translate(${dx * 0.15}px, ${dy * 0.15}px) rotate(${angle}deg)`, opacity: 1, offset: 0.15 },
-                { transform: `translate(${dx}px, ${dy}px) rotate(${angle}deg)`, opacity: 0 }
-            ], { duration, easing: 'cubic-bezier(0.3, 0.6, 0.4, 1)', fill: 'forwards' });
-            setTimeout(() => star.remove(), duration + 100);
-        }
-        setInterval(() => { if (Math.random() > 0.2) shootStar(); if (Math.random() > 0.75) setTimeout(shootStar, 300); }, 1600);
+        // (estrellas fugaces eliminadas)
 
         function addRipple(e) {
             const btn = e.currentTarget;
