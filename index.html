@@ -20,7 +20,7 @@
         body.theme-sunset { color: #fff; }
         body.theme-night { color: #fff; }
 
-        /* ===== CAPAS DE FONDO (STACKED PARA TRANSICIÓN SUAVE) ===== */
+        /* ===== CAPAS DE FONDO ===== */
         .bg-layers {
             position: fixed; inset: 0; z-index: 0;
             pointer-events: none; overflow: hidden;
@@ -37,10 +37,7 @@
         .bg-sunset    { background: linear-gradient(135deg, #ff9a76 0%, #d55b8a 45%, #6a4c93 100%); }
         .bg-night     { background: linear-gradient(135deg, #0b0b0b 0%, #1a1a2e 50%, #16213e 100%); }
 
-        .grid-overlay {
-            position: absolute; inset: 0;
-            transition: opacity 2.4s ease;
-        }
+        .grid-overlay { position: absolute; inset: 0; transition: opacity 2.4s ease; }
         .grid-day {
             background-image: 
                 repeating-linear-gradient(220deg, rgba(184, 134, 11, 0.05) 0px, rgba(184, 134, 11, 0.05) 19px, transparent 19px, transparent 24px),
@@ -67,6 +64,7 @@
             opacity: 1;
         }
 
+        /* Estrellas fijas del modo noche */
         .bg-night .stars {
             position: absolute; inset: 0;
             background-image: 
@@ -79,6 +77,81 @@
             animation: twinkle 4s ease-in-out infinite;
         }
         @keyframes twinkle { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+
+        /* ==== EFECTO 6: RAYOS DE SOL EN MODO DÍA ==== */
+        .sun-rays {
+            position: absolute; inset: -50%;
+            background: conic-gradient(from 0deg,
+                transparent 0deg,
+                rgba(255, 220, 100, 0.10) 12deg,
+                transparent 24deg,
+                transparent 60deg,
+                rgba(255, 220, 100, 0.07) 72deg,
+                transparent 84deg,
+                transparent 150deg,
+                rgba(255, 220, 100, 0.08) 162deg,
+                transparent 174deg,
+                transparent 240deg,
+                rgba(255, 220, 100, 0.06) 252deg,
+                transparent 264deg);
+            animation: rotateRays 90s linear infinite;
+            transform-origin: 50% 40%;
+        }
+        @keyframes rotateRays { to { transform: rotate(360deg); } }
+
+        /* ==== EFECTO 8: AURORAS BOREALES ==== */
+        .aurora {
+            position: absolute;
+            top: -15%; left: -20%;
+            width: 140%; height: 70%;
+            pointer-events: none;
+            filter: blur(50px);
+            opacity: 0;
+            transition: opacity 3s ease;
+        }
+        .bg-layer.active .aurora { opacity: 1; }
+
+        .aurora::before,
+        .aurora::after {
+            content: '';
+            position: absolute; inset: 0;
+            border-radius: 50%;
+        }
+        .aurora::before {
+            background: linear-gradient(90deg, transparent 10%, var(--aurora-c1) 35%, var(--aurora-c2) 60%, transparent 90%);
+            animation: auroraWave1 16s ease-in-out infinite;
+        }
+        .aurora::after {
+            background: linear-gradient(90deg, transparent 15%, var(--aurora-c3) 45%, var(--aurora-c2) 70%, transparent 95%);
+            animation: auroraWave2 22s ease-in-out infinite;
+            filter: blur(30px);
+            opacity: 0.8;
+            top: 20%; height: 60%;
+        }
+        @keyframes auroraWave1 {
+            0%, 100% { transform: translateX(-12%) skewY(-4deg) scaleY(0.85); }
+            50% { transform: translateX(12%) skewY(4deg) scaleY(1.15); }
+        }
+        @keyframes auroraWave2 {
+            0%, 100% { transform: translateX(15%) skewY(5deg) scaleY(1.1); }
+            50% { transform: translateX(-15%) skewY(-5deg) scaleY(0.85); }
+        }
+
+        /* Aurora cálida para atardecer */
+        .bg-sunset .aurora {
+            --aurora-c1: rgba(255, 180, 120, 0.55);
+            --aurora-c2: rgba(220, 130, 200, 0.5);
+            --aurora-c3: rgba(255, 220, 150, 0.4);
+        }
+
+        /* Aurora fría estilo boreal para la noche */
+        .bg-night .aurora {
+            --aurora-c1: rgba(80, 255, 180, 0.55);   /* verde aurora */
+            --aurora-c2: rgba(140, 100, 255, 0.5);   /* violeta */
+            --aurora-c3: rgba(80, 220, 255, 0.45);   /* turquesa */
+            top: -10%; height: 65%;
+            filter: blur(60px);
+        }
 
         /* ===== INTERRUPTOR DE MODOS ===== */
         .mode-switch {
@@ -111,6 +184,45 @@
         body.theme-night .mode-btn.active { background: #ffd700; color: #111; }
         body.theme-sunset .mode-btn.active { background: #d55b8a; color: #fff; }
         .mode-btn:hover:not(.active) { background: rgba(184, 134, 11, 0.15); }
+
+        /* ==== CAPA DE EFECTOS NOCTURNOS (luciérnagas + estrellas fugaces) ==== */
+        .night-fx-layer {
+            position: fixed; inset: 0; pointer-events: none;
+            z-index: 3; overflow: hidden;
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+        body.theme-night .night-fx-layer { opacity: 1; }
+
+        /* ==== EFECTO 7: LUCIÉRNAGAS ==== */
+        .firefly {
+            position: absolute;
+            width: 5px; height: 5px;
+            background: #ffeb3b;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #ffeb3b, 0 0 16px #ffd700, 0 0 24px #ffb347;
+            animation: fireflyFloat 10s ease-in-out infinite;
+            opacity: 0;
+        }
+        @keyframes fireflyFloat {
+            0%   { transform: translate(0, 0) scale(0.5); opacity: 0; }
+            15%  { opacity: 1; }
+            35%  { transform: translate(60px, -80px) scale(1.1); opacity: 0.9; }
+            55%  { transform: translate(-40px, -160px) scale(0.8); opacity: 0.6; }
+            75%  { transform: translate(80px, -240px) scale(1); opacity: 0.9; }
+            100% { transform: translate(0, -320px) scale(0.5); opacity: 0; }
+        }
+
+        /* ==== EFECTO 4: ESTRELLAS FUGACES ==== */
+        .shooting-star {
+            position: absolute;
+            width: 180px; height: 2px;
+            background: linear-gradient(90deg, transparent, #fff, rgba(255, 255, 255, 0.9), transparent);
+            border-radius: 2px;
+            filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 12px rgba(180, 220, 255, 0.8));
+            transform-origin: left center;
+            pointer-events: none;
+        }
 
         /* ===== JARDÍN 3D DE FONDO ===== */
         .garden-3d {
@@ -277,7 +389,36 @@
             100% { transform: translateY(115vh) translateX(-60px) rotate(-360deg) scale(1.1); opacity: 0; }
         }
 
-        /* ===== FLORES DISPERSAS (MINI-JARDÍN DE FONDO EN EL RAMO) ===== */
+        /* ==== EFECTO 1: CURSOR TRAIL DORADO ==== */
+        .trail-particle {
+            position: fixed; pointer-events: none;
+            z-index: 999;
+            border-radius: 50%;
+            background: radial-gradient(circle, #fff8b0, #ffd700 40%, #ff8c00 80%);
+            box-shadow: 0 0 8px #ffd700, 0 0 16px #ff8c00;
+            animation: trailFade 0.9s ease-out forwards;
+            will-change: transform, opacity;
+        }
+        @keyframes trailFade {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        /* ==== EFECTO 5: RIPPLE EN BOTONES ==== */
+        .btn { position: relative; overflow: hidden; }
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: rippleAnim 0.75s ease-out;
+            pointer-events: none;
+        }
+        @keyframes rippleAnim {
+            to { transform: scale(4); opacity: 0; }
+        }
+
+        /* ===== FLORES DISPERSAS (FONDO DEL RAMO) ===== */
         .scattered-garden {
             position: fixed; inset: 0; pointer-events: none;
             z-index: 1; opacity: 0;
@@ -334,7 +475,7 @@
             font-family: 'Poppins', sans-serif; font-weight: 600;
             cursor: pointer; box-shadow: 0 10px 30px rgba(184, 134, 11, 0.45);
             transition: transform 0.2s, background 0.6s, box-shadow 0.6s, color 0.6s;
-            letter-spacing: 1px; position: relative; z-index: 10;
+            letter-spacing: 1px; z-index: 10;
         }
         .btn:hover { background: #8B6508; transform: translateY(-3px); box-shadow: 0 15px 35px rgba(184, 134, 11, 0.55); }
         .btn:active { transform: translateY(0) scale(0.97); }
@@ -412,6 +553,17 @@
         body.theme-sunset .card .footer,
         body.theme-afternoon .card .footer { color: #c25b1e; }
 
+        /* ==== EFECTO 9: REVELADO ESCALONADO ==== */
+        .card-scene.active h2 { animation: revealItem 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s backwards; }
+        .card-scene.active p { animation: revealItem 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.35s backwards; }
+        .card-scene.active .footer { animation: revealItem 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.55s backwards; }
+        .card-scene.active .btn { animation: revealItem 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.75s backwards; }
+        .card-scene.active .card::before { animation: revealItem 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) 0.05s backwards; }
+        @keyframes revealItem {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* ===== PANTALLA DIBUJO ===== */
         #screen-draw {
             position: fixed; inset: 0; z-index: 15;
@@ -420,7 +572,17 @@
             transition: opacity 0.8s ease, visibility 0.8s;
         }
         #screen-draw.active { opacity: 1; visibility: visible; }
-        #canvas-flor { max-width: 95vw; max-height: 65vh; }
+
+        /* ==== EFECTO 10: PULSO DE RESPIRACIÓN EN EL CANVAS ==== */
+        #canvas-flor {
+            max-width: 95vw; max-height: 65vh;
+            animation: canvasGlow 3.2s ease-in-out infinite;
+        }
+        @keyframes canvasGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3)) drop-shadow(0 0 40px rgba(255, 215, 0, 0.15)); }
+            50% { filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.6)) drop-shadow(0 0 80px rgba(255, 215, 0, 0.35)); }
+        }
+
         #draw-text {
             font-family: 'Great Vibes', cursive;
             font-size: clamp(2.6rem, 10vw, 4.2rem);
@@ -462,8 +624,9 @@
             font-size: clamp(3rem, 12vw, 4.8rem);
             color: #b8860b; text-align: center; margin: 2rem 0;
             opacity: 0; transform: translateY(20px);
-            transition: opacity 1s ease 1.5s, transform 1s ease 1.5s, color 1.5s;
+            transition: opacity 1s ease 0.5s, transform 1s ease 0.5s, color 1.5s;
             position: relative; z-index: 5;
+            min-height: 1.2em;
         }
         #final-message.visible { opacity: 1; transform: translateY(0); }
         body.theme-night #final-message { color: #ffd700; }
@@ -472,6 +635,17 @@
         #screen-bouquet .btn { opacity: 0; transform: translateY(20px); transition: opacity 1s ease 2.5s, transform 1s ease 2.5s, background 0.6s, box-shadow 0.6s; position: relative; z-index: 5; }
         #screen-bouquet .btn.visible { opacity: 1; transform: translateY(0); }
         #screen-bouquet .btn.visible:hover { transform: translateY(-3px); }
+
+        /* Cursor parpadeante para typewriter */
+        .typewriter-cursor {
+            display: inline-block;
+            width: 3px; height: 1em;
+            background: currentColor;
+            vertical-align: text-bottom;
+            margin-left: 4px;
+            animation: blink 0.9s infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
 
         /* ===== HINT Y DOTS ===== */
         .swipe-hint {
@@ -529,17 +703,37 @@
             .flowers-3d { transform: scale(0.4); }
             .mode-btn { padding: 6px 8px; font-size: 0.68rem; }
         }
+
+        /* Reducir movimiento */
+        @media (prefers-reduced-motion: reduce) {
+            .sun-rays, .aurora::before, .aurora::after { animation: none; }
+        }
     </style>
 </head>
 <body class="theme-day">
 
     <!-- Capas de fondo apiladas -->
     <div class="bg-layers">
-        <div class="bg-layer bg-day active"><div class="grid-overlay grid-day"></div></div>
-        <div class="bg-layer bg-afternoon"><div class="grid-overlay grid-afternoon"></div></div>
-        <div class="bg-layer bg-sunset"><div class="grid-overlay grid-sunset"></div></div>
-        <div class="bg-layer bg-night"><div class="grid-overlay grid-night"></div><div class="stars"></div></div>
+        <div class="bg-layer bg-day active">
+            <div class="sun-rays"></div>
+            <div class="grid-overlay grid-day"></div>
+        </div>
+        <div class="bg-layer bg-afternoon">
+            <div class="grid-overlay grid-afternoon"></div>
+        </div>
+        <div class="bg-layer bg-sunset">
+            <div class="aurora"></div>
+            <div class="grid-overlay grid-sunset"></div>
+        </div>
+        <div class="bg-layer bg-night">
+            <div class="aurora"></div>
+            <div class="stars"></div>
+            <div class="grid-overlay grid-night"></div>
+        </div>
     </div>
+
+    <!-- Capa de efectos nocturnos (luciérnagas y estrellas fugaces) -->
+    <div class="night-fx-layer" id="nightFxLayer"></div>
 
     <!-- Interruptor de modos -->
     <div class="mode-switch">
@@ -638,7 +832,7 @@
             </g>
             <g id="flowers-group"></g>
         </svg>
-        <div id="final-message">Con cariño, para Valeria 💛</div>
+        <div id="final-message"></div>
         <button class="btn" id="btn-restart">Volver a iniciar 🌻</button>
     </section>
 
@@ -751,6 +945,167 @@
         for (let i = 0; i < 8; i++) setTimeout(spawnPetal, i * 250);
         for (let i = 0; i < 5; i++) setTimeout(spawnEmoji, i * 500);
 
+        // ============ EFECTO 1: CURSOR TRAIL DORADO ============
+        let lastTrailTime = 0;
+        function spawnTrail(x, y) {
+            const now = performance.now();
+            if (now - lastTrailTime < 38) return;
+            lastTrailTime = now;
+            const p = document.createElement('div');
+            p.className = 'trail-particle';
+            const size = Math.random() * 8 + 4;
+            p.style.width = size + 'px';
+            p.style.height = size + 'px';
+            p.style.left = (x - size / 2) + 'px';
+            p.style.top = (y - size / 2) + 'px';
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 900);
+        }
+        window.addEventListener('mousemove', e => spawnTrail(e.clientX, e.clientY));
+        window.addEventListener('touchmove', e => {
+            const t = e.touches[0];
+            if (t) spawnTrail(t.clientX, t.clientY);
+        }, { passive: true });
+
+        // ============ EFECTO 7: LUCIÉRNAGAS EN MODO NOCHE ============
+        const nightFxLayer = document.getElementById('nightFxLayer');
+        function spawnFireflies() {
+            for (let i = 0; i < 18; i++) {
+                const f = document.createElement('div');
+                f.className = 'firefly';
+                f.style.left = (Math.random() * 100) + 'vw';
+                f.style.top = (Math.random() * 100 + 30) + 'vh';
+                f.style.animationDelay = (Math.random() * 10) + 's';
+                f.style.animationDuration = (Math.random() * 6 + 8) + 's';
+                nightFxLayer.appendChild(f);
+            }
+        }
+        spawnFireflies();
+
+        // ============ EFECTO 4: ESTRELLAS FUGACES ============
+        function shootStar() {
+            if (!document.body.classList.contains('theme-night')) return;
+            const star = document.createElement('div');
+            star.className = 'shooting-star';
+            const startX = Math.random() * 40 + 55; // 55vw - 95vw
+            const startY = Math.random() * 30 + 5;  // 5vh - 35vh
+            star.style.left = startX + 'vw';
+            star.style.top = startY + 'vh';
+            nightFxLayer.appendChild(star);
+
+            const angle = 200 + Math.random() * 20; // ángulo hacia abajo-izquierda
+            const dx = -400 - Math.random() * 300;
+            const dy = 300 + Math.random() * 200;
+            const duration = 1000 + Math.random() * 600;
+
+            star.animate([
+                { transform: `translate(0, 0) rotate(${angle}deg)`, opacity: 0 },
+                { transform: `translate(${dx * 0.15}px, ${dy * 0.15}px) rotate(${angle}deg)`, opacity: 1, offset: 0.2 },
+                { transform: `translate(${dx}px, ${dy}px) rotate(${angle}deg)`, opacity: 0 }
+            ], {
+                duration: duration,
+                easing: 'cubic-bezier(0.3, 0.6, 0.4, 1)',
+                fill: 'forwards'
+            });
+            setTimeout(() => star.remove(), duration + 100);
+        }
+        setInterval(() => { if (Math.random() > 0.35) shootStar(); }, 4500);
+        // Estrella inicial cuando entra en noche
+        setTimeout(shootStar, 1500);
+
+        // ============ EFECTO 5: RIPPLE EN BOTONES ============
+        function addRipple(e) {
+            const btn = e.currentTarget;
+            const rect = btn.getBoundingClientRect();
+            let x, y;
+            if (e.touches && e.touches[0]) {
+                x = e.touches[0].clientX - rect.left;
+                y = e.touches[0].clientY - rect.top;
+            } else {
+                x = e.clientX - rect.left;
+                y = e.clientY - rect.top;
+            }
+            const size = Math.max(rect.width, rect.height);
+            const ripple = document.createElement('span');
+            ripple.className = 'ripple';
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = (x - size / 2) + 'px';
+            ripple.style.top = (y - size / 2) + 'px';
+            btn.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 750);
+        }
+        function attachRipple() {
+            document.querySelectorAll('.btn').forEach(btn => {
+                if (btn.dataset.rippleAttached) return;
+                btn.dataset.rippleAttached = '1';
+                btn.addEventListener('click', addRipple);
+            });
+        }
+        attachRipple();
+
+        // ============ EFECTO 3: FUEGOS ARTIFICIALES DE FLORES ============
+        function burstFlowers(cx, cy) {
+            const count = 45;
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'trail-particle';
+                const size = Math.random() * 12 + 6;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.left = (cx - size / 2) + 'px';
+                p.style.top = (cy - size / 2) + 'px';
+                p.style.animation = 'none';
+                document.body.appendChild(p);
+
+                const angle = (Math.PI * 2 / count) * i + Math.random() * 0.4;
+                const dist = Math.random() * 220 + 140;
+                const dx = Math.cos(angle) * dist;
+                const dy = Math.sin(angle) * dist;
+                const duration = 1100 + Math.random() * 700;
+
+                p.animate([
+                    { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+                    { transform: `translate(${dx}px, ${dy}px) scale(0)`, opacity: 0 }
+                ], {
+                    duration: duration,
+                    easing: 'cubic-bezier(0.15, 0.7, 0.3, 1)',
+                    fill: 'forwards'
+                });
+                setTimeout(() => p.remove(), duration + 100);
+            }
+        }
+
+        // ============ EFECTO 13: PÉTALOS EXPLOSIVOS AL CAMBIAR TARJETA ============
+        function petalTransition() {
+            for (let i = 0; i < 14; i++) {
+                const p = document.createElement('div');
+                p.className = 'petal-fall';
+                p.style.position = 'fixed';
+                p.style.top = (Math.random() * 40 + 30) + 'vh';
+                const fromLeft = Math.random() > 0.5;
+                p.style.left = fromLeft ? '-20px' : (window.innerWidth + 20) + 'px';
+                p.style.width = (Math.random() * 8 + 12) + 'px';
+                p.style.height = (Math.random() * 10 + 16) + 'px';
+                p.style.animation = 'none';
+                document.body.appendChild(p);
+
+                const direction = fromLeft ? 1 : -1;
+                const dx = direction * (Math.random() * 250 + 120);
+                const dy = Math.random() * 200 + 80;
+                const rot = Math.random() * 720;
+
+                p.animate([
+                    { transform: 'translate(0, 0) rotate(0deg)', opacity: 1 },
+                    { transform: `translate(${dx}px, ${dy}px) rotate(${rot}deg)`, opacity: 0 }
+                ], {
+                    duration: 1300,
+                    easing: 'cubic-bezier(0.2, 0.8, 0.3, 1)',
+                    fill: 'forwards'
+                });
+                setTimeout(() => p.remove(), 1400);
+            }
+        }
+
         // ============ SISTEMA DE TEMAS ============
         const body = document.body;
         const modeButtons = document.querySelectorAll('.mode-btn');
@@ -829,6 +1184,9 @@
                 prevEl.classList.add(direction);
                 setTimeout(() => prevEl.classList.remove(direction), 600);
             }
+            // Explosión de pétalos al cambiar de tarjeta
+            if (prevCard >= 0) petalTransition();
+
             currentCard = nextCard;
             applyAutoThemeForCard(nextCard);
             setTimeout(() => {
@@ -837,6 +1195,8 @@
                 if (nextCard === totalCards - 1) swipeHint.classList.add('hidden');
                 else swipeHint.classList.remove('hidden');
                 isAnimating = false;
+                // Re-aplicar ripple por si acaso se añadieron botones dinámicamente
+                attachRipple();
             }, 350);
         }
 
@@ -978,10 +1338,44 @@
                     const bouquet = document.getElementById('bouquet-svg');
                     bouquet.classList.add('visible');
                     setTimeout(() => bouquet.classList.add('animate'), 300);
-                    setTimeout(() => document.getElementById('final-message').classList.add('visible'), 1800);
+                    // Typewriter para el mensaje final
+                    setTimeout(() => {
+                        const finalMsg = document.getElementById('final-message');
+                        finalMsg.classList.add('visible');
+                        typewriter(finalMsg, 'Con cariño, para Valeria 💛', 75);
+                    }, 1800);
+                    // Fuegos artificiales cuando aparece el ramo
+                    setTimeout(() => {
+                        burstFlowers(window.innerWidth / 2, window.innerHeight / 2 - 50);
+                    }, 600);
+                    setTimeout(() => {
+                        burstFlowers(window.innerWidth * 0.3, window.innerHeight * 0.4);
+                    }, 1100);
+                    setTimeout(() => {
+                        burstFlowers(window.innerWidth * 0.7, window.innerHeight * 0.4);
+                    }, 1500);
                     setTimeout(() => document.getElementById('btn-restart').classList.add('visible'), 2800);
                 }, 400);
             }, 500);
+        }
+
+        // ============ EFECTO 11: TYPEWRITER ============
+        function typewriter(element, text, speed = 70) {
+            element.textContent = '';
+            const chars = Array.from(text);
+            let i = 0;
+            const cursor = document.createElement('span');
+            cursor.className = 'typewriter-cursor';
+            element.appendChild(cursor);
+            const interval = setInterval(() => {
+                if (i >= chars.length) {
+                    clearInterval(interval);
+                    cursor.remove();
+                    return;
+                }
+                cursor.insertAdjacentText('beforebegin', chars[i]);
+                i++;
+            }, speed);
         }
 
         // ============ GENERAR RAMO FINAL ============
@@ -1031,7 +1425,9 @@
         document.getElementById('btn-restart').addEventListener('click', () => {
             const bouquet = document.getElementById('bouquet-svg');
             bouquet.classList.remove('visible', 'animate');
-            document.getElementById('final-message').classList.remove('visible');
+            const finalMsg = document.getElementById('final-message');
+            finalMsg.classList.remove('visible');
+            finalMsg.textContent = '';
             document.getElementById('btn-restart').classList.remove('visible');
             document.getElementById('draw-text').classList.remove('visible');
             document.getElementById('scattered-garden').classList.remove('visible');
